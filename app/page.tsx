@@ -143,11 +143,11 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold mb-8 text-gray-900">RiseVault Prototype</h1>
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-2 mb-6 max-w-xl text-sm text-gray-500">
           This prototype includes pre-filled examples so you can explore the Record → Verify → Résumé flow immediately.
         </p>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Left Side: Record & Timeline */}
           <div className="space-y-8">
             {/* Feature 1: Record Contribution */}
@@ -201,6 +201,9 @@ export default function Home() {
             {/* Feature 2: Pending/Verify State */}
             {records.length > 0 && records[0].status === 'pending' && (
               <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <div className="text-xs font-medium uppercase text-gray-500 tracking-wide mb-1">
+                  Verification
+                </div>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-2xl">🔵</span>
                   <span className="text-gray-700">Pending verification…</span>
@@ -233,6 +236,9 @@ export default function Home() {
             {/* Feature 2: Verified State */}
             {records.length > 0 && records[0].status === 'verified' && records[0].verifiedAt && (
               <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <div className="text-xs font-medium uppercase text-gray-500 tracking-wide mb-1">
+                  Verification
+                </div>
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">✅</span>
                   <div>
@@ -262,7 +268,7 @@ export default function Home() {
                   {records.map(record => (
                     <div
                       key={record.id}
-                      className="flex items-start gap-3 p-3 border border-gray-200 rounded-md hover:bg-gray-50"
+                      className="flex items-start gap-3 p-3 border border-gray-200 rounded-md transition-colors hover:bg-gray-50"
                     >
                       <span className="text-xl mt-0.5">
                         {record.status === 'pending' ? '🔵' : '✅'}
