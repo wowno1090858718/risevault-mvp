@@ -167,10 +167,10 @@ export default function LandingPage() {
           </h2>
           <div className="space-y-6">
             <p className="max-w-3xl text-base leading-relaxed text-gray-700 sm:text-lg">
-              This MVP demonstrates the essential loop of recording real work, lightly
-              verifying it, and transforming it into a trustworthy résumé output.
-              Verification here is simplified, but mirrors the real-world flow where
-              teammates, mentors, or managers can confirm a contribution&apos;s accuracy.
+              This version illustrates the essential loop of recording real work, lightly
+              verifying it, and turning it into a trustworthy résumé output. The verification
+              step is intentionally simplified, but reflects the real-world flow where
+              teammates, mentors, or managers acknowledge a contribution&apos;s accuracy.
             </p>
             <div className="grid gap-6 sm:grid-cols-3">
               <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:border-gray-300">
