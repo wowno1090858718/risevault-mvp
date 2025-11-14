@@ -95,7 +95,7 @@ export default function LandingPage() {
               Try the MVP
             </Link>
             <a
-              href="https://risevault-mvp.vercel.app"
+              href="https://youtu.be/v-tafFrEXfI"
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
