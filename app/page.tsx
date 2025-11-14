@@ -1,357 +1,295 @@
-'use client';
-
-import { useState } from 'react';
-import { WorkRecord, RecordStatus } from './types';
-
-const PROJECTS = [
-  'Course Project – Machine Learning',
-  'CS Homework / Weekly Assignment',
-  'NLP Research Paper',
-  'Software Engineering Internship',
-  'Hackathon Project – HackNYU',
-  'AI Study Planner (Side Project)',
-  'Capstone Project / Senior Design'
-];
+import Link from "next/link";
 
 export default function Home() {
-  const now = new Date();
-  const [records, setRecords] = useState<WorkRecord[]>([
-    {
-      id: 'sample-1',
-      project: 'Course Project – Machine Learning',
-      text: 'Implemented logistic regression baseline and evaluated accuracy.',
-      status: 'verified',
-      createdAt: now,
-      verifiedAt: now,
-    },
-    {
-      id: 'sample-2',
-      project: 'Software Engineering Internship',
-      text: 'Refactored API handler and improved response time by ~20%.',
-      status: 'verified',
-      createdAt: now,
-      verifiedAt: now,
-    },
-    {
-      id: 'sample-3',
-      project: 'NLP Research Paper',
-      text: 'Ran experiments for BERT fine-tuning; preparing results table.',
-      status: 'pending',
-      createdAt: now,
-    },
-  ]);
-  const [currentText, setCurrentText] = useState('');
-  const [currentProject, setCurrentProject] = useState(PROJECTS[0]);
-  const [error, setError] = useState('');
-  const [selectedProjectForResume, setSelectedProjectForResume] = useState(PROJECTS[0]);
-  const [resumeBullet, setResumeBullet] = useState('');
-  const [showDetails, setShowDetails] = useState(false);
-
-  // Feature 1: Record today's contribution
-  const handleRecord = () => {
-    if (!currentText.trim()) {
-      setError('Please enter a contribution description');
-      return;
-    }
-
-    setError('');
-    const newRecord: WorkRecord = {
-      id: Date.now().toString(),
-      project: currentProject,
-      text: currentText.trim(),
-      createdAt: new Date(),
-      status: 'pending',
-    };
-
-    setRecords([newRecord, ...records]);
-    setCurrentText('');
-  };
-
-  // Feature 2: Verify flow (mock verification)
-  const handleVerify = (recordId: string) => {
-    setRecords(records.map(record => 
-      record.id === recordId 
-        ? { ...record, status: 'verified' as RecordStatus, verifiedAt: new Date() }
-        : record
-    ));
-  };
-
-  // Feature 4: Generate résumé bullet (mock AI)
-  const generateResumeBullet = () => {
-    const verifiedRecords = records.filter(
-      r => r.status === 'verified' && r.project === selectedProjectForResume
-    );
-
-    if (verifiedRecords.length === 0) {
-      setResumeBullet('No verified work logs found for this project.');
-      return;
-    }
-
-    const sortedRecords = [...verifiedRecords].sort(
-      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-    );
-    const oldestDate = sortedRecords[sortedRecords.length - 1].createdAt;
-    const newestDate = sortedRecords[0].createdAt;
-
-    const dateRange = formatDateRange(oldestDate, newestDate);
-    const count = verifiedRecords.length;
-
-    const bullet = `Experience: ${selectedProjectForResume} – Product/Engineering\n\n- Contributed to the project by implementing core components (UI layout, login flow, performance improvements).\n\nBased on ${count} verified work log${count > 1 ? 's' : ''} between ${dateRange}.`;
-
-    setResumeBullet(bullet);
-    setShowDetails(false);
-  };
-
-  const formatDateRange = (start: Date, end: Date): string => {
-    const formatDate = (date: Date) => {
-      const month = date.toLocaleString('default', { month: 'short' });
-      const day = date.getDate();
-      return `${month} ${day}`;
-    };
-    return `${formatDate(start)}–${formatDate(end)}`;
-  };
-
-  const formatDateTime = (date: Date): string => {
-    return date.toLocaleString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    });
-  };
-
-  const formatTime = (date: Date): string => {
-    return date.toLocaleString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    });
-  };
-
-  // Get records for selected project (for details view)
-  const getProjectRecords = () => {
-    return records
-      .filter(r => r.project === selectedProjectForResume && r.status === 'verified')
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-gray-900">RiseVault Prototype</h1>
-        <p className="mt-2 mb-6 max-w-xl text-sm text-gray-500">
-          This prototype includes pre-filled examples so you can explore the Record → Verify → Résumé flow immediately.
-        </p>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          {/* Left Side: Record & Timeline */}
-          <div className="space-y-8">
-            {/* Feature 1: Record Contribution */}
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800">Record today's contribution</h2>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Project
-                  </label>
-                  <select
-                    value={currentProject}
-                    onChange={(e) => setCurrentProject(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    {PROJECTS.map(project => (
-                      <option key={project} value={project}>{project}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Contribution Description
-                  </label>
-                  <textarea
-                    value={currentText}
-                    onChange={(e) => {
-                      setCurrentText(e.target.value);
-                      setError('');
-                    }}
-                    placeholder="Describe what you worked on today..."
-                    rows={4}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                  {error && (
-                    <p className="mt-2 text-sm text-red-600">{error}</p>
-                  )}
-                </div>
-
-                <button
-                  onClick={handleRecord}
-                  className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                >
-                  Record
-                </button>
-              </div>
-            </div>
-
-            {/* Feature 2: Pending/Verify State */}
-            {records.length > 0 && records[0].status === 'pending' && (
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                <div className="text-xs font-medium uppercase text-gray-500 tracking-wide mb-1">
-                  Verification
-                </div>
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-2xl">🔵</span>
-                  <span className="text-gray-700">Pending verification…</span>
-                  <div className="group relative">
-                    <span className="flex h-5 w-5 cursor-help items-center justify-center rounded-full border border-gray-300 bg-white text-xs font-medium text-gray-500 hover:border-gray-400 hover:text-gray-600">
-                      ?
-                    </span>
-                    <div className="absolute left-0 top-6 z-10 hidden w-64 rounded-lg border border-gray-200 bg-white p-3 text-xs text-gray-700 shadow-lg group-hover:block">
-                      &quot;Verify&quot; represents a lightweight confirmation of this entry (e.g., by a teammate, mentor, or manager). In this MVP, it is shown in a simplified, simulated form to illustrate the flow.
-                    </div>
-                  </div>
-                </div>
-                <button
-                  onClick={() => handleVerify(records[0].id)}
-                  className="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-                >
-                  Verify now
-                </button>
-                <div className="mt-4">
-                  <a
-                    href="/landing#trust-model"
-                    className="text-sm text-gray-500 underline hover:text-gray-700"
-                  >
-                    How verification works →
-                  </a>
-                </div>
-              </div>
-            )}
-
-            {/* Feature 2: Verified State */}
-            {records.length > 0 && records[0].status === 'verified' && records[0].verifiedAt && (
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                <div className="text-xs font-medium uppercase text-gray-500 tracking-wide mb-1">
-                  Verification
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">✅</span>
-                  <div>
-                    <p className="text-gray-700 font-medium">
-                      Verified by RiseVault — {formatDateTime(records[0].verifiedAt)}
-                    </p>
-                  </div>
-                </div>
-                <div className="mt-4">
-                  <a
-                    href="/landing#trust-model"
-                    className="text-sm text-gray-500 underline hover:text-gray-700"
-                  >
-                    How verification works →
-                  </a>
-                </div>
-              </div>
-            )}
-
-            {/* Feature 3: Timeline List */}
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800">Timeline</h2>
-              {records.length === 0 ? (
-                <p className="text-gray-500 text-sm">No records yet. Record your first contribution above.</p>
-              ) : (
-                <div className="space-y-3">
-                  {records.map(record => (
-                    <div
-                      key={record.id}
-                      className="flex items-start gap-3 p-3 border border-gray-200 rounded-md transition-colors hover:bg-gray-50"
-                    >
-                      <span className="text-xl mt-0.5">
-                        {record.status === 'pending' ? '🔵' : '✅'}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="text-xs text-gray-500">
-                            {formatTime(record.createdAt)}
-                          </span>
-                          <span className="text-xs text-gray-400">•</span>
-                          <span className="text-xs text-gray-600 font-medium">
-                            {record.project}
-                          </span>
-                        </div>
-                        <p className="text-sm text-gray-700 truncate">
-                          {record.text}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+    <div className="min-h-screen bg-white text-gray-900">
+      {/* Top Navigation */}
+      <header className="border-b border-gray-100">
+        <div className="mx-auto flex max-w-6xl items-center gap-6 px-6 py-5 sm:px-8">
+          <div className="flex items-center gap-2">
+            <span className="text-lg font-semibold tracking-tight text-gray-900">
+              RiseVault
+            </span>
           </div>
-
-          {/* Right Side: Résumé Section */}
-          <div className="space-y-8">
-            {/* Feature 4 & 5: Generate Résumé Bullet */}
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800">Generate résumé bullet</h2>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Select Project
-                  </label>
-                  <select
-                    value={selectedProjectForResume}
-                    onChange={(e) => setSelectedProjectForResume(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          <div className="ml-auto mr-4 sm:mr-8">
+            <div className="relative group">
+              <button
+                type="button"
+                className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-500 shadow-sm transition-colors hover:border-gray-300 hover:text-gray-700"
+              >
+                More
+              </button>
+              <div className="pointer-events-none absolute right-0 z-20 mt-2 hidden w-64 rounded-xl border border-gray-200 bg-white p-2 text-xs text-gray-700 shadow-lg group-hover:pointer-events-auto group-hover:block">
+                <div className="space-y-1">
+                  <a
+                    href="#one-page-summary"
+                    className="flex items-center justify-between rounded-lg px-2 py-1.5 hover:bg-gray-50"
                   >
-                    {PROJECTS.map(project => (
-                      <option key={project} value={project}>{project}</option>
-                    ))}
-                  </select>
-                </div>
+                    <span>One-page summary</span>
+                  </a>
+                  <a
+                    href="#notion-summary"
+                    className="flex items-center justify-between rounded-lg px-2 py-1.5 hover:bg-gray-50"
+                  >
+                    <span>Notion summary</span>
+                  </a>
+                  <a
+                    href="#pitch-deck"
+                    className="flex items-center justify-between rounded-lg px-2 py-1.5 hover:bg-gray-50"
+                  >
+                    <span>Pitch deck</span>
+                  </a>
+                  <a
+                    href="#additional-resources"
+                    className="flex items-center justify-between rounded-lg px-2 py-1.5 hover:bg-gray-50"
+                  >
+                    <span>Additional resources</span>
+                  </a>
 
-                <button
-                  onClick={generateResumeBullet}
-                  className="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-                >
-                  Generate résumé bullet
-                </button>
+                  <div className="my-1 border-t border-gray-100" />
 
-                {resumeBullet && (
-                  <div className="mt-4">
-                    <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
-                      <pre className="whitespace-pre-wrap text-sm text-gray-800 font-sans">
-                        {resumeBullet}
-                      </pre>
+                  <div className="space-y-1 text-gray-400">
+                    <div className="flex items-center justify-between rounded-lg px-2 py-1.5">
+                      <span>Vision doc (coming soon)</span>
                     </div>
-
-                    {/* Feature 5: Expand to view underlying work logs */}
-                    <details className="mt-4">
-                      <summary className="cursor-pointer text-sm font-medium text-blue-600 hover:text-blue-700">
-                        View underlying work logs
-                      </summary>
-                      <ul className="mt-3 space-y-2 pl-4">
-                        {getProjectRecords().map(record => (
-                          <li key={record.id} className="text-sm text-gray-700">
-                            [{formatTime(record.createdAt)}] {record.text}
-                          </li>
-                        ))}
-                      </ul>
-                    </details>
+                    <div className="flex items-center justify-between rounded-lg px-2 py-1.5">
+                      <span>Trust model whitepaper (coming soon)</span>
+                    </div>
+                    <div className="flex items-center justify-between rounded-lg px-2 py-1.5">
+                      <span>API docs (future)</span>
+                    </div>
+                    <div className="flex items-center justify-between rounded-lg px-2 py-1.5">
+                      <span>Audit log model (future)</span>
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="mx-auto max-w-6xl px-6 pb-20 pt-16 sm:px-8 sm:pt-24">
+        {/* Hero Section */}
+        <section className="mb-24 space-y-6 sm:mb-32">
+          <div className="space-y-5">
+            <h1 className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+              Trust layer for real student work
+            </h1>
+            <h2 className="text-xl font-normal text-gray-600 sm:text-2xl lg:text-3xl">
+              Turn daily work into a trusted, verifiable résumé.
+            </h2>
+          </div>
+
+          <p className="mt-4 mb-8 max-w-3xl text-base sm:text-lg text-gray-600">
+            RiseVault turns everyday work into a continuous, structured record — ensuring
+            résumés, portfolios, and AI tools are based on what actually happened.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-4 pt-2">
+            <Link
+              href="/mvp"
+              className="rounded-lg bg-indigo-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              Try the MVP
+            </Link>
+            <a
+              href="https://youtu.be/v-tafFrEXfI"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              Open live demo
+            </a>
+          </div>
+        </section>
+
+        {/* Problem Section */}
+        <section className="mb-24 space-y-6 sm:mb-32">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
+            Problem
+          </h2>
+          <div className="space-y-4 max-w-3xl">
+            <p className="text-base leading-relaxed text-gray-700 sm:text-lg">
+              Students produce meaningful work every day — projects, research, iterations,
+              late-night fixes — but most of it disappears into chats, docs, or private
+              repos. When it&apos;s time to apply, résumés are rebuilt from memory, and
+              there&apos;s no reliable way for others (or AI tools) to trust what&apos;s written.
+            </p>
+            <ul className="space-y-2 text-gray-600">
+              <li>Daily work is fragmented across tools</li>
+              <li>Résumé bullets are polished but unverifiable</li>
+              <li>AI cannot distinguish real work from embellishment</li>
+            </ul>
+          </div>
+        </section>
+
+        {/* Our Approach Section */}
+        <section className="mb-24 space-y-6 sm:mb-32">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
+            Our approach
+          </h2>
+          <div className="space-y-4 max-w-3xl">
+            <p className="text-base leading-relaxed text-gray-700 sm:text-lg">
+              We treat each contribution as a small, timestamped unit of truth. Verified
+              logs roll up into an AI-ready résumé view and timeline — giving students a
+              continuous history of work and giving others a reason to trust it.
+            </p>
+            <ul className="space-y-2 text-gray-600">
+              <li>Log real work in short, lightweight snippets</li>
+              <li>Lightweight verification from peers, teammates, mentors</li>
+              <li>Generate résumé bullets directly from verified history</li>
+            </ul>
+          </div>
+        </section>
+
+        {/* How the MVP Works Section */}
+        <section className="mb-24 space-y-8 sm:mb-32">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
+            How the MVP works
+          </h2>
+          <div className="grid gap-6 sm:grid-cols-3">
+            <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:bg-gray-50">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
+                  1
+                </div>
+                <div className="text-base font-semibold text-gray-900">Record</div>
+              </div>
+              <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+                Capture today&apos;s contribution in a sentence or two, with
+                project context and a timestamp.
+              </p>
+            </div>
+            <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:bg-gray-50">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
+                  2
+                </div>
+                <div className="text-base font-semibold text-gray-900">Verify &amp; timeline</div>
+              </div>
+              <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+                Mark entries as verified and see them roll into a clean, chronological timeline.
+              </p>
+            </div>
+            <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:bg-gray-50">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
+                  3
+                </div>
+                <div className="text-base font-semibold text-gray-900">Résumé view</div>
+              </div>
+              <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+                Generate summary bullets and expand to see the underlying verified logs.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Trust & Verification Section */}
+        <section id="trust-model" className="mb-24 space-y-8 sm:mb-32">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
+            Trust & verification
+          </h2>
+          <div className="space-y-6">
+            <p className="max-w-3xl text-base leading-relaxed text-gray-700 sm:text-lg">
+              This version illustrates the essential loop of recording real work, lightly
+              verifying it, and turning it into a trustworthy résumé output. The verification
+              step is intentionally simplified, but reflects the real-world flow where
+              teammates, mentors, or managers acknowledge a contribution&apos;s accuracy.
+            </p>
+            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-colors hover:bg-gray-50">
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
+                    1
+                  </div>
+                  <div className="text-base font-semibold text-gray-900">Self-attested logs</div>
+                </div>
+                <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+                  Timestamped records created by the student — forming the foundational layer of trust.
+                </p>
+              </div>
+              <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-colors hover:bg-gray-50">
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
+                    2
+                  </div>
+                  <div className="text-base font-semibold text-gray-900">Peer confirmation</div>
+                </div>
+                <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+                  A lightweight &quot;verify&quot; action representing acknowledgement from teammates,
+                  mentors, or managers.
+                </p>
+              </div>
+              <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-colors hover:bg-gray-50">
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
+                    3
+                  </div>
+                  <div className="text-base font-semibold text-gray-900">Future extensions</div>
+                </div>
+                <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+                  Stronger verification via manager approvals, linked artifacts, and an auditable
+                  time-based history (roadmap).
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Team Section */}
+        <section className="mb-20 space-y-8">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
+            Team
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <div className="mb-1 text-base sm:text-lg font-semibold text-gray-900">Xavier Chen</div>
+              <div className="mb-2 text-sm text-gray-500">Founder / Product</div>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                Building trustworthy ways for students to prove real work — without exposing sensitive data.
+              </p>
+            </div>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <div className="mb-1 text-base sm:text-lg font-semibold text-gray-900">Sujay Sundar</div>
+              <div className="mb-2 text-sm text-gray-500">Full-stack / Data / Infra</div>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                Engineering scalable systems that turn raw daily activity into structured, verifiable records.
+              </p>
+            </div>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <div className="mb-1 text-base sm:text-lg font-semibold text-gray-900">Amanda Zhang</div>
+              <div className="mb-2 text-sm text-gray-500">Product Design / UX</div>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                Designing frictionless, student-first interfaces that fit naturally into real workflows.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t border-gray-100 bg-white">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-6 text-sm text-gray-500 sm:flex-row sm:px-8">
+          <span>© {new Date().getFullYear()} RiseVault.</span>
+          <div className="flex items-center gap-4">
+            <a
+              href="mailto:a.x.chen@outlook.com"
+              className="transition-colors hover:text-gray-700"
+            >
+              Contact
+            </a>
+            <span className="text-gray-300">•</span>
+            <Link href="/mvp" className="transition-colors hover:text-gray-700">
+              Open MVP
+            </Link>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
+
 
