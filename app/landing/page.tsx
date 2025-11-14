@@ -1,0 +1,219 @@
+// app/landing/page.tsx
+import Link from "next/link";
+
+export default function LandingPage() {
+  return (
+    <div className="min-h-screen bg-white text-gray-900">
+      {/* Top Navigation */}
+      <header className="border-b border-gray-100">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 sm:px-8">
+          <div className="flex items-center gap-2">
+            <span className="text-lg font-semibold tracking-tight text-gray-900">
+              RiseVault
+            </span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+            >
+              Open MVP
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="mx-auto max-w-6xl px-6 pb-20 pt-16 sm:px-8 sm:pt-24">
+        {/* Hero Section */}
+        <section className="mb-24 space-y-6 sm:mb-32">
+          <div className="space-y-5">
+            <h1 className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+              Trust layer for real student work
+            </h1>
+            <h2 className="text-xl font-normal text-gray-600 sm:text-2xl lg:text-3xl">
+              Turn daily work into a trusted, verifiable résumé.
+            </h2>
+          </div>
+          
+          <p className="max-w-2xl text-base leading-relaxed text-gray-600 sm:text-lg">
+            RiseVault helps students turn everyday contributions into a
+            continuous, verifiable record of work — so portfolios, résumés,
+            and AI tools all draw from what actually happened, not what looks
+            best on paper the night before a deadline.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-4 pt-2">
+            <Link
+              href="/"
+              className="rounded-lg bg-indigo-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              Try the MVP
+            </Link>
+            <a
+              href="https://risevault-mvp.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              Open live demo
+            </a>
+          </div>
+        </section>
+
+        {/* Problem Section */}
+        <section className="mb-24 space-y-6 sm:mb-32">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
+            Problem
+          </h2>
+          <div className="space-y-4">
+            <p className="max-w-3xl text-base leading-relaxed text-gray-700 sm:text-lg">
+              Students do real work every day — projects, research, iterations,
+              late-night fixes — but most of it disappears into chats, docs, or
+              private repos. When it&apos;s time to apply, résumés are rebuilt from
+              memory, and there&apos;s no easy way for others (or AI tools) to trust
+              what&apos;s written.
+            </p>
+            <ul className="space-y-2.5 text-base text-gray-600 sm:text-lg">
+              <li className="flex items-start gap-3">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
+                <span>Daily work is fragmented across tools and chats.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
+                <span>Résumé bullets are often polished but unverifiable.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
+                <span>AI tools can&apos;t tell what&apos;s real vs. embellished.</span>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        {/* Our Approach Section */}
+        <section className="mb-24 space-y-6 sm:mb-32">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
+            Our approach
+          </h2>
+          <div className="space-y-4">
+            <p className="max-w-3xl text-base leading-relaxed text-gray-700 sm:text-lg">
+              We treat each contribution as a small, timestamped unit of truth.
+              Verified logs roll up into a trusted, AI-ready résumé view and
+              timeline — giving students a continuous record of work and giving
+              others a reason to believe it.
+            </p>
+            <ul className="space-y-2.5 text-base text-gray-600 sm:text-lg">
+              <li className="flex items-start gap-3">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
+                <span>Log real work in small, lightweight snippets.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
+                <span>Soft verification from peers, teammates, mentors.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
+                <span>Generate résumé bullets from verified history.</span>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        {/* How the MVP Works Section */}
+        <section className="mb-24 space-y-8 sm:mb-32">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
+            How the MVP works
+          </h2>
+          <div className="grid gap-6 sm:grid-cols-3">
+            <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-6 transition-colors hover:border-gray-300">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
+                  1
+                </div>
+                <div className="text-base font-semibold text-gray-900">Record</div>
+              </div>
+              <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+                Capture today&apos;s contribution in a sentence or two, with
+                project context and a timestamp.
+              </p>
+            </div>
+            <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-6 transition-colors hover:border-gray-300">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
+                  2
+                </div>
+                <div className="text-base font-semibold text-gray-900">Verify &amp; timeline</div>
+              </div>
+              <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+                Mark entries as verified and see them roll into a reverse-chronological
+                timeline of work.
+              </p>
+            </div>
+            <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-6 transition-colors hover:border-gray-300">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
+                  3
+                </div>
+                <div className="text-base font-semibold text-gray-900">Résumé view</div>
+              </div>
+              <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+                Generate summary bullets and expand to see the underlying
+                verified logs for each project.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Team Section */}
+        <section className="mb-20 space-y-8">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
+            Team
+          </h2>
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <div className="mb-1 text-base font-semibold text-gray-900">Xavier Chen</div>
+              <div className="mb-4 text-sm text-gray-500">Founder / Product</div>
+              <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+                Building trustworthy ways for students to prove real work — without exposing sensitive data.
+              </p>
+            </div>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <div className="mb-1 text-base font-semibold text-gray-900">Sujay Sundar</div>
+              <div className="mb-4 text-sm text-gray-500">Full-stack / Data / Infra</div>
+              <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+                Engineering scalable systems that turn raw daily activity into structured, verifiable records.
+              </p>
+            </div>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <div className="mb-1 text-base font-semibold text-gray-900">Amanda Zhang</div>
+              <div className="mb-4 text-sm text-gray-500">Product Design / UX</div>
+              <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+                Designing frictionless, student-first interfaces that fit naturally into real workflows.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t border-gray-100 bg-white">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-6 text-sm text-gray-500 sm:flex-row sm:px-8">
+          <span>© {new Date().getFullYear()} RiseVault.</span>
+          <div className="flex items-center gap-4">
+            <a
+              href="mailto:a.x.chen@outlook.com"
+              className="transition-colors hover:text-gray-700"
+            >
+              Contact
+            </a>
+            <span className="text-gray-300">•</span>
+            <Link href="/" className="transition-colors hover:text-gray-700">
+              Open MVP
+            </Link>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
