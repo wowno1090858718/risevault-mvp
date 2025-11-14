@@ -11,61 +11,6 @@ export default function Home() {
               RiseVault
             </span>
           </div>
-          <div className="ml-auto mr-4 sm:mr-8">
-            <div className="relative group">
-              <button
-                type="button"
-                className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-500 shadow-sm transition-colors hover:border-gray-300 hover:text-gray-700"
-              >
-                More
-              </button>
-              <div className="pointer-events-none absolute right-0 z-20 mt-2 hidden w-64 rounded-xl border border-gray-200 bg-white p-2 text-xs text-gray-700 shadow-lg group-hover:pointer-events-auto group-hover:block">
-                <div className="space-y-1">
-                  <a
-                    href="#one-page-summary"
-                    className="flex items-center justify-between rounded-lg px-2 py-1.5 hover:bg-gray-50"
-                  >
-                    <span>One-page summary</span>
-                  </a>
-                  <a
-                    href="#notion-summary"
-                    className="flex items-center justify-between rounded-lg px-2 py-1.5 hover:bg-gray-50"
-                  >
-                    <span>Notion summary</span>
-                  </a>
-                  <a
-                    href="#pitch-deck"
-                    className="flex items-center justify-between rounded-lg px-2 py-1.5 hover:bg-gray-50"
-                  >
-                    <span>Pitch deck</span>
-                  </a>
-                  <a
-                    href="#additional-resources"
-                    className="flex items-center justify-between rounded-lg px-2 py-1.5 hover:bg-gray-50"
-                  >
-                    <span>Additional resources</span>
-                  </a>
-
-                  <div className="my-1 border-t border-gray-100" />
-
-                  <div className="space-y-1 text-gray-400">
-                    <div className="flex items-center justify-between rounded-lg px-2 py-1.5">
-                      <span>Vision doc (coming soon)</span>
-                    </div>
-                    <div className="flex items-center justify-between rounded-lg px-2 py-1.5">
-                      <span>Trust model whitepaper (coming soon)</span>
-                    </div>
-                    <div className="flex items-center justify-between rounded-lg px-2 py-1.5">
-                      <span>API docs (future)</span>
-                    </div>
-                    <div className="flex items-center justify-between rounded-lg px-2 py-1.5">
-                      <span>Audit log model (future)</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </header>
 
@@ -83,8 +28,9 @@ export default function Home() {
           </div>
 
           <p className="mt-4 mb-8 max-w-3xl text-base sm:text-lg text-gray-600">
-            RiseVault turns everyday work into a continuous, structured record — ensuring
-            résumés, portfolios, and AI tools are based on what actually happened.
+            RiseVault turns daily work into a continuous, structured record — ensuring
+            résumés, portfolios, and AI tools reflect what actually happened. Used first
+            by students, with a pathway to professionals.
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
