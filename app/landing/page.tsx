@@ -37,9 +37,7 @@ export default function LandingPage() {
           </div>
           
           <p className="mt-4 mb-8 max-w-3xl text-base sm:text-lg text-gray-600">
-            RiseVault helps students turn everyday work into a continuous, structured
-            record — so résumés, portfolios, and AI tools draw from what actually
-            happened, not what can be remembered at the last minute.
+            RiseVault turns everyday work into a continuous, structured record — ensuring résumés, portfolios, and AI tools are based on what actually happened.
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -145,7 +143,7 @@ export default function LandingPage() {
         {/* Trust & Verification Section */}
         <section id="trust-model" className="mb-24 space-y-8 sm:mb-32">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
-            Trust & verification (MVP view)
+            Trust & verification
           </h2>
           <div className="space-y-6">
             <p className="max-w-3xl text-base leading-relaxed text-gray-700 sm:text-lg">
@@ -199,7 +197,7 @@ export default function LandingPage() {
           <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
             Team
           </h2>
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="rounded-xl border border-gray-200 bg-white p-6">
               <div className="mb-1 text-base sm:text-lg font-semibold text-gray-900">Xavier Chen</div>
               <div className="mb-2 text-sm text-gray-500">Founder / Product</div>
