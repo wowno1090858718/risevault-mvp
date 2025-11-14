@@ -37,10 +37,9 @@ export default function LandingPage() {
           </div>
           
           <p className="max-w-2xl text-base leading-relaxed text-gray-600 sm:text-lg">
-            RiseVault helps students turn everyday contributions into a
-            continuous, verifiable record of work — so portfolios, résumés,
-            and AI tools all draw from what actually happened, not what looks
-            best on paper the night before a deadline.
+            RiseVault helps students turn everyday work into a continuous, structured
+            record — so résumés, portfolios, and AI tools draw from what actually
+            happened, not what can be remembered at the last minute.
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -68,24 +67,23 @@ export default function LandingPage() {
           </h2>
           <div className="space-y-4">
             <p className="max-w-3xl text-base leading-relaxed text-gray-700 sm:text-lg">
-              Students do real work every day — projects, research, iterations,
-              late-night fixes — but most of it disappears into chats, docs, or
-              private repos. When it&apos;s time to apply, résumés are rebuilt from
-              memory, and there&apos;s no easy way for others (or AI tools) to trust
-              what&apos;s written.
+              Students produce meaningful work every day — projects, research, iterations,
+              late-night fixes — but most of it disappears into chats, docs, or private
+              repos. When it&apos;s time to apply, résumés are rebuilt from memory, and
+              there&apos;s no reliable way for others (or AI tools) to trust what&apos;s written.
             </p>
             <ul className="space-y-2.5 text-base text-gray-600 sm:text-lg">
               <li className="flex items-start gap-3">
                 <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
-                <span>Daily work is fragmented across tools and chats.</span>
+                <span>Daily work is fragmented across tools</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
-                <span>Résumé bullets are often polished but unverifiable.</span>
+                <span>Résumé bullets are polished but unverifiable</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
-                <span>AI tools can&apos;t tell what&apos;s real vs. embellished.</span>
+                <span>AI cannot distinguish real work from embellishment</span>
               </li>
             </ul>
           </div>
@@ -98,23 +96,22 @@ export default function LandingPage() {
           </h2>
           <div className="space-y-4">
             <p className="max-w-3xl text-base leading-relaxed text-gray-700 sm:text-lg">
-              We treat each contribution as a small, timestamped unit of truth.
-              Verified logs roll up into a trusted, AI-ready résumé view and
-              timeline — giving students a continuous record of work and giving
-              others a reason to believe it.
+              We treat each contribution as a small, timestamped unit of truth. Verified
+              logs roll up into an AI-ready résumé view and timeline — giving students a
+              continuous history of work and giving others a reason to trust it.
             </p>
             <ul className="space-y-2.5 text-base text-gray-600 sm:text-lg">
               <li className="flex items-start gap-3">
                 <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
-                <span>Log real work in small, lightweight snippets.</span>
+                <span>Log real work in short, lightweight snippets</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
-                <span>Soft verification from peers, teammates, mentors.</span>
+                <span>Lightweight verification from peers, teammates, mentors</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
-                <span>Generate résumé bullets from verified history.</span>
+                <span>Generate résumé bullets directly from verified history</span>
               </li>
             </ul>
           </div>
@@ -146,8 +143,7 @@ export default function LandingPage() {
                 <div className="text-base font-semibold text-gray-900">Verify &amp; timeline</div>
               </div>
               <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
-                Mark entries as verified and see them roll into a reverse-chronological
-                timeline of work.
+                Mark entries as verified and see them roll into a clean, chronological timeline.
               </p>
             </div>
             <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-6 transition-colors hover:border-gray-300">
@@ -158,8 +154,7 @@ export default function LandingPage() {
                 <div className="text-base font-semibold text-gray-900">Résumé view</div>
               </div>
               <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
-                Generate summary bullets and expand to see the underlying
-                verified logs for each project.
+                Generate summary bullets and expand to see the underlying verified logs.
               </p>
             </div>
           </div>
@@ -172,9 +167,10 @@ export default function LandingPage() {
           </h2>
           <div className="space-y-6">
             <p className="max-w-3xl text-base leading-relaxed text-gray-700 sm:text-lg">
-              This MVP focuses on the core loop: record → verify → résumé. Verification
-              is mocked here but represents lightweight confirmation from peers, teammates,
-              or mentors that a work log is accurate.
+              This MVP demonstrates the essential loop of recording real work, lightly
+              verifying it, and transforming it into a trustworthy résumé output.
+              Verification here is simplified, but mirrors the real-world flow where
+              teammates, mentors, or managers can confirm a contribution&apos;s accuracy.
             </p>
             <div className="grid gap-6 sm:grid-cols-3">
               <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:border-gray-300">
@@ -185,8 +181,7 @@ export default function LandingPage() {
                   <div className="text-base font-semibold text-gray-900">Self-attested logs</div>
                 </div>
                 <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
-                  Timestamped records created by the student, capturing daily contributions
-                  with project context.
+                  Timestamped records created by the student — forming the foundational layer of trust.
                 </p>
               </div>
               <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:border-gray-300">
@@ -194,11 +189,11 @@ export default function LandingPage() {
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
                     2
                   </div>
-                  <div className="text-base font-semibold text-gray-900">Lightweight peer confirmation</div>
+                  <div className="text-base font-semibold text-gray-900">Peer confirmation</div>
                 </div>
                 <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
-                  &quot;Verify&quot; as a simple confirmation from teammates or mentors that
-                  the work log is accurate and reflects real contributions.
+                  A lightweight &quot;verify&quot; action representing acknowledgement from teammates,
+                  mentors, or managers.
                 </p>
               </div>
               <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:border-gray-300">
@@ -209,8 +204,8 @@ export default function LandingPage() {
                   <div className="text-base font-semibold text-gray-900">Future extensions</div>
                 </div>
                 <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
-                  Stronger verification via managers, artifacts, and auditable history
-                  (roadmap, not in this MVP).
+                  Stronger verification via manager approvals, linked artifacts, and an auditable
+                  time-based history (roadmap).
                 </p>
               </div>
             </div>
