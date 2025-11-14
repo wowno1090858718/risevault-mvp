@@ -36,7 +36,7 @@ export default function LandingPage() {
             </h2>
           </div>
           
-          <p className="max-w-2xl text-base leading-relaxed text-gray-600 sm:text-lg">
+          <p className="mt-4 mb-8 max-w-3xl text-base sm:text-lg text-gray-600">
             RiseVault helps students turn everyday work into a continuous, structured
             record — so résumés, portfolios, and AI tools draw from what actually
             happened, not what can be remembered at the last minute.
@@ -65,26 +65,17 @@ export default function LandingPage() {
           <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
             Problem
           </h2>
-          <div className="space-y-4">
-            <p className="max-w-3xl text-base leading-relaxed text-gray-700 sm:text-lg">
+          <div className="space-y-4 max-w-3xl">
+            <p className="text-base leading-relaxed text-gray-700 sm:text-lg">
               Students produce meaningful work every day — projects, research, iterations,
               late-night fixes — but most of it disappears into chats, docs, or private
               repos. When it&apos;s time to apply, résumés are rebuilt from memory, and
               there&apos;s no reliable way for others (or AI tools) to trust what&apos;s written.
             </p>
-            <ul className="space-y-2.5 text-base text-gray-600 sm:text-lg">
-              <li className="flex items-start gap-3">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
-                <span>Daily work is fragmented across tools</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
-                <span>Résumé bullets are polished but unverifiable</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
-                <span>AI cannot distinguish real work from embellishment</span>
-              </li>
+            <ul className="space-y-2 text-gray-600">
+              <li>Daily work is fragmented across tools</li>
+              <li>Résumé bullets are polished but unverifiable</li>
+              <li>AI cannot distinguish real work from embellishment</li>
             </ul>
           </div>
         </section>
@@ -94,25 +85,16 @@ export default function LandingPage() {
           <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
             Our approach
           </h2>
-          <div className="space-y-4">
-            <p className="max-w-3xl text-base leading-relaxed text-gray-700 sm:text-lg">
+          <div className="space-y-4 max-w-3xl">
+            <p className="text-base leading-relaxed text-gray-700 sm:text-lg">
               We treat each contribution as a small, timestamped unit of truth. Verified
               logs roll up into an AI-ready résumé view and timeline — giving students a
               continuous history of work and giving others a reason to trust it.
             </p>
-            <ul className="space-y-2.5 text-base text-gray-600 sm:text-lg">
-              <li className="flex items-start gap-3">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
-                <span>Log real work in short, lightweight snippets</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
-                <span>Lightweight verification from peers, teammates, mentors</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
-                <span>Generate résumé bullets directly from verified history</span>
-              </li>
+            <ul className="space-y-2 text-gray-600">
+              <li>Log real work in short, lightweight snippets</li>
+              <li>Lightweight verification from peers, teammates, mentors</li>
+              <li>Generate résumé bullets directly from verified history</li>
             </ul>
           </div>
         </section>
@@ -123,7 +105,7 @@ export default function LandingPage() {
             How the MVP works
           </h2>
           <div className="grid gap-6 sm:grid-cols-3">
-            <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-6 transition-colors hover:border-gray-300">
+            <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:bg-gray-50">
               <div className="mb-3 flex items-center gap-3">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
                   1
@@ -135,7 +117,7 @@ export default function LandingPage() {
                 project context and a timestamp.
               </p>
             </div>
-            <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-6 transition-colors hover:border-gray-300">
+            <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:bg-gray-50">
               <div className="mb-3 flex items-center gap-3">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
                   2
@@ -146,7 +128,7 @@ export default function LandingPage() {
                 Mark entries as verified and see them roll into a clean, chronological timeline.
               </p>
             </div>
-            <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-6 transition-colors hover:border-gray-300">
+            <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:bg-gray-50">
               <div className="mb-3 flex items-center gap-3">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
                   3
@@ -172,8 +154,8 @@ export default function LandingPage() {
               step is intentionally simplified, but reflects the real-world flow where
               teammates, mentors, or managers acknowledge a contribution&apos;s accuracy.
             </p>
-            <div className="grid gap-6 sm:grid-cols-3">
-              <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:border-gray-300">
+            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-colors hover:bg-gray-50">
                 <div className="mb-3 flex items-center gap-3">
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
                     1
@@ -184,7 +166,7 @@ export default function LandingPage() {
                   Timestamped records created by the student — forming the foundational layer of trust.
                 </p>
               </div>
-              <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:border-gray-300">
+              <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-colors hover:bg-gray-50">
                 <div className="mb-3 flex items-center gap-3">
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
                     2
@@ -196,7 +178,7 @@ export default function LandingPage() {
                   mentors, or managers.
                 </p>
               </div>
-              <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:border-gray-300">
+              <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-colors hover:bg-gray-50">
                 <div className="mb-3 flex items-center gap-3">
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
                     3
@@ -219,23 +201,23 @@ export default function LandingPage() {
           </h2>
           <div className="grid gap-6 sm:grid-cols-2">
             <div className="rounded-xl border border-gray-200 bg-white p-6">
-              <div className="mb-1 text-base font-semibold text-gray-900">Xavier Chen</div>
-              <div className="mb-4 text-sm text-gray-500">Founder / Product</div>
-              <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+              <div className="mb-1 text-base sm:text-lg font-semibold text-gray-900">Xavier Chen</div>
+              <div className="mb-2 text-sm text-gray-500">Founder / Product</div>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
                 Building trustworthy ways for students to prove real work — without exposing sensitive data.
               </p>
             </div>
             <div className="rounded-xl border border-gray-200 bg-white p-6">
-              <div className="mb-1 text-base font-semibold text-gray-900">Sujay Sundar</div>
-              <div className="mb-4 text-sm text-gray-500">Full-stack / Data / Infra</div>
-              <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+              <div className="mb-1 text-base sm:text-lg font-semibold text-gray-900">Sujay Sundar</div>
+              <div className="mb-2 text-sm text-gray-500">Full-stack / Data / Infra</div>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
                 Engineering scalable systems that turn raw daily activity into structured, verifiable records.
               </p>
             </div>
             <div className="rounded-xl border border-gray-200 bg-white p-6">
-              <div className="mb-1 text-base font-semibold text-gray-900">Amanda Zhang</div>
-              <div className="mb-4 text-sm text-gray-500">Product Design / UX</div>
-              <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+              <div className="mb-1 text-base sm:text-lg font-semibold text-gray-900">Amanda Zhang</div>
+              <div className="mb-2 text-sm text-gray-500">Product Design / UX</div>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
                 Designing frictionless, student-first interfaces that fit naturally into real workflows.
               </p>
             </div>
