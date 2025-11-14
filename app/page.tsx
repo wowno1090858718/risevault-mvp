@@ -168,6 +168,14 @@ export default function Home() {
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-2xl">🔵</span>
                   <span className="text-gray-700">Pending verification…</span>
+                  <div className="group relative">
+                    <span className="flex h-5 w-5 cursor-help items-center justify-center rounded-full border border-gray-300 bg-white text-xs font-medium text-gray-500 hover:border-gray-400 hover:text-gray-600">
+                      ?
+                    </span>
+                    <div className="absolute left-0 top-6 z-10 hidden w-64 rounded-lg border border-gray-200 bg-white p-3 text-xs text-gray-700 shadow-lg group-hover:block">
+                      In this MVP, &apos;Verify&apos; is a mock action that represents someone confirming this work log is accurate (e.g. a teammate or mentor).
+                    </div>
+                  </div>
                 </div>
                 <button
                   onClick={() => handleVerify(records[0].id)}
@@ -175,6 +183,14 @@ export default function Home() {
                 >
                   Verify now
                 </button>
+                <div className="mt-4">
+                  <a
+                    href="/landing#trust-model"
+                    className="text-sm text-gray-500 underline hover:text-gray-700"
+                  >
+                    How verification works →
+                  </a>
+                </div>
               </div>
             )}
 
@@ -188,6 +204,14 @@ export default function Home() {
                       Verified by RiseVault — {formatDateTime(records[0].verifiedAt)}
                     </p>
                   </div>
+                </div>
+                <div className="mt-4">
+                  <a
+                    href="/landing#trust-model"
+                    className="text-sm text-gray-500 underline hover:text-gray-700"
+                  >
+                    How verification works →
+                  </a>
                 </div>
               </div>
             )}

@@ -165,6 +165,58 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* Trust & Verification Section */}
+        <section id="trust-model" className="mb-24 space-y-8 sm:mb-32">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
+            Trust & verification (MVP view)
+          </h2>
+          <div className="space-y-6">
+            <p className="max-w-3xl text-base leading-relaxed text-gray-700 sm:text-lg">
+              This MVP focuses on the core loop: record → verify → résumé. Verification
+              is mocked here but represents lightweight confirmation from peers, teammates,
+              or mentors that a work log is accurate.
+            </p>
+            <div className="grid gap-6 sm:grid-cols-3">
+              <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:border-gray-300">
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
+                    1
+                  </div>
+                  <div className="text-base font-semibold text-gray-900">Self-attested logs</div>
+                </div>
+                <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+                  Timestamped records created by the student, capturing daily contributions
+                  with project context.
+                </p>
+              </div>
+              <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:border-gray-300">
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
+                    2
+                  </div>
+                  <div className="text-base font-semibold text-gray-900">Lightweight peer confirmation</div>
+                </div>
+                <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+                  &quot;Verify&quot; as a simple confirmation from teammates or mentors that
+                  the work log is accurate and reflects real contributions.
+                </p>
+              </div>
+              <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:border-gray-300">
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-sm font-semibold text-indigo-700">
+                    3
+                  </div>
+                  <div className="text-base font-semibold text-gray-900">Future extensions</div>
+                </div>
+                <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+                  Stronger verification via managers, artifacts, and auditable history
+                  (roadmap, not in this MVP).
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Team Section */}
         <section className="mb-20 space-y-8">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
