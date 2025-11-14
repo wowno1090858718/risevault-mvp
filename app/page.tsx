@@ -3,10 +3,43 @@
 import { useState } from 'react';
 import { WorkRecord, RecordStatus } from './types';
 
-const PROJECTS = ['AI Study Planner', 'E-commerce Platform', 'Mobile App'];
+const PROJECTS = [
+  'Course Project – Machine Learning',
+  'CS Homework / Weekly Assignment',
+  'NLP Research Paper',
+  'Software Engineering Internship',
+  'Hackathon Project – HackNYU',
+  'AI Study Planner (Side Project)',
+  'Capstone Project / Senior Design'
+];
 
 export default function Home() {
-  const [records, setRecords] = useState<WorkRecord[]>([]);
+  const now = new Date();
+  const [records, setRecords] = useState<WorkRecord[]>([
+    {
+      id: 'sample-1',
+      project: 'Course Project – Machine Learning',
+      text: 'Implemented logistic regression baseline and evaluated accuracy.',
+      status: 'verified',
+      createdAt: now,
+      verifiedAt: now,
+    },
+    {
+      id: 'sample-2',
+      project: 'Software Engineering Internship',
+      text: 'Refactored API handler and improved response time by ~20%.',
+      status: 'verified',
+      createdAt: now,
+      verifiedAt: now,
+    },
+    {
+      id: 'sample-3',
+      project: 'NLP Research Paper',
+      text: 'Ran experiments for BERT fine-tuning; preparing results table.',
+      status: 'pending',
+      createdAt: now,
+    },
+  ]);
   const [currentText, setCurrentText] = useState('');
   const [currentProject, setCurrentProject] = useState(PROJECTS[0]);
   const [error, setError] = useState('');
