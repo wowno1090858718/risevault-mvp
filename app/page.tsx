@@ -33,7 +33,7 @@ export default function Home() {
           <p className="mt-4 mb-8 max-w-3xl text-base sm:text-lg text-gray-600">
             RiseVault turns daily work into a continuous, structured record — ensuring
             résumés, portfolios, and AI tools reflect what actually happened. Used first
-            by students, with a pathway to professionals. Students feel this pain first—recruiters and professionals benefit as the trust layer matures.
+            by students, with a pathway to professionals. Students feel this pain first — recruiters and professionals benefit as verification becomes more standard.
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
