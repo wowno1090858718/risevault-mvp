@@ -61,7 +61,7 @@ export default function Home() {
           </h2>
           <div className="space-y-4 max-w-3xl">
             <p className="text-base leading-relaxed text-gray-700 sm:text-lg">
-              This early demo exists to validate behavior, not to ship a full product.
+              <em>This early demo exists to validate behavior, not to ship a full product.</em>
             </p>
             <p className="text-base leading-relaxed text-gray-700 sm:text-lg">
               In this phase, we&apos;re focused on validating three core questions:
