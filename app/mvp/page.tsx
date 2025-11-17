@@ -147,6 +147,18 @@ export default function MVPPage() {
           This prototype includes pre-filled examples so you can explore the Record → Verify → Résumé flow immediately.
         </p>
 
+        <div className="mb-6">
+          <a
+            href="https://youtube.com/shorts/KsLqbxnvGIw?feature=share"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            <span>🎥</span>
+            <span>Watch the 35-second demo</span>
+          </a>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Left Side: Record & Timeline */}
           <div className="space-y-8">
