@@ -107,10 +107,10 @@ export default function Home() {
           </div>
         </section>
 
-        {/* How the MVP Works Section */}
+        {/* How the Demo Works Section */}
         <section className="mb-24 space-y-8 sm:mb-32">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
-            How the MVP works
+            How the demo works
           </h2>
           <div className="grid gap-6 sm:grid-cols-3">
             <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:bg-gray-50">
@@ -246,7 +246,7 @@ export default function Home() {
             </a>
             <span className="text-gray-300">•</span>
             <Link href="/mvp" className="transition-colors hover:text-gray-700">
-              Open MVP
+              Open Demo
             </Link>
           </div>
         </div>

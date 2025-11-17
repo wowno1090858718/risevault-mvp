@@ -212,7 +212,7 @@ export default function MVPPage() {
                       ?
                     </span>
                     <div className="absolute left-0 top-6 z-10 hidden w-64 rounded-lg border border-gray-200 bg-white p-3 text-xs text-gray-700 shadow-lg group-hover:block">
-                      &quot;Verify&quot; represents a lightweight confirmation of this entry (e.g., by a teammate, mentor, or manager). In this MVP, it is shown in a simplified, simulated form to illustrate the flow.
+                      &quot;Verify&quot; represents a lightweight confirmation of this entry (e.g., by a teammate, mentor, or manager). In this demo, it is shown in a simplified, simulated form to illustrate the flow.
                     </div>
                   </div>
                 </div>
