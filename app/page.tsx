@@ -252,7 +252,7 @@ export default function Home() {
       <footer className="border-t border-gray-100 bg-white">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-6 text-sm text-gray-500 sm:flex-row sm:px-8">
           <div className="flex flex-col gap-1">
-            <span>Built at NYU and tested with CS, design, and engineering students.</span>
+            <span>Built at NYU and iterated with early student feedback from project-based majors.</span>
             <span>© {new Date().getFullYear()} RiseVault.</span>
           </div>
           <div className="flex items-center gap-4">
