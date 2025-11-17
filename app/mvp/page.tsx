@@ -149,7 +149,7 @@ export default function MVPPage() {
 
         <div className="mb-6">
           <a
-            href="https://youtube.com/shorts/KsLqbxnvGIw?feature=share"
+            href="https://www.youtube.com/watch?v=KsLqbxnvGIw"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
