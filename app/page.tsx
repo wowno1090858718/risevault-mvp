@@ -122,8 +122,7 @@ export default function Home() {
             How the demo works
           </h2>
           <p className="max-w-3xl text-base leading-relaxed text-gray-700 sm:text-lg">
-            This simplified loop is designed to test one thing: <br />
-            Will people actually use Record → Verify → Résumé?
+            This demo tests one thing: will anyone use Record → Verify → Résumé?
           </p>
           <div className="grid gap-6 sm:grid-cols-3">
             <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:bg-gray-50">
