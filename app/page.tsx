@@ -51,6 +51,23 @@ export default function Home() {
           </div>
         </section>
 
+        {/* What we're validating now Section */}
+        <section className="mb-24 space-y-6 sm:mb-32">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
+            What we&apos;re validating now
+          </h2>
+          <div className="space-y-4 max-w-3xl">
+            <p className="text-base leading-relaxed text-gray-700 sm:text-lg">
+              In this phase, we&apos;re focused on validating three core questions:
+            </p>
+            <ul className="space-y-2 text-gray-600">
+              <li>Will students actually record and lightly verify their work if the workflow is simple enough?</li>
+              <li>Does having more credible, grounded proof of work meaningfully affect internship and job outcomes?</li>
+              <li>Do verified, time-stamped logs increase trust for recruiters and admissions officers compared to a standard résumé?</li>
+            </ul>
+          </div>
+        </section>
+
         {/* Problem Section */}
         <section className="mb-24 space-y-6 sm:mb-32">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
@@ -86,23 +103,6 @@ export default function Home() {
               <li>Log real work in short, lightweight snippets</li>
               <li>Lightweight verification from peers, teammates, mentors</li>
               <li>Generate résumé bullets directly from verified history</li>
-            </ul>
-          </div>
-        </section>
-
-        {/* What we're validating now Section */}
-        <section className="mb-24 space-y-6 sm:mb-32">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
-            What we&apos;re validating now
-          </h2>
-          <div className="space-y-4 max-w-3xl">
-            <p className="text-base leading-relaxed text-gray-700 sm:text-lg">
-              In this phase, we&apos;re focused on validating three core questions:
-            </p>
-            <ul className="space-y-2 text-gray-600">
-              <li>Will students actually record and lightly verify their work if the workflow is simple enough?</li>
-              <li>Does having more credible, grounded proof of work meaningfully affect internship and job outcomes?</li>
-              <li>Do verified, time-stamped logs increase trust for recruiters and admissions officers compared to a standard résumé?</li>
             </ul>
           </div>
         </section>
