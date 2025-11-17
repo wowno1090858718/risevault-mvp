@@ -25,12 +25,15 @@ export default function Home() {
             <h2 className="text-xl font-normal text-gray-600 sm:text-2xl lg:text-3xl">
               Turn daily work into a trusted, verifiable résumé.
             </h2>
+            <p className="text-lg font-normal text-gray-600 sm:text-xl">
+              In the AI résumé era, trust has to come from real work.
+            </p>
           </div>
 
           <p className="mt-4 mb-8 max-w-3xl text-base sm:text-lg text-gray-600">
             RiseVault turns daily work into a continuous, structured record — ensuring
             résumés, portfolios, and AI tools reflect what actually happened. Used first
-            by students, with a pathway to professionals.
+            by students, with a pathway to professionals. Students feel this pain first—recruiters and professionals benefit as the trust layer matures.
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -58,6 +61,9 @@ export default function Home() {
           </h2>
           <div className="space-y-4 max-w-3xl">
             <p className="text-base leading-relaxed text-gray-700 sm:text-lg">
+              This early demo exists to validate behavior, not to ship a full product.
+            </p>
+            <p className="text-base leading-relaxed text-gray-700 sm:text-lg">
               In this phase, we&apos;re focused on validating three core questions:
             </p>
             <ul className="space-y-2 text-gray-600">
@@ -81,9 +87,9 @@ export default function Home() {
               there&apos;s no reliable way for others (or AI tools) to trust what&apos;s written.
             </p>
             <ul className="space-y-2 text-gray-600">
-              <li>Daily work is fragmented across tools</li>
-              <li>Résumé bullets are polished but unverifiable</li>
-              <li>AI cannot distinguish real work from embellishment</li>
+              <li>Real work gets lost across tools — nothing is tracked end-to-end</li>
+              <li>Résumés are rebuilt from memory instead of backed by evidence</li>
+              <li>AI makes exaggeration easier, and real trust harder to earn</li>
             </ul>
           </div>
         </section>
@@ -94,6 +100,9 @@ export default function Home() {
             Our approach
           </h2>
           <div className="space-y-4 max-w-3xl">
+            <p className="text-base font-medium text-gray-900 sm:text-lg">
+              A trust layer built from the smallest unit: daily contributions.
+            </p>
             <p className="text-base leading-relaxed text-gray-700 sm:text-lg">
               We treat each contribution as a small, timestamped unit of truth. Verified
               logs roll up into an AI-ready résumé view and timeline — giving students a
@@ -112,6 +121,9 @@ export default function Home() {
           <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
             How the demo works
           </h2>
+          <p className="max-w-3xl text-base leading-relaxed text-gray-700 sm:text-lg">
+            This simplified loop is designed to test one thing: will people actually use Record → Verify → Résumé?
+          </p>
           <div className="grid gap-6 sm:grid-cols-3">
             <div className="rounded-xl border border-gray-200 bg-white p-6 transition-colors hover:bg-gray-50">
               <div className="mb-3 flex items-center gap-3">
@@ -161,6 +173,9 @@ export default function Home() {
               verifying it, and turning it into a trustworthy résumé output. The verification
               step is intentionally simplified, but reflects the real-world flow where
               teammates, mentors, or managers acknowledge a contribution&apos;s accuracy.
+            </p>
+            <p className="max-w-3xl text-base leading-relaxed text-gray-700 sm:text-lg">
+              Verification isn&apos;t about policing—it&apos;s about giving others a concrete reason to trust your work.
             </p>
             <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
               <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-colors hover:bg-gray-50">
@@ -236,7 +251,10 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-gray-100 bg-white">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-6 text-sm text-gray-500 sm:flex-row sm:px-8">
-          <span>© {new Date().getFullYear()} RiseVault.</span>
+          <div className="flex flex-col gap-1">
+            <span>Built at NYU and tested with CS, design, and engineering students.</span>
+            <span>© {new Date().getFullYear()} RiseVault.</span>
+          </div>
           <div className="flex items-center gap-4">
             <a
               href="mailto:a.x.chen@outlook.com"
