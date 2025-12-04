@@ -216,36 +216,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        {/* Team Section */}
-        <section className="mb-20 space-y-8">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
-            Team
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
-              <div className="mb-1 text-base sm:text-lg font-semibold text-gray-900">Xavier Chen</div>
-              <div className="mb-2 text-sm text-gray-500">Founder / Product</div>
-              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                Building trustworthy ways for students to prove real work — without exposing sensitive data.
-              </p>
-            </div>
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
-              <div className="mb-1 text-base sm:text-lg font-semibold text-gray-900">Sujay Sundar</div>
-              <div className="mb-2 text-sm text-gray-500">Full-stack / Data / Infra</div>
-              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                Engineering scalable systems that turn raw daily activity into structured, verifiable records.
-              </p>
-            </div>
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
-              <div className="mb-1 text-base sm:text-lg font-semibold text-gray-900">Amanda Zhang</div>
-              <div className="mb-2 text-sm text-gray-500">Product Design / UX</div>
-              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                Designing frictionless, student-first interfaces that fit naturally into real workflows.
-              </p>
-            </div>
-          </div>
-        </section>
       </main>
 
       {/* Footer */}
