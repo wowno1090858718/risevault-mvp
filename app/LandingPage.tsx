@@ -574,6 +574,7 @@ function ReasoningFlowPanel() {
         <blockquote className="mt-3 border-l-2 border-indigo-200 pl-3 text-sm italic text-gray-700">
           &ldquo;Strong ownership in debugging.&rdquo;
         </blockquote>
+        <div className="mt-2 text-xs text-gray-500">Security checked · No sensitive data exposed</div>
 
         <div className="mt-6 rounded-lg border border-dashed border-gray-200 bg-gray-50/50 px-3 py-2.5 opacity-90">
           <div className="text-[11px] font-medium uppercase tracking-wide text-gray-500">Manager signal</div>
