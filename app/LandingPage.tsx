@@ -117,6 +117,68 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
+const PROBLEM_CARDS = [
+  { label: 'Interviews', line: 'Memorized or AI-assisted.' },
+  { label: 'Outputs', line: 'Easy to generate — hard to trust.' },
+  { label: 'Roles', line: 'New roles lack clear evaluation standards.' },
+  { label: 'Recruiters', line: 'Decisions rest on outdated signals.' },
+] as const
+
+function ProblemBreakingGrid() {
+  return (
+    <div className="mt-8">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {PROBLEM_CARDS.map((card, i) => (
+          <Reveal key={card.label} delayMs={i * 90}>
+            <div className="h-full rounded-xl border border-gray-200 bg-white p-5 transition-colors hover:border-gray-300">
+              <div className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">{card.label}</div>
+              <div className="mt-2 text-sm leading-snug text-gray-700">{card.line}</div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+      <Reveal delayMs={420} className="mt-8">
+        <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-6 py-5 text-sm font-semibold leading-snug text-gray-900 sm:text-base">
+          Signals no longer reflect real capability.
+        </div>
+      </Reveal>
+    </div>
+  )
+}
+
+const CAUSE_LINES = [
+  'Hiring never measures capability',
+  'It interprets signals: education, experience, interviews',
+  'This worked when signals were hard to fake',
+  'Now they are not',
+] as const
+
+function CauseStructured() {
+  return (
+    <div className="mt-8 max-w-3xl">
+      <div className="rounded-2xl border border-gray-200 bg-white">
+        {CAUSE_LINES.map((line, i) => (
+          <Reveal key={i} delayMs={i * 100} className="w-full">
+            <div
+              className={cx(
+                'px-5 py-4 text-sm leading-relaxed text-gray-900 sm:px-6 sm:py-4 sm:text-base',
+                i < CAUSE_LINES.length - 1 && 'border-b border-gray-100'
+              )}
+            >
+              {line}
+            </div>
+          </Reveal>
+        ))}
+      </div>
+      <Reveal delayMs={440} className="mt-8">
+        <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-6 py-5 text-sm font-semibold leading-snug text-gray-900 sm:text-base">
+          If signals break, hiring breaks.
+        </div>
+      </Reveal>
+    </div>
+  )
+}
+
 function PrimaryButton({
   children,
   href,
@@ -499,23 +561,7 @@ export default function LandingPage() {
             <SectionLabel>3 — Problem</SectionLabel>
             <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Hiring is breaking</h2>
           </Reveal>
-          <Reveal delayMs={120} className="mt-8">
-            <div className="grid gap-6 lg:grid-cols-12">
-              <div className="lg:col-span-7">
-                <ul className="space-y-3 text-sm text-gray-600 sm:text-base">
-                  <li>— Interviews can be memorized or AI-assisted</li>
-                  <li>— Outputs are easy to generate but hard to trust</li>
-                  <li>— New roles lack clear evaluation standards</li>
-                  <li>— Recruiters rely on outdated signals</li>
-                </ul>
-              </div>
-              <div className="lg:col-span-5">
-                <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6 text-sm text-gray-800 sm:text-base">
-                  Signals no longer reflect real capability.
-                </div>
-              </div>
-            </div>
-          </Reveal>
+          <ProblemBreakingGrid />
         </section>
 
         {/* 4. WHY THIS HAPPENS */}
@@ -524,19 +570,7 @@ export default function LandingPage() {
             <SectionLabel>4 — Cause</SectionLabel>
             <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Why this happens</h2>
           </Reveal>
-          <Reveal delayMs={120} className="mt-8">
-            <div className="max-w-3xl space-y-3 text-sm text-gray-700 sm:text-base">
-              <div>Hiring has never measured capability directly.</div>
-              <div>It relies on signals — education, experience, interviews.</div>
-              <div className="pt-2 text-gray-600">This worked when signals were hard to fake.</div>
-              <div className="text-gray-600">Now they are not.</div>
-            </div>
-          </Reveal>
-          <Reveal delayMs={260} className="mt-10">
-            <div className="max-w-3xl rounded-2xl border border-gray-200 bg-white p-6 text-sm font-medium text-gray-900 sm:text-base">
-              If signals break, hiring breaks.
-            </div>
-          </Reveal>
+          <CauseStructured />
         </section>
 
         {/* 5. MODEL (ANIMATED) */}
