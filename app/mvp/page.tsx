@@ -7,7 +7,8 @@ function cx(...parts: Array<string | false | undefined | null>) {
   return parts.filter(Boolean).join(' ')
 }
 
-const DEMO_ADVANCE_MS = 2400
+const DEMO_ADVANCE_MS = 1600
+const DEMO_CAPTURE_SWITCH_MS = 750
 const STEPS = ['intro', 'capture', 'reasoning', 'decision', 'comparison', 'recruiter'] as const
 type StepIndex = 0 | 1 | 2 | 3 | 4 | 5
 
@@ -89,11 +90,19 @@ export default function MVPPrototypePage() {
   const [captureMode, setCaptureMode] = useState<CaptureMode>('manual')
   const [comparisonRevealed, setComparisonRevealed] = useState(false)
   const demoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const demoCaptureSwitchRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const clearDemoTimer = useCallback(() => {
     if (demoTimerRef.current) {
       clearTimeout(demoTimerRef.current)
       demoTimerRef.current = null
+    }
+  }, [])
+
+  const clearDemoCaptureSwitch = useCallback(() => {
+    if (demoCaptureSwitchRef.current) {
+      clearTimeout(demoCaptureSwitchRef.current)
+      demoCaptureSwitchRef.current = null
     }
   }, [])
 
@@ -108,6 +117,17 @@ export default function MVPPrototypePage() {
   }, [clearDemoTimer, flowMode, step])
 
   useEffect(() => {
+    clearDemoCaptureSwitch()
+    if (flowMode !== 'demo') return
+    if (step !== 1) return
+    setCaptureMode('manual')
+    demoCaptureSwitchRef.current = setTimeout(() => {
+      setCaptureMode('detected')
+    }, DEMO_CAPTURE_SWITCH_MS)
+    return clearDemoCaptureSwitch
+  }, [clearDemoCaptureSwitch, flowMode, step])
+
+  useEffect(() => {
     if (step !== 4) {
       setComparisonRevealed(false)
       return
@@ -116,7 +136,7 @@ export default function MVPPrototypePage() {
       setComparisonRevealed(true)
       return
     }
-    const t = setTimeout(() => setComparisonRevealed(true), 400)
+    const t = setTimeout(() => setComparisonRevealed(true), 250)
     return () => clearTimeout(t)
   }, [reduced, step])
 
