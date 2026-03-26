@@ -7,7 +7,7 @@ function cx(...parts: Array<string | false | undefined | null>) {
   return parts.filter(Boolean).join(' ')
 }
 
-const DEMO_ADVANCE_MS = 4200
+const DEMO_ADVANCE_MS = 2400
 const STEPS = ['intro', 'capture', 'reasoning', 'decision', 'comparison', 'recruiter'] as const
 type StepIndex = 0 | 1 | 2 | 3 | 4 | 5
 
@@ -116,7 +116,7 @@ export default function MVPPrototypePage() {
       setComparisonRevealed(true)
       return
     }
-    const t = setTimeout(() => setComparisonRevealed(true), 700)
+    const t = setTimeout(() => setComparisonRevealed(true), 400)
     return () => clearTimeout(t)
   }, [reduced, step])
 
