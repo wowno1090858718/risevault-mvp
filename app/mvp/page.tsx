@@ -482,6 +482,7 @@ function ReasoningStep() {
               <blockquote className="mt-4 border-l-2 border-indigo-200 pl-3 text-sm italic text-gray-700">
                 &ldquo;Strong ownership in debugging.&rdquo;
               </blockquote>
+              <div className="mt-2 text-xs text-gray-500">Security checked · No sensitive data exposed</div>
 
               <div className="mt-4 border-t border-indigo-100 pt-3 text-sm">
                 <span className="text-gray-600">Support signal:</span>{' '}
