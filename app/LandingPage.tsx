@@ -791,7 +791,7 @@ function RecruiterFunnel() {
 }
 
 export default function LandingPage() {
-  const demoUrl = useMemo(() => 'https://www.youtube.com/watch?v=KsLqbxnvGIw', [])
+  const demoUrl = useMemo(() => 'https://vimeo.com/1141932788', [])
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
