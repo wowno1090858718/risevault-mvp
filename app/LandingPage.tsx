@@ -145,39 +145,18 @@ function ProblemBreakingGrid() {
   )
 }
 
-const CAUSE_FLOW = [
-  'hiring',
-  'capability unmeasured',
-  'signals → edu · exp · interviews',
-  'signals: hard to fake',
-  'signals: easy to fake',
-] as const
-
-function CauseStructured() {
+function ProblemBridge() {
   return (
-    <div className="mt-8 max-w-3xl">
-      <div className="rounded-2xl border border-gray-200 bg-white px-5 py-4 sm:px-6 sm:py-5">
-        <div className="font-mono text-[13px] leading-relaxed tracking-tight text-gray-900 sm:text-sm">
-          {CAUSE_FLOW.map((line, i) => (
-            <div key={line}>
-              <Reveal delayMs={i * 100} className="w-full">
-                <div className="py-1.5">{line}</div>
-              </Reveal>
-              {i < CAUSE_FLOW.length - 1 && (
-                <div className="py-0.5 pl-0.5 text-gray-400" aria-hidden>
-                  ↓
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+    <Reveal delayMs={140} className="mt-14 sm:mt-16 pb-6 sm:pb-8">
+      <div className="mx-auto max-w-xl space-y-2.5 px-1 text-center sm:px-0">
+        <p className="text-sm leading-relaxed text-gray-500 sm:text-[0.9375rem]">
+          Hiring has always relied on signals — not capability.
+        </p>
+        <p className="text-sm leading-relaxed text-gray-500 sm:text-[0.9375rem]">
+          Those signals used to work. Now they don&apos;t.
+        </p>
       </div>
-      <Reveal delayMs={520} className="mt-6">
-        <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-5 py-4 font-mono text-sm font-semibold leading-snug tracking-tight text-gray-900 sm:px-6 sm:text-base">
-          → If signals break, hiring breaks
-        </div>
-      </Reveal>
-    </div>
+    </Reveal>
   )
 }
 
@@ -847,28 +826,20 @@ export default function LandingPage() {
           </Reveal>
         </section>
 
-        {/* 3. HIRING IS BREAKING */}
+        {/* 3. HIRING IS BREAKING + BRIDGE */}
         <section className="py-16 sm:py-24">
           <Reveal>
             <SectionLabel>3 — Problem</SectionLabel>
             <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Hiring is breaking</h2>
           </Reveal>
           <ProblemBreakingGrid />
+          <ProblemBridge />
         </section>
 
-        {/* 4. WHY THIS HAPPENS */}
+        {/* 4. MODEL (ANIMATED) */}
         <section className="py-16 sm:py-24">
           <Reveal>
-            <SectionLabel>4 — Cause</SectionLabel>
-            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Why this happens</h2>
-          </Reveal>
-          <CauseStructured />
-        </section>
-
-        {/* 5. MODEL (ANIMATED) */}
-        <section className="py-16 sm:py-24">
-          <Reveal>
-            <SectionLabel>5 — Model</SectionLabel>
+            <SectionLabel>4 — Model</SectionLabel>
             <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">A new signal path</h2>
           </Reveal>
           <Reveal delayMs={120} className="mt-10">
@@ -876,10 +847,10 @@ export default function LandingPage() {
           </Reveal>
         </section>
 
-        {/* 6. WHAT WE’RE BUILDING */}
+        {/* 5. WHAT WE’RE BUILDING */}
         <section className="py-16 sm:py-24">
           <Reveal>
-            <SectionLabel>6 — Build</SectionLabel>
+            <SectionLabel>5 — Build</SectionLabel>
             <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">What we’re building</h2>
           </Reveal>
           <Reveal delayMs={120} className="mt-8">
@@ -911,10 +882,10 @@ export default function LandingPage() {
           </Reveal>
         </section>
 
-        {/* 7. PRODUCT → DECISION FLOW */}
+        {/* 6. PRODUCT → DECISION FLOW */}
         <section className="py-16 sm:py-24">
           <Reveal>
-            <SectionLabel>7 — Flow</SectionLabel>
+            <SectionLabel>6 — Flow</SectionLabel>
             <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Product → decision</h2>
           </Reveal>
           <Reveal delayMs={110} className="mt-8">
@@ -928,10 +899,10 @@ export default function LandingPage() {
           </Reveal>
         </section>
 
-        {/* 8. CANDIDATE COMPARISON */}
+        {/* 7. CANDIDATE COMPARISON */}
         <section className="py-16 sm:py-24">
           <Reveal>
-            <SectionLabel>8 — Comparison</SectionLabel>
+            <SectionLabel>7 — Comparison</SectionLabel>
             <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">
               Candidate comparison
             </h2>
@@ -941,10 +912,10 @@ export default function LandingPage() {
           </Reveal>
         </section>
 
-        {/* 9. RECRUITER VALUE */}
+        {/* 8. RECRUITER VALUE */}
         <section className="py-16 sm:py-24">
           <Reveal>
-            <SectionLabel>9 — Recruiter view</SectionLabel>
+            <SectionLabel>8 — Recruiter view</SectionLabel>
             <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">
               Scan hundreds of candidates in one view
             </h2>
@@ -964,10 +935,10 @@ export default function LandingPage() {
           </Reveal>
         </section>
 
-        {/* 10. WHY NOW */}
+        {/* 9. WHY NOW */}
         <section className="py-16 sm:py-24">
           <Reveal>
-            <SectionLabel>10 — Why now</SectionLabel>
+            <SectionLabel>9 — Why now</SectionLabel>
             <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Why now</h2>
           </Reveal>
           <Reveal delayMs={120} className="mt-8 grid gap-3 sm:grid-cols-3">
@@ -982,10 +953,10 @@ export default function LandingPage() {
           </Reveal>
         </section>
 
-        {/* 11. VISION */}
+        {/* 10. VISION */}
         <section className="py-16 sm:py-24">
           <Reveal>
-            <SectionLabel>11 — Vision</SectionLabel>
+            <SectionLabel>10 — Vision</SectionLabel>
             <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Vision</h2>
           </Reveal>
           <Reveal delayMs={120} className="mt-8 grid gap-3 sm:grid-cols-3">
@@ -1000,10 +971,10 @@ export default function LandingPage() {
           </Reveal>
         </section>
 
-        {/* 12. FINAL CTA */}
+        {/* 11. FINAL CTA */}
         <section className="py-16 sm:py-24">
           <Reveal>
-            <SectionLabel>12 — CTA</SectionLabel>
+            <SectionLabel>11 — CTA</SectionLabel>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
               Stop guessing. Start deciding.
             </h2>
@@ -1017,7 +988,7 @@ export default function LandingPage() {
         </section>
       </main>
 
-      {/* 13. FOOTER */}
+      {/* 12. FOOTER */}
       <footer className="border-t border-gray-100 bg-white">
         <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-8 text-sm text-gray-500 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <div>© 2026 RiseVault</div>
