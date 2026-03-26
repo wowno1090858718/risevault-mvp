@@ -327,12 +327,16 @@ function ModelAnimated() {
   )
 }
 
-function DecisionCardAnimated() {
+function DecisionCardAnimated({ active = true }: { active?: boolean }) {
   const reduced = usePrefersReducedMotion()
   const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.35 })
   const [phase, setPhase] = useState(0)
 
   useEffect(() => {
+    if (!active) {
+      setPhase(0)
+      return
+    }
     if (!inView) return
     if (reduced) {
       setPhase(5)
@@ -346,7 +350,7 @@ function DecisionCardAnimated() {
       window.setTimeout(() => setPhase(5), 1650),
     ]
     return () => ids.forEach((id) => window.clearTimeout(id))
-  }, [inView, reduced])
+  }, [active, inView, reduced])
 
   const row = (label: string, value: string, show: boolean) => (
     <div
@@ -404,6 +408,180 @@ function DecisionCardAnimated() {
         <div className="flex items-center justify-between text-sm">
           <div className="text-gray-700">Confidence</div>
           <div className="font-semibold text-gray-900">High</div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+type FlowStep = 1 | 2 | 3
+
+function CaptureFlowPanel() {
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
+      <div className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Input</div>
+      <div className="mt-4">
+        <label className="sr-only" htmlFor="flow-capture-input">
+          Work log
+        </label>
+        <input
+          id="flow-capture-input"
+          readOnly
+          value="Ship auth fix · PR #842"
+          className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 outline-none ring-indigo-500/0 transition-shadow focus:ring-2"
+        />
+      </div>
+      <div className="mt-4 rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4">
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-xs font-semibold uppercase tracking-wide text-indigo-600">Expand</span>
+          <span className="text-[10px] font-medium uppercase tracking-wide text-gray-400">AI</span>
+        </div>
+        <div className="mt-3 font-mono text-xs leading-relaxed text-gray-800">
+          <div>scope → auth middleware</div>
+          <div>delta → +tests · rollback path</div>
+          <div>risk → session edge cases</div>
+        </div>
+      </div>
+      <div className="mt-5 flex items-center gap-3">
+        <button
+          type="button"
+          className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          Confirm
+        </button>
+        <span className="text-xs text-gray-400">saved</span>
+      </div>
+    </div>
+  )
+}
+
+function ReasoningFlowPanel() {
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
+      <div className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Context</div>
+      <div className="mt-3 rounded-lg border border-gray-100 bg-gray-50 px-3 py-2.5 font-mono text-xs text-gray-800">
+        PR #842 · auth · 3 files · CI pass
+      </div>
+
+      <div className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Follow-ups</div>
+      <ul className="mt-3 space-y-2 text-sm text-gray-800">
+        <li className="flex gap-2">
+          <span className="text-gray-400">?</span>
+          <span>Why this rollback path?</span>
+        </li>
+        <li className="flex gap-2">
+          <span className="text-gray-400">?</span>
+          <span>Coverage threshold met?</span>
+        </li>
+      </ul>
+
+      <div className="mt-5 border-t border-gray-100 pt-4">
+        <div className="font-mono text-xs text-gray-600">
+          verification → peer · <span className="text-gray-900">2 confirmations</span>
+        </div>
+      </div>
+
+      <p className="mt-4 text-sm text-gray-600">We capture reasoning — not just activity</p>
+
+      <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50/80 px-3 py-2.5 text-[11px] leading-snug text-gray-600">
+        <span className="font-medium text-gray-800">M. Rivera</span>
+        <span className="text-gray-400"> · </span>
+        manager
+        <span className="text-gray-400"> · </span>
+        acknowledged
+      </div>
+    </div>
+  )
+}
+
+function ProductFlowInteractive() {
+  const reduced = usePrefersReducedMotion()
+  const [activeStep, setActiveStep] = useState<FlowStep>(3)
+  const fadeMs = reduced ? 150 : 300
+
+  const stepCardClass = (step: FlowStep) =>
+    cx(
+      'rounded-2xl border p-5 text-left transition-[border-color,background-color,box-shadow] duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2',
+      activeStep === step
+        ? 'border-indigo-200 bg-indigo-50 shadow-sm ring-1 ring-indigo-100'
+        : 'border-gray-200 bg-white hover:border-gray-300'
+    )
+
+  return (
+    <div className="mt-10">
+      <div
+        className="grid gap-4 lg:grid-cols-3"
+        role="tablist"
+        aria-label="Product flow steps"
+      >
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeStep === 1}
+          className={stepCardClass(1)}
+          onClick={() => setActiveStep(1)}
+          onMouseEnter={() => setActiveStep(1)}
+        >
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 1</div>
+          <div className="mt-2 text-sm font-semibold text-gray-900">Capture</div>
+          <div className="mt-1 text-xs text-gray-500">Minimal input</div>
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeStep === 2}
+          className={stepCardClass(2)}
+          onClick={() => setActiveStep(2)}
+          onMouseEnter={() => setActiveStep(2)}
+        >
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 2</div>
+          <div className="mt-2 text-sm font-semibold text-gray-900">Reasoning</div>
+          <div className="mt-1 text-xs text-gray-500">How, not only what</div>
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeStep === 3}
+          className={stepCardClass(3)}
+          onClick={() => setActiveStep(3)}
+          onMouseEnter={() => setActiveStep(3)}
+        >
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</div>
+          <div className="mt-2 text-sm font-semibold text-gray-900">Decision</div>
+          <div className="mt-1 text-xs text-gray-500">Recommendation</div>
+        </button>
+      </div>
+
+      <div className="relative mt-8 min-h-[420px] sm:min-h-[440px]">
+        <div
+          className={cx(
+            'transition-opacity ease-out will-change-[opacity]',
+            activeStep === 1 ? 'relative z-10 opacity-100' : 'pointer-events-none absolute inset-0 z-0 opacity-0'
+          )}
+          style={{ transitionDuration: `${fadeMs}ms` }}
+          aria-hidden={activeStep !== 1}
+        >
+          <CaptureFlowPanel />
+        </div>
+        <div
+          className={cx(
+            'transition-opacity ease-out will-change-[opacity]',
+            activeStep === 2 ? 'relative z-10 opacity-100' : 'pointer-events-none absolute inset-0 z-0 opacity-0'
+          )}
+          style={{ transitionDuration: `${fadeMs}ms` }}
+          aria-hidden={activeStep !== 2}
+        >
+          <ReasoningFlowPanel />
+        </div>
+        <div
+          className={cx(
+            'transition-opacity ease-out will-change-[opacity]',
+            activeStep === 3 ? 'relative z-10 opacity-100' : 'pointer-events-none absolute inset-0 z-0 opacity-0'
+          )}
+          style={{ transitionDuration: `${fadeMs}ms` }}
+          aria-hidden={activeStep !== 3}
+        >
+          <DecisionCardAnimated active={activeStep === 3} />
         </div>
       </div>
     </div>
@@ -633,26 +811,8 @@ export default function LandingPage() {
             </div>
           </Reveal>
 
-          <Reveal delayMs={180} className="mt-10 grid gap-4 lg:grid-cols-3">
-            <div className="rounded-2xl border border-gray-200 bg-white p-6">
-              <div className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 1</div>
-              <div className="mt-3 text-sm font-semibold text-gray-900">Capture</div>
-              <div className="mt-2 text-sm text-gray-600">Work is captured with minimal input.</div>
-            </div>
-            <div className="rounded-2xl border border-gray-200 bg-white p-6">
-              <div className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 2</div>
-              <div className="mt-3 text-sm font-semibold text-gray-900">Process</div>
-              <div className="mt-2 text-sm text-gray-600">Not just what happened — but how.</div>
-            </div>
-            <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-6">
-              <div className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</div>
-              <div className="mt-3 text-sm font-semibold text-gray-900">Decision</div>
-              <div className="mt-2 text-sm text-gray-700">Signals resolve into a recommendation.</div>
-            </div>
-          </Reveal>
-
-          <Reveal delayMs={260} className="mt-10">
-            <DecisionCardAnimated />
+          <Reveal delayMs={180} className="mt-10">
+            <ProductFlowInteractive />
           </Reveal>
         </section>
 
