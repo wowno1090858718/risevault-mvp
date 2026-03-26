@@ -118,7 +118,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 const PROBLEM_ITEMS = [
-  { label: 'Interviews', detail: 'optimized for performance or AI-assisted' },
+  { label: 'Interviews', detail: 'optimized for performance or AI-assisted in the moment' },
   { label: 'Outputs', detail: 'easy to generate — hard to trust' },
   { label: 'Emerging roles', detail: 'no clear evaluation standard' },
   { label: 'Recruiters', detail: 'rely on outdated signals' },
@@ -146,7 +146,7 @@ function ProblemBreakingGrid() {
       </div>
       <Reveal delayMs={420} className="mt-10">
         <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-5 py-4 text-sm font-medium leading-snug tracking-tight text-gray-900 sm:px-6 sm:text-base">
-          signals → capability drift
+          Signals no longer reflect real capability.
         </div>
       </Reveal>
     </div>
