@@ -117,27 +117,35 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
-const PROBLEM_SIGNALS = [
-  'Interviews → memorized / AI-assisted',
-  'Outputs → generated instantly',
-  'Roles → no eval standard',
-  'Recruiters → stale signals',
+const PROBLEM_ITEMS = [
+  { label: 'Interviews', detail: 'memorized or AI-assisted' },
+  { label: 'Outputs', detail: 'easy to generate — hard to trust' },
+  { label: 'Emerging roles', detail: 'no clear evaluation standard' },
+  { label: 'Recruiters', detail: 'rely on outdated signals' },
 ] as const
 
 function ProblemBreakingGrid() {
   return (
-    <div className="mt-8">
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
-        {PROBLEM_SIGNALS.map((line, i) => (
-          <Reveal key={line} delayMs={i * 90}>
-            <div className="h-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 font-mono text-[13px] leading-snug tracking-tight text-gray-900 sm:px-5 sm:text-sm">
-              {line}
+    <div className="mt-10">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+        {PROBLEM_ITEMS.map((item, i) => (
+          <Reveal key={item.label} delayMs={i * 90}>
+            <div className="flex h-full flex-col rounded-xl border border-gray-200 bg-white px-5 py-5 sm:px-6 sm:py-5">
+              <div className="text-[15px] font-semibold leading-snug tracking-tight text-gray-900 sm:text-base">
+                {item.label}
+              </div>
+              <div className="mt-3 text-sm leading-snug text-gray-600 sm:text-[15px]">
+                <span className="select-none text-gray-400" aria-hidden>
+                  →{' '}
+                </span>
+                {item.detail}
+              </div>
             </div>
           </Reveal>
         ))}
       </div>
-      <Reveal delayMs={420} className="mt-8">
-        <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-5 py-4 font-mono text-sm font-medium leading-snug tracking-tight text-gray-900 sm:px-6 sm:text-base">
+      <Reveal delayMs={420} className="mt-10">
+        <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-5 py-4 text-sm font-medium leading-snug tracking-tight text-gray-900 sm:px-6 sm:text-base">
           signals → capability drift
         </div>
       </Reveal>
