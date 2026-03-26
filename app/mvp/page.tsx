@@ -468,23 +468,26 @@ function ReasoningStep() {
           </ul>
         </div>
 
-        <div className="mt-6 border-t border-gray-100 pt-5">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-indigo-600">✔</span>
-            <span className="text-sm font-medium text-gray-900">Verified by manager</span>
-          </div>
-          <blockquote className="mt-3 border-l-2 border-indigo-200 pl-3 text-sm italic text-gray-700">
-            &ldquo;Strong ownership in debugging.&rdquo;
-          </blockquote>
-        </div>
+        <div className="mt-6 lg:grid lg:grid-cols-12 lg:gap-6">
+          <div className="lg:col-span-5 lg:col-start-8">
+            <div className="rounded-2xl border border-indigo-200 bg-indigo-50/60 p-5">
+              <div className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Verified by Manager</div>
 
-        <div className="mt-6 rounded-lg border border-dashed border-gray-200 bg-gray-50/60 px-3 py-3">
-          <div className="text-[10px] font-medium uppercase tracking-wide text-gray-500">Manager signal</div>
-          <div className="mt-1 text-xs font-semibold text-gray-900">Manager A</div>
-          <div className="mt-1.5 space-y-0.5 text-[11px] leading-snug text-gray-600">
-            <div>12 feedback notes</div>
-            <div>High responsiveness</div>
-            <div>Strong support signal</div>
+              <div className="mt-4 text-sm font-semibold text-gray-900">Manager A</div>
+              <div className="mt-2 space-y-1 text-sm text-gray-700">
+                <div>12 feedback notes</div>
+                <div>High responsiveness</div>
+              </div>
+
+              <blockquote className="mt-4 border-l-2 border-indigo-200 pl-3 text-sm italic text-gray-700">
+                &ldquo;Strong ownership in debugging.&rdquo;
+              </blockquote>
+
+              <div className="mt-4 border-t border-indigo-100 pt-3 text-sm">
+                <span className="text-gray-600">Support signal:</span>{' '}
+                <span className="font-semibold text-gray-900">Strong</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
