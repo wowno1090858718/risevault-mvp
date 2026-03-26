@@ -155,8 +155,8 @@ function ProblemBreakingGrid() {
 
 function ProblemBridge() {
   return (
-    <Reveal delayMs={140} className="mt-14 sm:mt-16 pb-6 sm:pb-8">
-      <div className="mx-auto max-w-xl space-y-2.5 px-1 text-center sm:px-0">
+    <Reveal delayMs={140} className="mt-14 sm:mt-16">
+      <div className="mx-auto mb-6 max-w-xl space-y-2.5 px-1 text-center sm:px-0">
         <p className="text-sm leading-relaxed text-gray-500 sm:text-[0.9375rem]">
           Hiring has always relied on signals — not capability.
         </p>
@@ -835,7 +835,7 @@ export default function LandingPage() {
         </section>
 
         {/* 3. HIRING IS BREAKING + BRIDGE */}
-        <section className="py-16 sm:py-24">
+        <section className="pt-16 sm:pt-24 pb-8 sm:pb-10">
           <Reveal>
             <SectionLabel>3 — Problem</SectionLabel>
             <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Hiring is breaking</h2>
@@ -845,12 +845,14 @@ export default function LandingPage() {
         </section>
 
         {/* 4. MODEL (ANIMATED) */}
-        <section className="py-16 sm:py-24">
+        <section className="mt-4 pb-16 pt-6 sm:pb-24">
           <Reveal>
             <SectionLabel>4 — Model</SectionLabel>
-            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">A new signal path</h2>
+            <h2 className="mt-2 text-2xl font-medium tracking-tight text-indigo-700 sm:text-3xl">
+              A new signal path
+            </h2>
           </Reveal>
-          <Reveal delayMs={120} className="mt-10">
+          <Reveal delayMs={120} className="mt-8 sm:mt-10">
             <ModelAnimated />
           </Reveal>
         </section>
