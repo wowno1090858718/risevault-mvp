@@ -397,8 +397,9 @@ function DecisionCardAnimated({ active = true }: { active?: boolean }) {
             <span>Worked in a team</span>
           </li>
         </ul>
-        <p className="mt-3 text-xs leading-relaxed text-gray-500">
-          Looks fine. <span className="text-gray-600">But can you actually rely on it?</span>
+        <p className="mt-3 text-sm leading-relaxed text-gray-500">
+          Looks fine.{' '}
+          <span className="font-medium text-gray-800">But can you still rely on it?</span>
         </p>
       </div>
 
