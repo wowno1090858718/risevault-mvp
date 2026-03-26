@@ -379,30 +379,6 @@ function DecisionCardAnimated({ active = true }: { active?: boolean }) {
         </div>
       </div>
 
-      <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50/60 p-4">
-        <div className="text-[11px] font-medium uppercase tracking-wide text-gray-500">
-          Traditional signal: Résumé
-        </div>
-        <ul className="mt-3 space-y-2 text-sm text-gray-700">
-          <li className="flex gap-2">
-            <span className="text-gray-400">→</span>
-            <span>Built a full-stack application</span>
-          </li>
-          <li className="flex gap-2">
-            <span className="text-gray-400">→</span>
-            <span>Improved performance</span>
-          </li>
-          <li className="flex gap-2">
-            <span className="text-gray-400">→</span>
-            <span>Worked in a team</span>
-          </li>
-        </ul>
-        <p className="mt-3 text-sm leading-relaxed text-gray-500">
-          Looks fine.{' '}
-          <span className="font-medium text-gray-800">But can you still rely on it?</span>
-        </p>
-      </div>
-
       <div className="mt-6 space-y-3">
         {row('Consistency', 'High', phase >= 2)}
         {row('Problem Solving', 'Strong', phase >= 3)}
