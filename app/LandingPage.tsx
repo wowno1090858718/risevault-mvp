@@ -296,6 +296,22 @@ function DecisionCardAnimated() {
     </div>
   )
 
+  const verificationSignalRow = (show: boolean) => (
+    <div
+      className={cx(
+        'flex items-start justify-between gap-6 text-sm transition-[opacity,transform] duration-700 ease-out',
+        show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+      )}
+    >
+      <div className="shrink-0 pt-0.5 text-gray-600">Verification</div>
+      <div className="min-w-0 space-y-1 text-right font-medium leading-snug text-gray-900">
+        <div>Verified by manager (15)</div>
+        <div>Feedback loops: 5</div>
+        <div>Signal strength: High</div>
+      </div>
+    </div>
+  )
+
   return (
     <div ref={ref} className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
       <div className="flex items-start justify-between gap-6">
@@ -311,7 +327,7 @@ function DecisionCardAnimated() {
       <div className="mt-6 space-y-3">
         {row('Consistency', 'High', phase >= 2)}
         {row('Problem Solving', 'Strong', phase >= 3)}
-        {row('Verification', '3 teammates', phase >= 4)}
+        {verificationSignalRow(phase >= 4)}
         {row('AI Use', 'Thoughtful', phase >= 5)}
       </div>
 
