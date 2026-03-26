@@ -260,25 +260,31 @@ function IntroScreen({
       <div className="rounded-2xl border border-gray-200 bg-gray-50/80 p-6 sm:p-8">
         <div className="text-xs font-semibold uppercase tracking-wide text-gray-500">Candidate</div>
         <div className="mt-2 text-lg font-semibold text-gray-900">Alex</div>
-        <ul className="mt-6 space-y-3 text-sm text-gray-700">
-          <li className="flex gap-2">
-            <span className="text-gray-400">—</span>
-            <span>Built a full-stack app</span>
-          </li>
-          <li className="flex gap-2">
-            <span className="text-gray-400">—</span>
-            <span>Improved performance</span>
-          </li>
-          <li className="flex gap-2">
-            <span className="text-gray-400">—</span>
-            <span>Worked in a team</span>
-          </li>
-        </ul>
-        <p className="mt-8 border-t border-gray-200 pt-6 text-base font-medium text-gray-900">
-          Looks fine.
-          <br />
-          <span className="text-gray-600">But can you actually rely on it?</span>
-        </p>
+
+        <div className="mt-6 rounded-xl border border-gray-200 bg-white/60 p-4">
+          <div className="text-[11px] font-medium uppercase tracking-wide text-gray-500">
+            Traditional signal: Résumé
+          </div>
+
+          <ul className="mt-3 space-y-2 text-sm text-gray-700">
+            <li className="flex gap-2">
+              <span className="text-gray-400">→</span>
+              <span>Built a full-stack application</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-gray-400">→</span>
+              <span>Improved performance</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-gray-400">→</span>
+              <span>Worked in a team</span>
+            </li>
+          </ul>
+
+          <p className="mt-4 text-xs leading-relaxed text-gray-500">
+            Looks fine. <span className="text-gray-600">But can you actually rely on it?</span>
+          </p>
+        </div>
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
