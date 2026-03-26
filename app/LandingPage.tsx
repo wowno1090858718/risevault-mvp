@@ -118,7 +118,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 const PROBLEM_ITEMS = [
-  { label: 'Interviews', detail: 'memorized or AI-assisted' },
+  { label: 'Interviews', detail: 'optimized for performance or AI-assisted' },
   { label: 'Outputs', detail: 'easy to generate — hard to trust' },
   { label: 'Emerging roles', detail: 'no clear evaluation standard' },
   { label: 'Recruiters', detail: 'rely on outdated signals' },
