@@ -6,7 +6,17 @@ module.exports = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        'mvp-fade': {
+          '0%': { opacity: '0', transform: 'translateY(6px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        'mvp-fade': 'mvp-fade 0.35s ease-out both',
+      },
+    },
   },
   plugins: [],
 }
