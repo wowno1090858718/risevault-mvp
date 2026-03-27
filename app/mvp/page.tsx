@@ -627,6 +627,11 @@ export default function MVPPage() {
 
           {selectedRole === 'manager' && (
             <section className="mx-auto w-full max-w-2xl space-y-5 text-left transition-[opacity,transform] duration-500 ease-out">
+              <div className="rounded-2xl border border-gray-200 bg-gray-50/70 px-6 py-6 sm:px-8">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">For Manager</p>
+                <p className="mt-2 text-sm text-gray-700">Validate quickly and add support signals with minimal effort.</p>
+              </div>
+
               {!managerVerdict ? (
                 <div className="rounded-2xl border border-gray-200 bg-gray-50/70 px-6 py-6 sm:px-8">
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
