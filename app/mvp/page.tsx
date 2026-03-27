@@ -36,16 +36,16 @@ const RECRUITER_AUTO_ADVANCE: Partial<
   Record<RecruiterPhase, { next: RecruiterPhase; ms: number }>
 > = {
   /** Longer so hover / focus on the card is noticeable before the next step. */
-  value: { next: 'scan', ms: 6000 },
-  scan: { next: 'comparison', ms: 2000 },
-  comparison: { next: 'profile', ms: 2200 },
+  value: { next: 'scan', ms: 6500 },
+  scan: { next: 'comparison', ms: 2400 },
+  comparison: { next: 'profile', ms: 2600 },
 }
 
 /** First tour: show Profile briefly (click or idle) then return to For Recruiter; then idle tour stops. */
-const PROFILE_AUTO_RETURN_MS = 2000
+const PROFILE_AUTO_RETURN_MS = 2300
 
 /** Fake import flow on Candidate Profile before returning to For Recruiter. */
-const IMPORT_ANALYZE_MS = 1400
+const IMPORT_ANALYZE_MS = 1700
 
 function cx(...parts: Array<string | false | undefined>) {
   return parts.filter(Boolean).join(' ')
