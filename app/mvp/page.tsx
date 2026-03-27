@@ -176,6 +176,8 @@ export default function MVPPage() {
   const [builderSelectedActions, setBuilderSelectedActions] = useState<string[]>([])
   const [builderSelectedDecision, setBuilderSelectedDecision] = useState<string | null>(null)
   const [builderFlowStage, setBuilderFlowStage] = useState<BuilderFlowStage>('actions')
+  const [builderFramingVisible, setBuilderFramingVisible] = useState(false)
+  const [builderVerificationSent, setBuilderVerificationSent] = useState(false)
   /** After first tour returns from Profile to For Recruiter, no more idle auto-advance. */
   const [recruiterIdleTourDone, setRecruiterIdleTourDone] = useState(false)
   const [profileImportAnalyzing, setProfileImportAnalyzing] = useState(false)
@@ -246,6 +248,7 @@ export default function MVPPage() {
     setBuilderSelectedActions([])
     setBuilderSelectedDecision(null)
     setBuilderFlowStage('actions')
+    setBuilderVerificationSent(false)
   }, [builderWorkflow])
 
   useEffect(() => {
@@ -255,6 +258,7 @@ export default function MVPPage() {
     }
     setBuilderSelectedDecision(null)
     setBuilderFlowStage('actions')
+    setBuilderVerificationSent(false)
   }, [builderSelectedActions])
 
   useEffect(() => {
@@ -264,7 +268,18 @@ export default function MVPPage() {
   }, [builderFlowStage])
 
   useEffect(() => {
+    if (builderFlowStage !== 'framing') {
+      setBuilderFramingVisible(false)
+      return
+    }
+    setBuilderFramingVisible(false)
+    const frame = window.requestAnimationFrame(() => setBuilderFramingVisible(true))
+    return () => window.cancelAnimationFrame(frame)
+  }, [builderFlowStage])
+
+  useEffect(() => {
     if (!builderSelectedDecision) return
+    setBuilderVerificationSent(false)
     setBuilderFlowStage('signal')
   }, [builderSelectedDecision])
 
@@ -289,6 +304,8 @@ export default function MVPPage() {
     setBuilderSelectedActions([])
     setBuilderSelectedDecision(null)
     setBuilderFlowStage('actions')
+    setBuilderFramingVisible(false)
+    setBuilderVerificationSent(false)
     if (id === 'decisions') {
       setRecruiterPhase('value')
     } else {
@@ -471,14 +488,19 @@ export default function MVPPage() {
                   )}
 
                   {builderFlowStage === 'framing' && (
-                    <p className="text-xs font-medium uppercase tracking-[0.12em] text-gray-500">
+                    <p
+                      className={cx(
+                        'text-base font-semibold tracking-tight text-gray-700 transition-[opacity,transform] duration-500 ease-out',
+                        builderFramingVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1'
+                      )}
+                    >
                       signal comes from user interaction
                     </p>
                   )}
 
                   {(builderFlowStage === 'decision' || builderFlowStage === 'signal') && (
                     <>
-                      <p className="text-xs font-medium uppercase tracking-[0.12em] text-gray-500">
+                      <p className="text-base font-semibold tracking-tight text-gray-700">
                         signal comes from user interaction
                       </p>
                       <h4 className="mt-2 text-base font-semibold tracking-tight text-gray-900">
@@ -520,6 +542,19 @@ export default function MVPPage() {
                             {signal}
                           </span>
                         ))}
+                      </div>
+                      <div className="mt-4">
+                        {!builderVerificationSent ? (
+                          <button
+                            type="button"
+                            onClick={() => setBuilderVerificationSent(true)}
+                            className="rounded-xl border border-indigo-200 bg-white px-4 py-2 text-sm font-semibold text-indigo-700 transition-colors hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                          >
+                            Get this verified
+                          </button>
+                        ) : (
+                          <p className="text-sm font-semibold text-indigo-800">✅ Sent for manager confirmation</p>
+                        )}
                       </div>
                     </div>
                   )}
