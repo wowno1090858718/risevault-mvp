@@ -47,6 +47,47 @@ const BUILDER_WORKFLOW_ACTIONS: Record<BuilderWorkflow, string[]> = {
   'Improving performance': ['Profiled bottlenecks', 'Optimized heavy operations', 'Reduced unnecessary work', 'Validated performance gains'],
 }
 
+const BUILDER_WORKFLOW_APPROACHES: Record<BuilderWorkflow, string[]> = {
+  'Fixing a bug': [
+    'Isolated the issue before applying changes',
+    'Prioritized reliability for the first fix',
+    'Validated behavior across edge conditions',
+    'Balanced quick recovery with long-term stability',
+  ],
+  'Building a feature': [
+    'Clarified requirements before building',
+    'Prioritized core flow before edge cases',
+    'Iterated based on user experience',
+    'Balanced speed with reliability',
+  ],
+  'Analyzing data': [
+    'Defined key metrics before exploring data',
+    'Validated patterns before drawing conclusions',
+    'Iterated on findings as context evolved',
+    'Balanced depth with decision speed',
+  ],
+  'User research': [
+    'Clarified user goals before collecting feedback',
+    'Prioritized recurring themes over outliers',
+    'Iterated on insights as evidence grew',
+    'Balanced qualitative depth with product direction',
+  ],
+  'Improving performance': [
+    'Profiled critical paths before optimizing',
+    'Prioritized high-impact bottlenecks first',
+    'Iterated while monitoring user-facing outcomes',
+    'Balanced speed improvements with system stability',
+  ],
+}
+
+const BUILDER_SIGNAL_UPDATES: Record<BuilderWorkflow, string[]> = {
+  'Fixing a bug': ['Debugging Discipline ↑', 'Execution ↑', 'Decision Quality ↑'],
+  'Building a feature': ['Product Thinking ↑', 'Execution ↑', 'Decision Quality ↑'],
+  'Analyzing data': ['Analytical Judgment ↑', 'Execution ↑', 'Decision Quality ↑'],
+  'User research': ['User Understanding ↑', 'Product Thinking ↑', 'Decision Quality ↑'],
+  'Improving performance': ['System Thinking ↑', 'Execution ↑', 'Decision Quality ↑'],
+}
+
 /** Idle timeout: advance recruiter demo during the first tour (clicks advance immediately; timers keep running per step until tour completes). */
 const RECRUITER_AUTO_ADVANCE: Partial<
   Record<RecruiterPhase, { next: RecruiterPhase; ms: number }>
@@ -155,6 +196,7 @@ export default function MVPPage() {
   const [builderInput, setBuilderInput] = useState('')
   const [builderWorkflow, setBuilderWorkflow] = useState<BuilderWorkflow | null>(null)
   const [builderSelectedActions, setBuilderSelectedActions] = useState<string[]>([])
+  const [builderSelectedApproaches, setBuilderSelectedApproaches] = useState<string[]>([])
   /** After first tour returns from Profile to For Recruiter, no more idle auto-advance. */
   const [recruiterIdleTourDone, setRecruiterIdleTourDone] = useState(false)
   const [profileImportAnalyzing, setProfileImportAnalyzing] = useState(false)
@@ -223,7 +265,13 @@ export default function MVPPage() {
 
   useEffect(() => {
     setBuilderSelectedActions([])
+    setBuilderSelectedApproaches([])
   }, [builderWorkflow])
+
+  useEffect(() => {
+    if (builderSelectedActions.length > 0) return
+    setBuilderSelectedApproaches([])
+  }, [builderSelectedActions])
 
   useEffect(() => {
     if (selectedRole !== 'builder') return
@@ -244,6 +292,7 @@ export default function MVPPage() {
     setBuilderInput('')
     setBuilderWorkflow(null)
     setBuilderSelectedActions([])
+    setBuilderSelectedApproaches([])
     if (id === 'decisions') {
       setRecruiterPhase('value')
     } else {
@@ -264,6 +313,12 @@ export default function MVPPage() {
 
   const toggleBuilderAction = (action: string) => {
     setBuilderSelectedActions((prev) => (prev.includes(action) ? prev.filter((item) => item !== action) : [...prev, action]))
+  }
+
+  const toggleBuilderApproach = (approach: string) => {
+    setBuilderSelectedApproaches((prev) =>
+      prev.includes(approach) ? prev.filter((item) => item !== approach) : [...prev, approach]
+    )
   }
 
   const showRecruiterFlow = selectedRole === 'decisions' && recruiterPhase !== null
@@ -343,7 +398,7 @@ export default function MVPPage() {
                 )}
               >
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
-                <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">For Builder</h3>
+                <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">For Candidate/Employee</h3>
                 <p className="mt-3 text-base text-gray-800">Turn your work into signals of capability - instantly.</p>
                 <p className="mt-3 text-sm text-gray-500">Signals compound into a track record over time.</p>
               </button>
@@ -394,6 +449,7 @@ export default function MVPPage() {
                     Based on similar workflows in <span className="font-semibold text-gray-900">{builderWorkflow}</span>,
                     {' '}you might have:
                   </p>
+                  <p className="mt-4 text-sm font-medium text-gray-700">Select what you worked on today</p>
                   <div className="mt-4 grid gap-3">
                     {BUILDER_WORKFLOW_ACTIONS[builderWorkflow].map((action) => {
                       const active = builderSelectedActions.includes(action)
@@ -415,7 +471,49 @@ export default function MVPPage() {
                       )
                     })}
                   </div>
-                  <p className="mt-5 text-sm font-medium text-gray-700">Select what you worked on today</p>
+
+                  {builderSelectedActions.length > 0 && (
+                    <div className="mt-6 rounded-2xl border border-gray-200 bg-gray-50/60 px-5 py-5 transition-[opacity,transform] duration-500 ease-out">
+                      <h4 className="text-base font-semibold tracking-tight text-gray-900">How this work was approached</h4>
+                      <div className="mt-3 grid gap-2.5">
+                        {BUILDER_WORKFLOW_APPROACHES[builderWorkflow].map((approach) => {
+                          const active = builderSelectedApproaches.includes(approach)
+                          return (
+                            <button
+                              key={approach}
+                              type="button"
+                              onClick={() => toggleBuilderApproach(approach)}
+                              className={cx(
+                                'w-full rounded-xl border px-4 py-3 text-left text-sm transition-colors',
+                                'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                                active
+                                  ? 'border-indigo-200 bg-indigo-50 text-gray-900'
+                                  : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                              )}
+                            >
+                              {approach}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {builderSelectedApproaches.length > 0 && (
+                    <div className="mt-5 rounded-2xl border border-indigo-200 bg-indigo-50/60 px-5 py-4 transition-[opacity,transform] duration-500 ease-out">
+                      <p className="text-sm font-semibold text-gray-900">Added to your signal profile</p>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {BUILDER_SIGNAL_UPDATES[builderWorkflow].map((signal) => (
+                          <span
+                            key={signal}
+                            className="rounded-full border border-indigo-200 bg-white px-3 py-1 text-xs font-semibold text-indigo-800"
+                          >
+                            {signal}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </section>
