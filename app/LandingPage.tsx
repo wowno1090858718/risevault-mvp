@@ -674,25 +674,27 @@ function ReasoningFlowPanel({ active }: { active: boolean }) {
 
           {stageWrap(
             3,
-            <div className="rounded-xl border border-gray-200 bg-white px-4 py-4">
-              <p className="text-sm font-semibold text-gray-900">Hiring signal evolving</p>
-              <div className="mt-3 space-y-2 text-sm text-gray-700">
-                <p
-                  className={cx(
-                    'transition-[opacity,transform] duration-400 ease-out',
-                    hiringLineVisible >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1'
-                  )}
-                >
-                  Higher execution consistency
-                </p>
-                <p
-                  className={cx(
-                    'transition-[opacity,transform] duration-400 ease-out',
-                    hiringLineVisible >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1'
-                  )}
-                >
-                  Clear decision patterns
-                </p>
+            <div className="rounded-xl border border-indigo-200 bg-gradient-to-b from-indigo-50/90 to-white p-4 shadow-sm">
+              <div
+                className={cx(
+                  'text-sm font-semibold text-gray-900 transition-opacity duration-500',
+                  reasoningStage === 3 ? 'opacity-100' : 'opacity-0'
+                )}
+              >
+                Hiring signal evolving
+              </div>
+              <div className="mt-3 flex flex-col gap-2.5">
+                {(['Higher execution consistency ↑', 'Clear decision patterns ↑'] as const).map((label, i) => (
+                  <span
+                    key={label}
+                    className={cx(
+                      'inline-flex w-fit rounded-full border border-indigo-200 bg-white px-3 py-1 text-xs font-semibold text-indigo-800 transition-[opacity,transform] duration-500 ease-out',
+                      hiringLineVisible > i ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+                    )}
+                  >
+                    {label}
+                  </span>
+                ))}
               </div>
             </div>
           )}
