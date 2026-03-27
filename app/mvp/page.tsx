@@ -24,6 +24,7 @@ const ROLE_OPTIONS: Array<{ id: Role; label: string }> = [
 ]
 
 type RecruiterPhase = 'value' | 'scan' | 'comparison' | 'profile'
+type BuilderFlowStage = 'actions' | 'framing' | 'decision' | 'signal'
 type BuilderWorkflow =
   | 'Fixing a bug'
   | 'Building a feature'
@@ -62,6 +63,8 @@ const BUILDER_WORKFLOW_DECISIONS: Record<BuilderWorkflow, string[]> = {
   'User research': ['Prioritize recurring patterns before edge feedback', 'Capture broad signals first, then deepen key interviews'],
   'Improving performance': ['Optimize the highest-impact bottlenecks first', 'Ship targeted improvements quickly, then iterate'],
 }
+
+const BUILDER_STAGE_TRANSITION_MS = 700
 
 /** Idle timeout: advance recruiter demo during the first tour (clicks advance immediately; timers keep running per step until tour completes). */
 const RECRUITER_AUTO_ADVANCE: Partial<
@@ -172,6 +175,7 @@ export default function MVPPage() {
   const [builderWorkflow, setBuilderWorkflow] = useState<BuilderWorkflow | null>(null)
   const [builderSelectedActions, setBuilderSelectedActions] = useState<string[]>([])
   const [builderSelectedDecision, setBuilderSelectedDecision] = useState<string | null>(null)
+  const [builderFlowStage, setBuilderFlowStage] = useState<BuilderFlowStage>('actions')
   /** After first tour returns from Profile to For Recruiter, no more idle auto-advance. */
   const [recruiterIdleTourDone, setRecruiterIdleTourDone] = useState(false)
   const [profileImportAnalyzing, setProfileImportAnalyzing] = useState(false)
@@ -241,12 +245,28 @@ export default function MVPPage() {
   useEffect(() => {
     setBuilderSelectedActions([])
     setBuilderSelectedDecision(null)
+    setBuilderFlowStage('actions')
   }, [builderWorkflow])
 
   useEffect(() => {
-    if (builderSelectedActions.length > 0) return
+    if (builderSelectedActions.length > 0) {
+      setBuilderFlowStage('framing')
+      return
+    }
     setBuilderSelectedDecision(null)
+    setBuilderFlowStage('actions')
   }, [builderSelectedActions])
+
+  useEffect(() => {
+    if (builderFlowStage !== 'framing') return
+    const timer = window.setTimeout(() => setBuilderFlowStage('decision'), BUILDER_STAGE_TRANSITION_MS)
+    return () => window.clearTimeout(timer)
+  }, [builderFlowStage])
+
+  useEffect(() => {
+    if (!builderSelectedDecision) return
+    setBuilderFlowStage('signal')
+  }, [builderSelectedDecision])
 
   useEffect(() => {
     if (selectedRole !== 'builder') return
@@ -268,6 +288,7 @@ export default function MVPPage() {
     setBuilderWorkflow(null)
     setBuilderSelectedActions([])
     setBuilderSelectedDecision(null)
+    setBuilderFlowStage('actions')
     if (id === 'decisions') {
       setRecruiterPhase('value')
     } else {
@@ -418,35 +439,45 @@ export default function MVPPage() {
                 </div>
               ) : (
                 <div className="rounded-2xl border border-gray-200 bg-white px-6 py-7 transition-[opacity,transform] duration-500 ease-out sm:px-8">
-                  <p className="text-sm text-gray-600">
-                    Based on similar workflows in <span className="font-semibold text-gray-900">{builderWorkflow}</span>,
-                    {' '}you might have:
-                  </p>
-                  <p className="mt-4 text-sm font-medium text-gray-700">Select what you worked on today</p>
-                  <div className="mt-4 grid gap-3">
-                    {BUILDER_WORKFLOW_ACTIONS[builderWorkflow].map((action) => {
-                      const active = builderSelectedActions.includes(action)
-                      return (
-                        <button
-                          key={action}
-                          type="button"
-                          onClick={() => toggleBuilderAction(action)}
-                          className={cx(
-                            'w-full rounded-xl border px-4 py-3 text-left text-sm transition-colors',
-                            'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
-                            active
-                              ? 'border-indigo-200 bg-indigo-50 text-gray-900'
-                              : 'border-gray-200 bg-gray-50/40 text-gray-700 hover:border-gray-300'
-                          )}
-                        >
-                          {action}
-                        </button>
-                      )
-                    })}
-                  </div>
+                  {builderFlowStage === 'actions' && (
+                    <>
+                      <p className="text-sm text-gray-600">
+                        Based on similar workflows in <span className="font-semibold text-gray-900">{builderWorkflow}</span>,
+                        {' '}you might have:
+                      </p>
+                      <p className="mt-4 text-sm font-medium text-gray-700">Select what you worked on today</p>
+                      <div className="mt-4 grid gap-3">
+                        {BUILDER_WORKFLOW_ACTIONS[builderWorkflow].map((action) => {
+                          const active = builderSelectedActions.includes(action)
+                          return (
+                            <button
+                              key={action}
+                              type="button"
+                              onClick={() => toggleBuilderAction(action)}
+                              className={cx(
+                                'w-full rounded-xl border px-4 py-3 text-left text-sm transition-colors',
+                                'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                                active
+                                  ? 'border-indigo-200 bg-indigo-50 text-gray-900'
+                                  : 'border-gray-200 bg-gray-50/40 text-gray-700 hover:border-gray-300'
+                              )}
+                            >
+                              {action}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </>
+                  )}
 
-                  {builderSelectedActions.length > 0 && (
-                    <div className="mt-6 rounded-2xl border border-gray-200 bg-gray-50/60 px-5 py-5 transition-[opacity,transform] duration-500 ease-out">
+                  {builderFlowStage === 'framing' && (
+                    <p className="text-xs font-medium uppercase tracking-[0.12em] text-gray-500">
+                      signal comes from user interaction
+                    </p>
+                  )}
+
+                  {(builderFlowStage === 'decision' || builderFlowStage === 'signal') && (
+                    <>
                       <p className="text-xs font-medium uppercase tracking-[0.12em] text-gray-500">
                         signal comes from user interaction
                       </p>
@@ -474,10 +505,10 @@ export default function MVPPage() {
                           )
                         })}
                       </div>
-                    </div>
+                    </>
                   )}
 
-                  {builderSelectedDecision && (
+                  {builderFlowStage === 'signal' && (
                     <div className="mt-5 rounded-2xl border border-indigo-200 bg-indigo-50/60 px-5 py-4 transition-[opacity,transform] duration-500 ease-out">
                       <p className="text-sm font-semibold text-gray-900">Added to your signal profile</p>
                       <div className="mt-3 flex flex-wrap gap-2">
