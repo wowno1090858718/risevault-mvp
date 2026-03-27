@@ -403,117 +403,58 @@ function DecisionCardAnimated({ active = true }: { active?: boolean }) {
 
 type FlowStep = 1 | 2 | 3
 
-type CaptureMode = 'manual' | 'detected'
-
 function CaptureFlowPanel() {
-  const [mode, setMode] = useState<CaptureMode>('manual')
-
   return (
     <div>
-      <div className="mb-5">
-        <h3 className="text-lg font-semibold tracking-tight text-gray-900 sm:text-xl">Work can finally be captured</h3>
-        <p className="mt-1.5 text-sm text-gray-600">Start with a few words. The system does the rest.</p>
-      </div>
-
-      <div className="mb-4 inline-flex rounded-lg border border-gray-200 bg-gray-50 p-0.5">
-        <button
-          type="button"
-          onClick={() => setMode('manual')}
-          className={cx(
-            'rounded-md px-3 py-1.5 text-xs font-medium transition-colors',
-            mode === 'manual' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-800'
-          )}
-        >
-          Manual
-        </button>
-        <button
-          type="button"
-          onClick={() => setMode('detected')}
-          className={cx(
-            'rounded-md px-3 py-1.5 text-xs font-medium transition-colors',
-            mode === 'detected' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-800'
-          )}
-        >
-          Detected activity
-        </button>
-      </div>
-
       <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
-        {mode === 'manual' ? (
-          <>
-            <label className="text-sm font-medium text-gray-700" htmlFor="flow-capture-q">
-              What did you work on?
-            </label>
-            <input
-              id="flow-capture-q"
-              readOnly
-              value="login bug"
-              className="mt-2 w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-900"
-            />
-            <div className="mt-5">
-              <div className="text-xs font-semibold uppercase tracking-[0.12em] text-indigo-600">AI expands</div>
-              <ul className="mt-2 space-y-1.5 text-sm text-gray-800">
-                <li className="flex gap-2">
-                  <span className="text-gray-400">—</span>
-                  <span>investigated timeout issue</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-gray-400">—</span>
-                  <span>updated retry logic</span>
-                </li>
-              </ul>
-            </div>
-            <div className="mt-6 flex items-center gap-2">
-              <span className="text-indigo-600" aria-hidden>
-                ✔
-              </span>
-              <button
-                type="button"
-                className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              >
-                Confirm
-              </button>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="text-sm font-medium text-gray-700">Today we detected:</div>
-            <ul className="mt-3 space-y-1.5 text-sm text-gray-800">
-              <li className="flex gap-2">
-                <span className="text-gray-400">—</span>
-                <span>3 commits on login system</span>
-              </li>
-              <li className="flex gap-2">
-                <span className="text-gray-400">—</span>
-                <span>edited API logic</span>
-              </li>
-              <li className="flex gap-2">
-                <span className="text-gray-400">—</span>
-                <span>commented on team discussion</span>
-              </li>
-            </ul>
-            <div className="mt-6 flex items-center gap-2">
-              <span className="text-indigo-600" aria-hidden>
-                ✔
-              </span>
-              <button
-                type="button"
-                className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              >
-                Confirm
-              </button>
-            </div>
-            <div className="mt-6 border-t border-gray-100 pt-5">
-              <div className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-500">Add context</div>
-              <p className="mt-2 text-sm leading-relaxed text-gray-800">I fixed a timeout bug by adding retry logic.</p>
-            </div>
-          </>
-        )}
-      </div>
+        <label className="text-sm font-medium text-gray-700" htmlFor="flow-capture-q">
+          What did you work on?
+        </label>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {['Fixing a bug', 'Building a feature', 'Analyzing data'].map((item) => (
+            <button
+              key={item}
+              type="button"
+              className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 transition-colors hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+        <div className="mt-4 text-sm text-gray-400">↓</div>
 
-      <p className="mt-5 text-center text-xs leading-relaxed text-gray-500 sm:text-sm">
-        Manual or automatic — both feed the same signal layer.
-      </p>
+        <div className="mt-2 rounded-xl border border-gray-200 bg-gray-50/50 p-4">
+          <div className="text-sm font-medium text-gray-900">We reconstructed your work:</div>
+          <ul className="mt-3 space-y-1.5 text-sm text-gray-800">
+            <li>• Investigated timeout issue</li>
+            <li>• Updated retry logic</li>
+            <li>• Tested edge cases</li>
+          </ul>
+          <button
+            type="button"
+            className="mt-4 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            ✔ Confirm
+          </button>
+        </div>
+
+        <div className="mt-4 text-sm text-gray-400">↓</div>
+
+        <div className="mt-2 rounded-xl border border-indigo-200 bg-indigo-50/60 p-4">
+          <div className="text-sm font-semibold text-gray-900">Signal update</div>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <span className="rounded-full border border-indigo-200 bg-white px-3 py-1 text-xs font-semibold text-indigo-800">
+              Problem solving ↑
+            </span>
+            <span className="rounded-full border border-indigo-200 bg-white px-3 py-1 text-xs font-semibold text-indigo-800">
+              Execution ↑
+            </span>
+            <span className="rounded-full border border-indigo-200 bg-white px-3 py-1 text-xs font-semibold text-indigo-800">
+              Decision quality ↑
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
@@ -522,74 +463,59 @@ function ReasoningFlowPanel() {
   return (
     <div>
       <div className="mb-5">
-        <h3 className="text-lg font-semibold tracking-tight text-gray-900 sm:text-xl">We capture reasoning, not just activity</h3>
-        <p className="mt-1.5 text-sm text-gray-600">Not just what happened — but why it happened.</p>
+        <h3 className="text-lg font-semibold tracking-tight text-gray-900 sm:text-xl">Strengthen</h3>
       </div>
-
       <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
-        <div className="text-sm font-semibold text-gray-900">Day 5: Fixed login bug</div>
-
-        <div className="mt-5">
-          <div className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-500">Context</div>
-          <ul className="mt-2 space-y-1.5 text-sm text-gray-800">
-            <li className="flex gap-2">
-              <span className="text-gray-400">—</span>
-              <span>identified timeout issue</span>
-            </li>
-            <li className="flex gap-2">
-              <span className="text-gray-400">—</span>
-              <span>used retry queue</span>
-            </li>
-            <li className="flex gap-2">
-              <span className="text-gray-400">—</span>
-              <span>tested edge cases</span>
-            </li>
-          </ul>
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
+        <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">Daily confirmation</h3>
+        <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-4">
+          <p className="text-sm font-medium text-gray-900">Alex - Fixed login bug</p>
+          <div className="mt-3 flex flex-wrap gap-2 text-sm">
+            <span className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-indigo-800">✔ Confirmed</span>
+            <span className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-gray-700">○ Needs context</span>
+            <span className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-gray-700">○ Not accurate</span>
+          </div>
         </div>
 
-        <div className="mt-6">
-          <div className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-500">AI follow-up</div>
-          <ul className="mt-2 space-y-1.5 text-sm text-gray-800">
-            <li className="flex gap-2">
-              <span className="text-gray-400">—</span>
-              <span>How did you find the root cause?</span>
-            </li>
-            <li className="flex gap-2">
-              <span className="text-gray-400">—</span>
-              <span>What alternatives did you consider?</span>
-            </li>
-            <li className="flex gap-2">
-              <span className="text-gray-400">—</span>
-              <span>Did you use AI? How?</span>
-            </li>
-          </ul>
+        <div className="mt-5 rounded-xl border border-indigo-200 bg-indigo-50/60 px-4 py-4">
+          <p className="text-sm font-semibold text-gray-900">Manager profile</p>
+          <div className="mt-3 space-y-1 text-sm text-gray-700">
+            <p>12 confirmations</p>
+            <p>8 feedback notes</p>
+            <p>High responsiveness</p>
+            <p>Strong support signal</p>
+          </div>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center gap-2 border-t border-gray-100 pt-5">
-          <span className="text-indigo-600" aria-hidden>
-            ✔
-          </span>
-          <span className="text-sm font-medium text-gray-900">Verified by manager</span>
-        </div>
-        <blockquote className="mt-3 border-l-2 border-indigo-200 pl-3 text-sm italic text-gray-700">
-          &ldquo;Strong ownership in debugging.&rdquo;
-        </blockquote>
-        <div className="mt-2 text-xs text-gray-500">Security checked · No sensitive data exposed</div>
+        <div className="mt-5 rounded-xl border border-gray-200 bg-white px-4 py-4">
+          <p className="text-xs font-medium tracking-[0.06em] text-gray-500">From recent verified work:</p>
+          <p className="mt-3 text-sm font-semibold text-gray-900">Recent team signals</p>
 
-        <div className="mt-6 rounded-lg border border-dashed border-gray-200 bg-gray-50/50 px-3 py-2.5 opacity-90">
-          <div className="text-[11px] font-medium uppercase tracking-wide text-gray-500">Manager signal</div>
-          <div className="mt-1.5 text-xs font-semibold text-gray-800">Manager A</div>
-          <div className="mt-1 space-y-0.5 text-[11px] leading-snug text-gray-500">
-            <div>12 feedback notes</div>
-            <div>High responsiveness</div>
-            <div>Strong support signal</div>
+          <div className="mt-4 ml-4">
+            <p className="text-sm font-semibold text-gray-900">Strengths</p>
+            <p className="mt-1 ml-3 text-sm text-gray-700">• Strong problem solving</p>
+          </div>
+
+          <div className="mt-4 ml-4">
+            <p className="text-sm font-semibold text-gray-900">Gaps</p>
+            <p className="mt-1 ml-3 text-sm text-gray-700">• Execution consistency</p>
+          </div>
+
+          <div className="mt-4">
+            <p className="text-sm font-semibold text-gray-900">Manager insight</p>
+            <p className="mt-1 text-sm text-gray-700">• Improves with iteration</p>
+          </div>
+
+          <div className="mt-5">
+            <p className="text-sm font-semibold text-gray-900">Hiring signal update</p>
+            <p className="mt-2 text-sm text-gray-700">Shifting toward:</p>
+            <div className="mt-1 space-y-1 text-sm text-gray-700">
+              <p>• Higher execution consistency</p>
+              <p>• Clear decision patterns</p>
+            </div>
           </div>
         </div>
       </div>
-
-      <p className="mt-5 text-center text-xs leading-relaxed text-gray-500 sm:text-sm">
-        Most work is simply confirmed. High-signal moments invite short contextual feedback.
-      </p>
     </div>
   )
 }
@@ -622,9 +548,8 @@ function ProductFlowInteractive() {
           onClick={() => setActiveStep(1)}
           onMouseEnter={() => setActiveStep(1)}
         >
-          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 1</div>
-          <div className="mt-2 text-sm font-semibold text-gray-900">Capture</div>
-          <div className="mt-1 text-xs text-gray-500">Few words → structured signal</div>
+          <div className="mt-2 text-sm font-semibold text-gray-900">Work</div>
+          <div className="mt-1 text-xs text-gray-500">Captured as it happens</div>
         </button>
         <button
           type="button"
@@ -634,9 +559,8 @@ function ProductFlowInteractive() {
           onClick={() => setActiveStep(2)}
           onMouseEnter={() => setActiveStep(2)}
         >
-          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 2</div>
-          <div className="mt-2 text-sm font-semibold text-gray-900">Reasoning</div>
-          <div className="mt-1 text-xs text-gray-500">Activity → why it mattered</div>
+          <div className="mt-2 text-sm font-semibold text-gray-900">Signal</div>
+          <div className="mt-1 text-xs text-gray-500">Verified over time</div>
         </button>
         <button
           type="button"
@@ -646,9 +570,8 @@ function ProductFlowInteractive() {
           onClick={() => setActiveStep(3)}
           onMouseEnter={() => setActiveStep(3)}
         >
-          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</div>
           <div className="mt-2 text-sm font-semibold text-gray-900">Decision</div>
-          <div className="mt-1 text-xs text-gray-500">Recommendation</div>
+          <div className="mt-1 text-xs text-gray-500">Made with confidence</div>
         </button>
       </div>
 
