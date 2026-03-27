@@ -462,9 +462,6 @@ function CaptureFlowPanel() {
 function ReasoningFlowPanel() {
   return (
     <div>
-      <div className="mb-5">
-        <h3 className="text-lg font-semibold tracking-tight text-gray-900 sm:text-xl">Strengthen</h3>
-      </div>
       <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
         <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">Daily confirmation</h3>
