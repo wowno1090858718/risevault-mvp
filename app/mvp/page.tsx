@@ -31,6 +31,15 @@ const ROLE_OPTIONS: Array<{ id: Role; label: string }> = [
 
 type RecruiterPhase = 'value' | 'scan' | 'comparison' | 'profile'
 
+/** Idle timeout: advance recruiter demo if the user does not click (clicks still advance immediately). */
+const RECRUITER_AUTO_ADVANCE: Partial<
+  Record<RecruiterPhase, { next: RecruiterPhase; ms: number }>
+> = {
+  value: { next: 'scan', ms: 4500 },
+  scan: { next: 'comparison', ms: 5000 },
+  comparison: { next: 'profile', ms: 6000 },
+}
+
 function cx(...parts: Array<string | false | undefined>) {
   return parts.filter(Boolean).join(' ')
 }
@@ -77,6 +86,20 @@ export default function MVPPage() {
     const timer = window.setTimeout(() => setShowRoleSelection(true), 900)
     return () => window.clearTimeout(timer)
   }, [])
+
+  useEffect(() => {
+    if (selectedRole !== 'decisions' || !recruiterPhase) return
+    const cfg = RECRUITER_AUTO_ADVANCE[recruiterPhase]
+    if (!cfg) return
+
+    let ms = cfg.ms
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      ms *= 2
+    }
+
+    const timer = window.setTimeout(() => setRecruiterPhase(cfg.next), ms)
+    return () => window.clearTimeout(timer)
+  }, [selectedRole, recruiterPhase])
 
   const selectRole = (id: Role) => {
     setSelectedRole(id)
