@@ -928,7 +928,7 @@ export default function LandingPage() {
           <Reveal delayMs={120} className="mt-6">
             <div className="max-w-3xl text-lg text-gray-600 sm:text-xl">
               <div>Hiring is no longer selecting for real capability —</div>
-              <div>it is selecting for who can perform capability.</div>
+              <div>it is selecting for those who appear capable</div>
             </div>
           </Reveal>
           <Reveal delayMs={220} className="mt-6">
