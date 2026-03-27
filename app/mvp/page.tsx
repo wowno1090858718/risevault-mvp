@@ -175,6 +175,7 @@ export default function MVPPage() {
   const [selectedRole, setSelectedRole] = useState<Role | null>(null)
   const [recruiterPhase, setRecruiterPhase] = useState<RecruiterPhase | null>(null)
   const [showBuilderFlow, setShowBuilderFlow] = useState(false)
+  const [showManagerFlow, setShowManagerFlow] = useState(false)
   const [builderInput, setBuilderInput] = useState('')
   const [builderWorkflow, setBuilderWorkflow] = useState<BuilderWorkflow | null>(null)
   const [builderSelectedActions, setBuilderSelectedActions] = useState<string[]>([])
@@ -309,6 +310,7 @@ export default function MVPPage() {
   const selectRole = (id: Role) => {
     setSelectedRole(id)
     setShowBuilderFlow(false)
+    setShowManagerFlow(false)
     setBuilderInput('')
     setBuilderWorkflow(null)
     setBuilderSelectedActions([])
@@ -625,13 +627,28 @@ export default function MVPPage() {
             </section>
           )}
 
-          {selectedRole === 'manager' && (
-            <section className="mx-auto w-full max-w-2xl space-y-5 text-left transition-[opacity,transform] duration-500 ease-out">
-              <div className="rounded-2xl border border-gray-200 bg-gray-50/70 px-6 py-6 sm:px-8">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">For Manager</p>
-                <p className="mt-2 text-sm text-gray-700">Validate quickly and add support signals with minimal effort.</p>
-              </div>
+          {selectedRole === 'manager' && !showManagerFlow && (
+            <section className="mx-auto w-full max-w-2xl transition-[opacity,transform] duration-500 ease-out">
+              <button
+                type="button"
+                onClick={() => setShowManagerFlow(true)}
+                className={cx(
+                  'w-full cursor-pointer rounded-2xl border border-gray-200 bg-gray-50/70 px-6 py-7 text-left transition-all duration-200',
+                  'hover:border-indigo-200 hover:bg-indigo-50/50 hover:shadow-sm',
+                  'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                  'active:scale-[0.995] sm:px-8'
+                )}
+              >
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
+                <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">{MANAGER_CONTENT.heading}</h3>
+                <p className="mt-3 text-base text-gray-800">{MANAGER_CONTENT.body}</p>
+                <p className="mt-3 text-sm text-gray-500">{MANAGER_CONTENT.sub}</p>
+              </button>
+            </section>
+          )}
 
+          {selectedRole === 'manager' && showManagerFlow && (
+            <section className="mx-auto w-full max-w-2xl space-y-5 text-left transition-[opacity,transform] duration-500 ease-out">
               {!managerVerdict ? (
                 <div className="rounded-2xl border border-gray-200 bg-gray-50/70 px-6 py-6 sm:px-8">
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
