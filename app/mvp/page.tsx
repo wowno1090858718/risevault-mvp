@@ -710,7 +710,7 @@ export default function MVPPage() {
               </div>
 
               <div className="rounded-2xl border border-gray-200 bg-white px-6 py-6 sm:px-8">
-                <h4 className="text-lg font-semibold tracking-tight text-gray-900">From recent verified work</h4>
+                <p className="text-xs font-medium tracking-[0.06em] text-gray-500">From recent verified work:</p>
 
                 <div className="mt-5">
                   <p className="text-sm font-semibold text-gray-900">Strengths</p>
