@@ -47,45 +47,20 @@ const BUILDER_WORKFLOW_ACTIONS: Record<BuilderWorkflow, string[]> = {
   'Improving performance': ['Profiled bottlenecks', 'Optimized heavy operations', 'Reduced unnecessary work', 'Validated performance gains'],
 }
 
-const BUILDER_WORKFLOW_APPROACHES: Record<BuilderWorkflow, string[]> = {
-  'Fixing a bug': [
-    'Isolated the issue before applying changes',
-    'Prioritized reliability for the first fix',
-    'Validated behavior across edge conditions',
-    'Balanced quick recovery with long-term stability',
-  ],
-  'Building a feature': [
-    'Clarified requirements before building',
-    'Prioritized core flow before edge cases',
-    'Iterated based on user experience',
-    'Balanced speed with reliability',
-  ],
-  'Analyzing data': [
-    'Defined key metrics before exploring data',
-    'Validated patterns before drawing conclusions',
-    'Iterated on findings as context evolved',
-    'Balanced depth with decision speed',
-  ],
-  'User research': [
-    'Clarified user goals before collecting feedback',
-    'Prioritized recurring themes over outliers',
-    'Iterated on insights as evidence grew',
-    'Balanced qualitative depth with product direction',
-  ],
-  'Improving performance': [
-    'Profiled critical paths before optimizing',
-    'Prioritized high-impact bottlenecks first',
-    'Iterated while monitoring user-facing outcomes',
-    'Balanced speed improvements with system stability',
-  ],
-}
-
 const BUILDER_SIGNAL_UPDATES: Record<BuilderWorkflow, string[]> = {
   'Fixing a bug': ['Debugging Discipline ↑', 'Execution ↑', 'Decision Quality ↑'],
   'Building a feature': ['Product Thinking ↑', 'Execution ↑', 'Decision Quality ↑'],
   'Analyzing data': ['Analytical Judgment ↑', 'Execution ↑', 'Decision Quality ↑'],
   'User research': ['User Understanding ↑', 'Product Thinking ↑', 'Decision Quality ↑'],
   'Improving performance': ['System Thinking ↑', 'Execution ↑', 'Decision Quality ↑'],
+}
+
+const BUILDER_WORKFLOW_DECISIONS: Record<BuilderWorkflow, string[]> = {
+  'Fixing a bug': ['Stabilize the root issue first, then optimize', 'Patch quickly to recover users, then harden the fix'],
+  'Building a feature': ['Clarify the core user flow before building', 'Build quickly and refine through iteration'],
+  'Analyzing data': ['Validate signal quality before expanding analysis', 'Move fast on trends, then verify deeper'],
+  'User research': ['Prioritize recurring patterns before edge feedback', 'Capture broad signals first, then deepen key interviews'],
+  'Improving performance': ['Optimize the highest-impact bottlenecks first', 'Ship targeted improvements quickly, then iterate'],
 }
 
 /** Idle timeout: advance recruiter demo during the first tour (clicks advance immediately; timers keep running per step until tour completes). */
@@ -196,7 +171,7 @@ export default function MVPPage() {
   const [builderInput, setBuilderInput] = useState('')
   const [builderWorkflow, setBuilderWorkflow] = useState<BuilderWorkflow | null>(null)
   const [builderSelectedActions, setBuilderSelectedActions] = useState<string[]>([])
-  const [builderSelectedApproaches, setBuilderSelectedApproaches] = useState<string[]>([])
+  const [builderSelectedDecision, setBuilderSelectedDecision] = useState<string | null>(null)
   /** After first tour returns from Profile to For Recruiter, no more idle auto-advance. */
   const [recruiterIdleTourDone, setRecruiterIdleTourDone] = useState(false)
   const [profileImportAnalyzing, setProfileImportAnalyzing] = useState(false)
@@ -265,12 +240,12 @@ export default function MVPPage() {
 
   useEffect(() => {
     setBuilderSelectedActions([])
-    setBuilderSelectedApproaches([])
+    setBuilderSelectedDecision(null)
   }, [builderWorkflow])
 
   useEffect(() => {
     if (builderSelectedActions.length > 0) return
-    setBuilderSelectedApproaches([])
+    setBuilderSelectedDecision(null)
   }, [builderSelectedActions])
 
   useEffect(() => {
@@ -292,7 +267,7 @@ export default function MVPPage() {
     setBuilderInput('')
     setBuilderWorkflow(null)
     setBuilderSelectedActions([])
-    setBuilderSelectedApproaches([])
+    setBuilderSelectedDecision(null)
     if (id === 'decisions') {
       setRecruiterPhase('value')
     } else {
@@ -315,10 +290,8 @@ export default function MVPPage() {
     setBuilderSelectedActions((prev) => (prev.includes(action) ? prev.filter((item) => item !== action) : [...prev, action]))
   }
 
-  const toggleBuilderApproach = (approach: string) => {
-    setBuilderSelectedApproaches((prev) =>
-      prev.includes(approach) ? prev.filter((item) => item !== approach) : [...prev, approach]
-    )
+  const selectBuilderDecision = (decision: string) => {
+    setBuilderSelectedDecision(decision)
   }
 
   const showRecruiterFlow = selectedRole === 'decisions' && recruiterPhase !== null
@@ -474,15 +447,20 @@ export default function MVPPage() {
 
                   {builderSelectedActions.length > 0 && (
                     <div className="mt-6 rounded-2xl border border-gray-200 bg-gray-50/60 px-5 py-5 transition-[opacity,transform] duration-500 ease-out">
-                      <h4 className="text-base font-semibold tracking-tight text-gray-900">How this work was approached</h4>
+                      <p className="text-xs font-medium uppercase tracking-[0.12em] text-gray-500">
+                        signal comes from user interaction
+                      </p>
+                      <h4 className="mt-2 text-base font-semibold tracking-tight text-gray-900">
+                        A choice that shaped this work
+                      </h4>
                       <div className="mt-3 grid gap-2.5">
-                        {BUILDER_WORKFLOW_APPROACHES[builderWorkflow].map((approach) => {
-                          const active = builderSelectedApproaches.includes(approach)
+                        {BUILDER_WORKFLOW_DECISIONS[builderWorkflow].map((decision) => {
+                          const active = builderSelectedDecision === decision
                           return (
                             <button
-                              key={approach}
+                              key={decision}
                               type="button"
-                              onClick={() => toggleBuilderApproach(approach)}
+                              onClick={() => selectBuilderDecision(decision)}
                               className={cx(
                                 'w-full rounded-xl border px-4 py-3 text-left text-sm transition-colors',
                                 'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
@@ -491,7 +469,7 @@ export default function MVPPage() {
                                   : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
                               )}
                             >
-                              {approach}
+                              {decision}
                             </button>
                           )
                         })}
@@ -499,7 +477,7 @@ export default function MVPPage() {
                     </div>
                   )}
 
-                  {builderSelectedApproaches.length > 0 && (
+                  {builderSelectedDecision && (
                     <div className="mt-5 rounded-2xl border border-indigo-200 bg-indigo-50/60 px-5 py-4 transition-[opacity,transform] duration-500 ease-out">
                       <p className="text-sm font-semibold text-gray-900">Added to your signal profile</p>
                       <div className="mt-3 flex flex-wrap gap-2">
