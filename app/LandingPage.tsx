@@ -897,7 +897,7 @@ export default function LandingPage() {
         <section className="py-16 sm:py-24">
           <Reveal>
             <SectionLabel>6 — Flow</SectionLabel>
-            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Product → decision</h2>
+            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Work → Signal → Decision</h2>
           </Reveal>
           <Reveal delayMs={110} className="mt-8">
             <div className="text-sm font-medium text-gray-900 sm:text-base">
