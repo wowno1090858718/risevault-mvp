@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 
 function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(' ')
@@ -527,87 +527,174 @@ function CaptureFlowPanel({ active }: { active: boolean }) {
 
 const LANDING_MANAGER_FEEDBACK_CHIPS = ['Strong ownership', 'Good problem solving'] as const
 
-function ReasoningFlowPanel() {
+const REASONING_STAGE_MS = 3200
+const REASONING_HIRING_LINE_MS = 450
+
+type ReasoningStage = 0 | 1 | 2 | 3
+
+function ReasoningFlowPanel({ active }: { active: boolean }) {
+  const reduced = usePrefersReducedMotion()
+  const [reasoningStage, setReasoningStage] = useState<ReasoningStage>(0)
+  const [hiringLineVisible, setHiringLineVisible] = useState(0)
+
+  useEffect(() => {
+    if (!active) {
+      setReasoningStage(0)
+      setHiringLineVisible(0)
+      return
+    }
+    if (reduced) {
+      setReasoningStage(3)
+      setHiringLineVisible(2)
+      return
+    }
+    setReasoningStage(0)
+    setHiringLineVisible(0)
+    const t1 = window.setTimeout(() => setReasoningStage(1), REASONING_STAGE_MS)
+    const t2 = window.setTimeout(() => setReasoningStage(2), REASONING_STAGE_MS * 2)
+    const t3 = window.setTimeout(() => setReasoningStage(3), REASONING_STAGE_MS * 3)
+    return () => {
+      window.clearTimeout(t1)
+      window.clearTimeout(t2)
+      window.clearTimeout(t3)
+    }
+  }, [active, reduced])
+
+  useEffect(() => {
+    if (reasoningStage !== 3 || reduced) {
+      if (reasoningStage !== 3) setHiringLineVisible(0)
+      return
+    }
+    setHiringLineVisible(0)
+    const h1 = window.setTimeout(() => setHiringLineVisible(1), 280)
+    const h2 = window.setTimeout(() => setHiringLineVisible(2), 280 + REASONING_HIRING_LINE_MS)
+    return () => {
+      window.clearTimeout(h1)
+      window.clearTimeout(h2)
+    }
+  }, [reasoningStage, reduced])
+
+  const stageWrap = (stage: ReasoningStage, children: ReactNode) => (
+    <div
+      className={cx(
+        'transition-[opacity,transform] duration-500 ease-out',
+        reasoningStage === stage ? 'relative z-10 opacity-100 translate-y-0' : 'pointer-events-none absolute inset-0 z-0 opacity-0 translate-y-1.5'
+      )}
+      aria-hidden={reasoningStage !== stage}
+    >
+      {children}
+    </div>
+  )
+
   return (
     <div>
       <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
-        <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">Manager confirmed</h3>
+        <div className="relative min-h-[320px] sm:min-h-[340px] lg:min-h-[300px]">
+          {stageWrap(
+            0,
+            <>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
+              <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">Manager confirmed</h3>
 
-        <div className="mt-4 flex flex-col gap-5 lg:flex-row lg:items-stretch lg:gap-6">
-          <div className="min-w-0 flex-1 basis-0">
-            <div className="flex h-full w-full flex-col rounded-xl border border-gray-200 bg-gray-50/70 px-4 pt-4 pb-3">
-              <p className="text-sm font-medium leading-5 text-gray-900">Alex - Fixed login bug</p>
-              <div className="mt-2.5 flex flex-wrap gap-1.5">
-                <span className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-sm font-medium text-indigo-800">
-                  ✔ Confirmed
-                </span>
-                <span className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700">○ Needs context</span>
-                <span className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700">○ Not accurate</span>
+              <div className="mt-4 flex flex-col gap-5 lg:flex-row lg:items-stretch lg:gap-6">
+                <div className="min-w-0 flex-1 basis-0">
+                  <div className="flex h-full w-full flex-col rounded-xl border border-gray-200 bg-gray-50/70 px-4 pt-4 pb-3">
+                    <p className="text-sm font-medium leading-5 text-gray-900">Alex - Fixed login bug</p>
+                    <div className="mt-2.5 flex flex-wrap gap-1.5">
+                      <span className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-sm font-medium text-indigo-800">
+                        ✔ Confirmed
+                      </span>
+                      <span className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700">○ Needs context</span>
+                      <span className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700">○ Not accurate</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="min-w-0 flex-1 basis-0">
+                  <div className="flex h-full w-full min-h-0 flex-col rounded-xl border border-gray-200 bg-gray-50/70 px-4 pt-4 pb-3">
+                    <div className="flex flex-wrap gap-1.5">
+                      {LANDING_MANAGER_FEEDBACK_CHIPS.map((label) => (
+                        <span
+                          key={label}
+                          className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-gray-800"
+                        >
+                          {label}
+                        </span>
+                      ))}
+                    </div>
+                    <input
+                      type="text"
+                      readOnly
+                      tabIndex={-1}
+                      placeholder="Note (optional)"
+                      className="mt-2.5 box-border w-full min-w-0 max-w-full rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm leading-5 text-gray-900 placeholder:text-gray-400"
+                    />
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {stageWrap(
+            1,
+            <div className="rounded-xl border border-indigo-200 bg-indigo-50/60 px-4 py-4">
+              <p className="text-sm font-semibold text-gray-900">Manager profile</p>
+              <div className="mt-3 space-y-1 text-sm text-gray-700">
+                <p>12 confirmations</p>
+                <p>8 feedback notes</p>
+                <p>High responsiveness</p>
+                <p>Strong support signal</p>
               </div>
             </div>
-          </div>
+          )}
 
-          <div className="min-w-0 flex-1 basis-0">
-            <div className="flex h-full w-full min-h-0 flex-col rounded-xl border border-gray-200 bg-gray-50/70 px-4 pt-4 pb-3">
-              <div className="flex flex-wrap gap-1.5">
-                {LANDING_MANAGER_FEEDBACK_CHIPS.map((label) => (
-                  <span
-                    key={label}
-                    className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-gray-800"
-                  >
-                    {label}
-                  </span>
-                ))}
+          {stageWrap(
+            2,
+            <div className="rounded-xl border border-gray-200 bg-white px-4 py-4">
+              <p className="text-xs font-medium tracking-[0.06em] text-gray-500">From recent verified work:</p>
+              <p className="mt-3 text-sm font-semibold text-gray-900">Recent team signals</p>
+
+              <div className="mt-4 ml-4">
+                <p className="text-sm font-semibold text-gray-900">Strengths</p>
+                <p className="mt-1 ml-3 text-sm text-gray-700">• Strong problem solving</p>
               </div>
-              <input
-                type="text"
-                readOnly
-                tabIndex={-1}
-                placeholder="Note (optional)"
-                className="mt-2.5 box-border w-full min-w-0 max-w-full rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm leading-5 text-gray-900 placeholder:text-gray-400"
-              />
+
+              <div className="mt-4 ml-4">
+                <p className="text-sm font-semibold text-gray-900">Gaps</p>
+                <p className="mt-1 ml-3 text-sm text-gray-700">• Execution consistency</p>
+              </div>
+
+              <div className="mt-4">
+                <p className="text-sm font-semibold text-gray-900">Manager insight</p>
+                <p className="mt-1 text-sm text-gray-700">• Improves with iteration</p>
+              </div>
             </div>
-          </div>
-        </div>
+          )}
 
-        <div className="mt-5 rounded-xl border border-indigo-200 bg-indigo-50/60 px-4 py-4">
-          <p className="text-sm font-semibold text-gray-900">Manager profile</p>
-          <div className="mt-3 space-y-1 text-sm text-gray-700">
-            <p>12 confirmations</p>
-            <p>8 feedback notes</p>
-            <p>High responsiveness</p>
-            <p>Strong support signal</p>
-          </div>
-        </div>
-
-        <div className="mt-5 rounded-xl border border-gray-200 bg-white px-4 py-4">
-          <p className="text-xs font-medium tracking-[0.06em] text-gray-500">From recent verified work:</p>
-          <p className="mt-3 text-sm font-semibold text-gray-900">Recent team signals</p>
-
-          <div className="mt-4 ml-4">
-            <p className="text-sm font-semibold text-gray-900">Strengths</p>
-            <p className="mt-1 ml-3 text-sm text-gray-700">• Strong problem solving</p>
-          </div>
-
-          <div className="mt-4 ml-4">
-            <p className="text-sm font-semibold text-gray-900">Gaps</p>
-            <p className="mt-1 ml-3 text-sm text-gray-700">• Execution consistency</p>
-          </div>
-
-          <div className="mt-4">
-            <p className="text-sm font-semibold text-gray-900">Manager insight</p>
-            <p className="mt-1 text-sm text-gray-700">• Improves with iteration</p>
-          </div>
-
-          <div className="mt-5">
-            <p className="text-sm font-semibold text-gray-900">Hiring signal update</p>
-            <p className="mt-2 text-sm text-gray-700">Shifting toward:</p>
-            <div className="mt-1 space-y-1 text-sm text-gray-700">
-              <p>• Higher execution consistency</p>
-              <p>• Clear decision patterns</p>
+          {stageWrap(
+            3,
+            <div className="rounded-xl border border-gray-200 bg-white px-4 py-4">
+              <p className="text-sm font-semibold text-gray-900">Hiring signal evolving</p>
+              <div className="mt-3 space-y-2 text-sm text-gray-700">
+                <p
+                  className={cx(
+                    'transition-[opacity,transform] duration-500 ease-out',
+                    hiringLineVisible >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1.5'
+                  )}
+                >
+                  Higher execution consistency
+                </p>
+                <p
+                  className={cx(
+                    'transition-[opacity,transform] duration-500 ease-out',
+                    hiringLineVisible >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1.5'
+                  )}
+                >
+                  Clear decision patterns
+                </p>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
@@ -688,7 +775,7 @@ function ProductFlowInteractive() {
           style={{ transitionDuration: `${fadeMs}ms` }}
           aria-hidden={activeStep !== 2}
         >
-          <ReasoningFlowPanel />
+          <ReasoningFlowPanel active={activeStep === 2} />
         </div>
         <div
           className={cx(
