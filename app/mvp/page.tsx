@@ -710,14 +710,32 @@ export default function MVPPage() {
               </div>
 
               <div className="rounded-2xl border border-gray-200 bg-white px-6 py-6 sm:px-8">
-                <p className="text-sm font-semibold text-gray-900">Recent patterns</p>
-                <div className="mt-3 space-y-1 text-sm text-gray-700">
-                  <p>- Weak in structured thinking</p>
-                  <p>- Inconsistent execution</p>
+                <p className="text-xs font-medium tracking-[0.06em] text-gray-500">From recent verified work:</p>
+                <h4 className="mt-2 text-lg font-semibold tracking-tight text-gray-900">Signal summary</h4>
+
+                <div className="mt-5">
+                  <p className="text-sm font-semibold text-gray-900">Strengths</p>
+                  <p className="mt-1 text-sm text-gray-700">• Strong problem solving</p>
                 </div>
-                <p className="mt-4 text-sm text-gray-700">
-                  Hiring implication: prioritize candidates with stronger decision signals
-                </p>
+
+                <div className="mt-4">
+                  <p className="text-sm font-semibold text-gray-900">Gaps</p>
+                  <p className="mt-1 text-sm text-gray-700">• Execution consistency</p>
+                </div>
+
+                <div className="mt-4">
+                  <p className="text-sm font-semibold text-gray-900">Manager insight</p>
+                  <p className="mt-1 text-sm text-gray-700">• Improves with iteration</p>
+                </div>
+
+                <div className="mt-5">
+                  <p className="text-sm font-semibold text-gray-900">Hiring signal update</p>
+                  <p className="mt-2 text-sm text-gray-700">Shifting toward:</p>
+                  <div className="mt-1 space-y-1 text-sm text-gray-700">
+                    <p>• Higher execution consistency</p>
+                    <p>• Clear decision patterns</p>
+                  </div>
+                </div>
               </div>
             </section>
           )}
