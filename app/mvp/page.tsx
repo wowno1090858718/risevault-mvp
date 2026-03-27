@@ -151,6 +151,7 @@ export default function MVPPage() {
   const [showRoleSelection, setShowRoleSelection] = useState(false)
   const [selectedRole, setSelectedRole] = useState<Role | null>(null)
   const [recruiterPhase, setRecruiterPhase] = useState<RecruiterPhase | null>(null)
+  const [showBuilderFlow, setShowBuilderFlow] = useState(false)
   const [builderInput, setBuilderInput] = useState('')
   const [builderWorkflow, setBuilderWorkflow] = useState<BuilderWorkflow | null>(null)
   const [builderSelectedActions, setBuilderSelectedActions] = useState<string[]>([])
@@ -239,6 +240,7 @@ export default function MVPPage() {
 
   const selectRole = (id: Role) => {
     setSelectedRole(id)
+    setShowBuilderFlow(false)
     setBuilderInput('')
     setBuilderWorkflow(null)
     setBuilderSelectedActions([])
@@ -328,10 +330,30 @@ export default function MVPPage() {
             </div>
           </section>
 
-          {selectedRole === 'builder' && (
+          {selectedRole === 'builder' && !showBuilderFlow && (
+            <section className="mx-auto w-full max-w-2xl transition-[opacity,transform] duration-500 ease-out">
+              <button
+                type="button"
+                onClick={() => setShowBuilderFlow(true)}
+                className={cx(
+                  'w-full cursor-pointer rounded-2xl border border-gray-200 bg-gray-50/70 px-6 py-7 text-left transition-all duration-200',
+                  'hover:border-indigo-200 hover:bg-indigo-50/50 hover:shadow-sm',
+                  'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                  'active:scale-[0.995] sm:px-8'
+                )}
+              >
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
+                <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">For Builder</h3>
+                <p className="mt-3 text-base text-gray-800">Turn your work into signals of capability - instantly.</p>
+                <p className="mt-3 text-sm text-gray-500">Signals compound into a track record over time.</p>
+              </button>
+            </section>
+          )}
+
+          {selectedRole === 'builder' && showBuilderFlow && (
             <section className="mx-auto w-full max-w-2xl space-y-6 text-left transition-[opacity,transform] duration-500 ease-out">
               <div className="rounded-2xl border border-gray-200 bg-gray-50/60 px-6 py-7 sm:px-8">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 4</p>
                 <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">What are you working on?</h3>
                 <input
                   type="text"
