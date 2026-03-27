@@ -455,7 +455,22 @@ export default function MVPPage() {
                   </div>
                 </div>
               ) : (
-                <div className="rounded-2xl border border-gray-200 bg-white px-6 py-7 transition-[opacity,transform] duration-500 ease-out sm:px-8">
+                <div className="relative rounded-2xl border border-gray-200 bg-white px-6 py-7 transition-[opacity,transform] duration-500 ease-out sm:px-8">
+                  {builderFlowStage === 'signal' && (
+                    <div className="absolute right-5 top-5 sm:right-8 sm:top-7">
+                      {!builderVerificationSent ? (
+                        <button
+                          type="button"
+                          onClick={() => setBuilderVerificationSent(true)}
+                          className="shrink-0 rounded-lg border border-indigo-200 bg-white px-3 py-1.5 text-xs font-semibold text-indigo-700 transition-colors hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                          Get this verified
+                        </button>
+                      ) : (
+                        <p className="shrink-0 text-xs font-semibold text-indigo-800">✅ Sent for manager confirmation</p>
+                      )}
+                    </div>
+                  )}
                   {builderFlowStage === 'actions' && (
                     <>
                       <p className="text-sm text-gray-600">
@@ -532,20 +547,7 @@ export default function MVPPage() {
 
                   {builderFlowStage === 'signal' && (
                     <div className="mt-5 rounded-2xl border border-indigo-200 bg-indigo-50/60 px-5 py-4 transition-[opacity,transform] duration-500 ease-out">
-                      <div className="flex items-start justify-between gap-4">
-                        <p className="text-sm font-semibold text-gray-900">Added to your signal profile</p>
-                        {!builderVerificationSent ? (
-                          <button
-                            type="button"
-                            onClick={() => setBuilderVerificationSent(true)}
-                            className="shrink-0 rounded-lg border border-indigo-200 bg-white px-3 py-1.5 text-xs font-semibold text-indigo-700 transition-colors hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                          >
-                            Get this verified
-                          </button>
-                        ) : (
-                          <p className="shrink-0 text-xs font-semibold text-indigo-800">✅ Sent for manager confirmation</p>
-                        )}
-                      </div>
+                      <p className="text-sm font-semibold text-gray-900">Added to your signal profile</p>
                       <div className="mt-3 flex flex-wrap gap-2">
                         {BUILDER_SIGNAL_UPDATES[builderWorkflow].map((signal) => (
                           <span
