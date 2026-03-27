@@ -25,6 +25,7 @@ const ROLE_OPTIONS: Array<{ id: Role; label: string }> = [
 
 type RecruiterPhase = 'value' | 'scan' | 'comparison' | 'profile'
 type BuilderFlowStage = 'actions' | 'framing' | 'decision' | 'signal'
+type ManagerVerdict = 'confirmed' | 'needs_context' | 'not_accurate'
 type BuilderWorkflow =
   | 'Fixing a bug'
   | 'Building a feature'
@@ -65,6 +66,9 @@ const BUILDER_WORKFLOW_DECISIONS: Record<BuilderWorkflow, string[]> = {
 }
 
 const BUILDER_STAGE_TRANSITION_MS = 700
+
+const MANAGER_WORK_ITEMS = ['Alex - Fixed login bug']
+const MANAGER_FEEDBACK_OPTIONS = ['Strong ownership', 'Good problem solving', 'Clear thinking']
 
 /** Idle timeout: advance recruiter demo during the first tour (clicks advance immediately; timers keep running per step until tour completes). */
 const RECRUITER_AUTO_ADVANCE: Partial<
@@ -179,6 +183,10 @@ export default function MVPPage() {
   const [builderFramingVisible, setBuilderFramingVisible] = useState(false)
   const [builderVerificationSent, setBuilderVerificationSent] = useState(false)
   const [showBuilderDetectedActivity, setShowBuilderDetectedActivity] = useState(false)
+  const [managerVerdict, setManagerVerdict] = useState<ManagerVerdict | null>(null)
+  const [showManagerFeedbackInput, setShowManagerFeedbackInput] = useState(false)
+  const [selectedManagerFeedback, setSelectedManagerFeedback] = useState<string | null>(null)
+  const [managerCustomFeedback, setManagerCustomFeedback] = useState('')
   /** After first tour returns from Profile to For Recruiter, no more idle auto-advance. */
   const [recruiterIdleTourDone, setRecruiterIdleTourDone] = useState(false)
   const [profileImportAnalyzing, setProfileImportAnalyzing] = useState(false)
@@ -309,6 +317,10 @@ export default function MVPPage() {
     setBuilderFramingVisible(false)
     setBuilderVerificationSent(false)
     setShowBuilderDetectedActivity(false)
+    setManagerVerdict(null)
+    setShowManagerFeedbackInput(false)
+    setSelectedManagerFeedback(null)
+    setManagerCustomFeedback('')
     if (id === 'decisions') {
       setRecruiterPhase('value')
     } else {
@@ -341,6 +353,8 @@ export default function MVPPage() {
     setBuilderInput(detected)
     setBuilderWorkflow(inferBuilderWorkflow(detected))
   }
+
+  const flaggedManagerWork = managerVerdict === 'needs_context' || managerVerdict === 'not_accurate'
 
   const showRecruiterFlow = selectedRole === 'decisions' && recruiterPhase !== null
   const recruiterDeep =
@@ -614,12 +628,108 @@ export default function MVPPage() {
           )}
 
           {selectedRole === 'manager' && (
-            <section className="mx-auto w-full max-w-2xl transition-[opacity,transform] duration-500 ease-out">
-              <div className="rounded-2xl border border-gray-200 bg-gray-50/70 px-6 py-7 text-left sm:px-8">
+            <section className="mx-auto w-full max-w-2xl space-y-5 text-left transition-[opacity,transform] duration-500 ease-out">
+              <div className="rounded-2xl border border-gray-200 bg-gray-50/70 px-6 py-6 sm:px-8">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
-                <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">{MANAGER_CONTENT.heading}</h3>
-                <p className="mt-3 text-base text-gray-800">{MANAGER_CONTENT.body}</p>
-                <p className="mt-3 text-sm text-gray-500">{MANAGER_CONTENT.sub}</p>
+                <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">Daily confirmation</h3>
+                <div className="mt-4 space-y-4">
+                  {MANAGER_WORK_ITEMS.map((item) => (
+                    <div key={item} className="rounded-xl border border-gray-200 bg-white px-4 py-4">
+                      <p className="text-sm font-medium text-gray-900">{item}</p>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {[
+                          { id: 'confirmed', label: '✔ Confirmed' },
+                          { id: 'needs_context', label: '○ Needs context' },
+                          { id: 'not_accurate', label: '○ Not accurate' },
+                        ].map((option) => (
+                          <button
+                            key={option.id}
+                            type="button"
+                            onClick={() => {
+                              setManagerVerdict(option.id as ManagerVerdict)
+                              setShowManagerFeedbackInput(false)
+                              setSelectedManagerFeedback(null)
+                              setManagerCustomFeedback('')
+                            }}
+                            className={cx(
+                              'rounded-full border px-3 py-1.5 text-sm transition-colors',
+                              'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                              managerVerdict === option.id
+                                ? 'border-indigo-200 bg-indigo-50 text-indigo-800'
+                                : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                            )}
+                          >
+                            {option.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {flaggedManagerWork && (
+                <div className="rounded-2xl border border-gray-200 bg-white px-6 py-6 transition-[opacity,transform] duration-500 ease-out sm:px-8">
+                  <p className="text-sm text-gray-600">This work may benefit from feedback</p>
+                  {!showManagerFeedbackInput ? (
+                    <button
+                      type="button"
+                      onClick={() => setShowManagerFeedbackInput(true)}
+                      className="mt-3 rounded-lg border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm font-semibold text-gray-800 transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    >
+                      Add quick feedback
+                    </button>
+                  ) : (
+                    <div className="mt-3 space-y-3">
+                      <div className="flex flex-wrap gap-2">
+                        {MANAGER_FEEDBACK_OPTIONS.map((item) => (
+                          <button
+                            key={item}
+                            type="button"
+                            onClick={() => setSelectedManagerFeedback(item)}
+                            className={cx(
+                              'rounded-full border px-3 py-1.5 text-sm transition-colors',
+                              'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                              selectedManagerFeedback === item
+                                ? 'border-indigo-200 bg-indigo-50 text-indigo-800'
+                                : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                            )}
+                          >
+                            {item}
+                          </button>
+                        ))}
+                      </div>
+                      <input
+                        type="text"
+                        value={managerCustomFeedback}
+                        onChange={(e) => setManagerCustomFeedback(e.target.value)}
+                        placeholder="Add custom feedback (optional)"
+                        className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <div className="rounded-2xl border border-indigo-200 bg-indigo-50/60 px-6 py-6 sm:px-8">
+                <p className="text-sm font-semibold text-gray-900">Manager profile</p>
+                <div className="mt-3 grid gap-2 text-sm text-gray-700">
+                  <p>12 confirmations</p>
+                  <p>8 feedback notes</p>
+                  <p>High responsiveness</p>
+                  <p>Strong support signal</p>
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-gray-200 bg-white px-6 py-6 sm:px-8">
+                <p className="text-sm font-semibold text-gray-900">Recent patterns</p>
+                <div className="mt-3 space-y-1 text-sm text-gray-700">
+                  <p>- Weak in structured thinking</p>
+                  <p>- Inconsistent execution</p>
+                </div>
+                <p className="mt-4 text-sm text-gray-700">
+                  Hiring implication: prioritize candidates with stronger decision signals
+                </p>
               </div>
             </section>
           )}
