@@ -5,22 +5,16 @@ import { useEffect, useState } from 'react'
 
 type Role = 'decisions' | 'builder' | 'manager'
 
-const ROLE_CONTENT: Record<Role, { heading: string; body: string; sub: string }> = {
-  decisions: {
-    heading: 'For Recruiter',
-    body: 'Make faster, lower-risk hiring decisions.',
-    sub: 'See real capability through signals — not claims.',
-  },
-  builder: {
-    heading: 'For Builder',
-    body: 'Turn your work into signals of capability — instantly.',
-    sub: 'Signals compound into a track record over time.',
-  },
-  manager: {
-    heading: 'For Manager',
-    body: 'Validate work in seconds — and build trust.',
-    sub: 'Your feedback becomes a signal of both capability and support.',
-  },
+const RECRUITER_CONTENT = {
+  heading: 'For Recruiter',
+  body: 'Make faster, lower-risk hiring decisions.',
+  sub: 'See real capability through signals - not claims.',
+}
+
+const MANAGER_CONTENT = {
+  heading: 'For Manager',
+  body: 'Validate work in seconds - and build trust.',
+  sub: 'Your feedback becomes a signal of both capability and support.',
 }
 
 const ROLE_OPTIONS: Array<{ id: Role; label: string }> = [
@@ -30,6 +24,28 @@ const ROLE_OPTIONS: Array<{ id: Role; label: string }> = [
 ]
 
 type RecruiterPhase = 'value' | 'scan' | 'comparison' | 'profile'
+type BuilderWorkflow =
+  | 'Fixing a bug'
+  | 'Building a feature'
+  | 'Analyzing data'
+  | 'User research'
+  | 'Improving performance'
+
+const BUILDER_WORKFLOWS: BuilderWorkflow[] = [
+  'Fixing a bug',
+  'Building a feature',
+  'Analyzing data',
+  'User research',
+  'Improving performance',
+]
+
+const BUILDER_WORKFLOW_ACTIONS: Record<BuilderWorkflow, string[]> = {
+  'Fixing a bug': ['Investigated root cause', 'Reproduced the issue', 'Tested edge cases', 'Implemented a fix'],
+  'Building a feature': ['Defined the feature scope', 'Built the core functionality', 'Handled edge scenarios', 'Validated the user flow'],
+  'Analyzing data': ['Prepared the dataset', 'Explored key patterns', 'Validated assumptions', 'Summarized insights'],
+  'User research': ['Framed research questions', 'Reviewed user feedback', 'Identified recurring friction', 'Synthesized findings'],
+  'Improving performance': ['Profiled bottlenecks', 'Optimized heavy operations', 'Reduced unnecessary work', 'Validated performance gains'],
+}
 
 /** Idle timeout: advance recruiter demo during the first tour (clicks advance immediately; timers keep running per step until tour completes). */
 const RECRUITER_AUTO_ADVANCE: Partial<
@@ -49,6 +65,16 @@ const IMPORT_ANALYZE_MS = 1700
 
 function cx(...parts: Array<string | false | undefined>) {
   return parts.filter(Boolean).join(' ')
+}
+
+function inferBuilderWorkflow(value: string): BuilderWorkflow {
+  const text = value.toLowerCase().trim()
+  if (!text) return 'Building a feature'
+  if (/(bug|fix|error|issue|crash|broken|login)/.test(text)) return 'Fixing a bug'
+  if (/(analy|data|metric|query|report|dashboard)/.test(text)) return 'Analyzing data'
+  if (/(research|interview|survey|usability|feedback)/.test(text)) return 'User research'
+  if (/(perf|performance|latency|slow|optimi|speed)/.test(text)) return 'Improving performance'
+  return 'Building a feature'
 }
 
 function CandidateProfilePanel({
@@ -125,6 +151,9 @@ export default function MVPPage() {
   const [showRoleSelection, setShowRoleSelection] = useState(false)
   const [selectedRole, setSelectedRole] = useState<Role | null>(null)
   const [recruiterPhase, setRecruiterPhase] = useState<RecruiterPhase | null>(null)
+  const [builderInput, setBuilderInput] = useState('')
+  const [builderWorkflow, setBuilderWorkflow] = useState<BuilderWorkflow | null>(null)
+  const [builderSelectedActions, setBuilderSelectedActions] = useState<string[]>([])
   /** After first tour returns from Profile to For Recruiter, no more idle auto-advance. */
   const [recruiterIdleTourDone, setRecruiterIdleTourDone] = useState(false)
   const [profileImportAnalyzing, setProfileImportAnalyzing] = useState(false)
@@ -191,13 +220,48 @@ export default function MVPPage() {
     return () => window.clearTimeout(timer)
   }, [profileImportAnalyzing])
 
+  useEffect(() => {
+    setBuilderSelectedActions([])
+  }, [builderWorkflow])
+
+  useEffect(() => {
+    if (selectedRole !== 'builder') return
+    const text = builderInput.trim()
+    if (!text) return
+
+    const timer = window.setTimeout(() => {
+      const inferred = inferBuilderWorkflow(text)
+      setBuilderWorkflow((prev) => (prev === inferred ? prev : inferred))
+    }, 420)
+
+    return () => window.clearTimeout(timer)
+  }, [selectedRole, builderInput])
+
   const selectRole = (id: Role) => {
     setSelectedRole(id)
+    setBuilderInput('')
+    setBuilderWorkflow(null)
+    setBuilderSelectedActions([])
     if (id === 'decisions') {
       setRecruiterPhase('value')
     } else {
       setRecruiterPhase(null)
     }
+  }
+
+  const handleBuilderConfirm = (rawValue: string) => {
+    const normalized = rawValue.trim()
+    if (!normalized) return
+    setBuilderWorkflow(inferBuilderWorkflow(normalized))
+  }
+
+  const handleBuilderChipSelect = (workflow: BuilderWorkflow) => {
+    setBuilderInput(workflow)
+    setBuilderWorkflow(workflow)
+  }
+
+  const toggleBuilderAction = (action: string) => {
+    setBuilderSelectedActions((prev) => (prev.includes(action) ? prev.filter((item) => item !== action) : [...prev, action]))
   }
 
   const showRecruiterFlow = selectedRole === 'decisions' && recruiterPhase !== null
@@ -264,16 +328,86 @@ export default function MVPPage() {
             </div>
           </section>
 
-          {/* Default Step 3: Builder / Manager */}
-          {selectedRole && selectedRole !== 'decisions' && (
+          {selectedRole === 'builder' && (
+            <section className="mx-auto w-full max-w-2xl space-y-6 text-left transition-[opacity,transform] duration-500 ease-out">
+              <div className="rounded-2xl border border-gray-200 bg-gray-50/60 px-6 py-7 sm:px-8">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
+                <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">What are you working on?</h3>
+                <input
+                  type="text"
+                  value={builderInput}
+                  onChange={(e) => setBuilderInput(e.target.value)}
+                  onBlur={() => handleBuilderConfirm(builderInput)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault()
+                      handleBuilderConfirm(builderInput)
+                    }
+                  }}
+                  placeholder="e.g. login bug, building a feature, analyzing data"
+                  className="mt-4 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                />
+                <p className="mt-5 text-sm text-gray-500">or select a common workflow</p>
+                <div className="mt-3 flex flex-wrap gap-2.5">
+                  {BUILDER_WORKFLOWS.map((workflow) => (
+                    <button
+                      key={workflow}
+                      type="button"
+                      onClick={() => handleBuilderChipSelect(workflow)}
+                      className={cx(
+                        'rounded-full border px-3 py-1.5 text-sm transition-colors',
+                        'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                        builderWorkflow === workflow
+                          ? 'border-indigo-200 bg-indigo-50 text-indigo-800'
+                          : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                      )}
+                    >
+                      {workflow}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {builderWorkflow && (
+                <div className="rounded-2xl border border-gray-200 bg-white px-6 py-7 transition-[opacity,transform] duration-500 ease-out sm:px-8">
+                  <p className="text-sm text-gray-600">
+                    Based on similar workflows in <span className="font-semibold text-gray-900">{builderWorkflow}</span>,
+                    {' '}you might have:
+                  </p>
+                  <div className="mt-4 grid gap-3">
+                    {BUILDER_WORKFLOW_ACTIONS[builderWorkflow].map((action) => {
+                      const active = builderSelectedActions.includes(action)
+                      return (
+                        <button
+                          key={action}
+                          type="button"
+                          onClick={() => toggleBuilderAction(action)}
+                          className={cx(
+                            'w-full rounded-xl border px-4 py-3 text-left text-sm transition-colors',
+                            'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                            active
+                              ? 'border-indigo-200 bg-indigo-50 text-gray-900'
+                              : 'border-gray-200 bg-gray-50/40 text-gray-700 hover:border-gray-300'
+                          )}
+                        >
+                          {action}
+                        </button>
+                      )
+                    })}
+                  </div>
+                  <p className="mt-5 text-sm font-medium text-gray-700">Select what you worked on today</p>
+                </div>
+              )}
+            </section>
+          )}
+
+          {selectedRole === 'manager' && (
             <section className="mx-auto w-full max-w-2xl transition-[opacity,transform] duration-500 ease-out">
               <div className="rounded-2xl border border-gray-200 bg-gray-50/70 px-6 py-7 text-left sm:px-8">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
-                <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">
-                  {ROLE_CONTENT[selectedRole].heading}
-                </h3>
-                <p className="mt-3 text-base text-gray-800">{ROLE_CONTENT[selectedRole].body}</p>
-                <p className="mt-3 text-sm text-gray-500">{ROLE_CONTENT[selectedRole].sub}</p>
+                <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">{MANAGER_CONTENT.heading}</h3>
+                <p className="mt-3 text-base text-gray-800">{MANAGER_CONTENT.body}</p>
+                <p className="mt-3 text-sm text-gray-500">{MANAGER_CONTENT.sub}</p>
               </div>
             </section>
           )}
@@ -293,10 +427,10 @@ export default function MVPPage() {
               >
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
                 <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">
-                  {ROLE_CONTENT.decisions.heading}
+                  {RECRUITER_CONTENT.heading}
                 </h3>
-                <p className="mt-3 text-base text-gray-800">{ROLE_CONTENT.decisions.body}</p>
-                <p className="mt-3 text-sm text-gray-500">{ROLE_CONTENT.decisions.sub}</p>
+                <p className="mt-3 text-base text-gray-800">{RECRUITER_CONTENT.body}</p>
+                <p className="mt-3 text-sm text-gray-500">{RECRUITER_CONTENT.sub}</p>
               </button>
             </section>
           )}
