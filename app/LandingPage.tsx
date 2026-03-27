@@ -525,7 +525,7 @@ function CaptureFlowPanel({ active }: { active: boolean }) {
   )
 }
 
-const LANDING_MANAGER_FEEDBACK_CHIPS = ['Strong ownership', 'Good problem solving', 'Clear thinking'] as const
+const LANDING_MANAGER_FEEDBACK_CHIPS = ['Strong ownership', 'Good problem solving'] as const
 
 function ReasoningFlowPanel() {
   return (
