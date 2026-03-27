@@ -527,8 +527,9 @@ function CaptureFlowPanel({ active }: { active: boolean }) {
 
 const LANDING_MANAGER_FEEDBACK_CHIPS = ['Strong ownership', 'Good problem solving'] as const
 
-const REASONING_STAGE_MS = 3200
-const REASONING_HIRING_LINE_MS = 450
+/** Stage dwell: shorter = faster, still readable. */
+const REASONING_STAGE_MS = 2100
+const REASONING_HIRING_LINE_MS = 320
 
 type ReasoningStage = 0 | 1 | 2 | 3
 
@@ -566,8 +567,8 @@ function ReasoningFlowPanel({ active }: { active: boolean }) {
       return
     }
     setHiringLineVisible(0)
-    const h1 = window.setTimeout(() => setHiringLineVisible(1), 280)
-    const h2 = window.setTimeout(() => setHiringLineVisible(2), 280 + REASONING_HIRING_LINE_MS)
+    const h1 = window.setTimeout(() => setHiringLineVisible(1), 160)
+    const h2 = window.setTimeout(() => setHiringLineVisible(2), 160 + REASONING_HIRING_LINE_MS)
     return () => {
       window.clearTimeout(h1)
       window.clearTimeout(h2)
@@ -577,8 +578,8 @@ function ReasoningFlowPanel({ active }: { active: boolean }) {
   const stageWrap = (stage: ReasoningStage, children: ReactNode) => (
     <div
       className={cx(
-        'transition-[opacity,transform] duration-500 ease-out',
-        reasoningStage === stage ? 'relative z-10 opacity-100 translate-y-0' : 'pointer-events-none absolute inset-0 z-0 opacity-0 translate-y-1.5'
+        'transition-[opacity,transform] duration-400 ease-out',
+        reasoningStage === stage ? 'relative z-10 opacity-100 translate-y-0' : 'pointer-events-none absolute inset-0 z-0 opacity-0 translate-y-1'
       )}
       aria-hidden={reasoningStage !== stage}
     >
@@ -678,16 +679,16 @@ function ReasoningFlowPanel({ active }: { active: boolean }) {
               <div className="mt-3 space-y-2 text-sm text-gray-700">
                 <p
                   className={cx(
-                    'transition-[opacity,transform] duration-500 ease-out',
-                    hiringLineVisible >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1.5'
+                    'transition-[opacity,transform] duration-400 ease-out',
+                    hiringLineVisible >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1'
                   )}
                 >
                   Higher execution consistency
                 </p>
                 <p
                   className={cx(
-                    'transition-[opacity,transform] duration-500 ease-out',
-                    hiringLineVisible >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1.5'
+                    'transition-[opacity,transform] duration-400 ease-out',
+                    hiringLineVisible >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1'
                   )}
                 >
                   Clear decision patterns
