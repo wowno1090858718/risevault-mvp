@@ -502,7 +502,7 @@ function CaptureFlowPanel({ active }: { active: boolean }) {
                   capturePhase === 'signal' ? 'opacity-100' : 'opacity-0'
                 )}
               >
-                Signal updated
+                Capability signal updated
               </div>
               <div className="mt-3 flex flex-col gap-2.5">
                 {CAPTURE_SIGNAL_PILLS.map((label, i) => (
