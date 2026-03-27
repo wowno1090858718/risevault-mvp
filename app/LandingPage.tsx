@@ -560,7 +560,7 @@ function ProductFlowInteractive() {
           onMouseEnter={() => setActiveStep(2)}
         >
           <div className="mt-2 text-sm font-semibold text-gray-900">Signal</div>
-          <div className="mt-1 text-xs text-gray-500">Verified over time</div>
+          <div className="mt-1 text-xs text-gray-500">Strengthened over time</div>
         </button>
         <button
           type="button"
