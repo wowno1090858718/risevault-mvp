@@ -548,8 +548,7 @@ function ReasoningFlowPanel() {
 
           <div className="min-w-0 lg:col-span-5">
             <div className="rounded-xl border border-gray-200 bg-white px-4 py-4 shadow-sm lg:border-gray-100 lg:bg-gray-50/40">
-              <p className="text-sm leading-snug text-gray-600">This work may benefit from feedback</p>
-              <div className="mt-3 flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2">
                 {LANDING_MANAGER_FEEDBACK_CHIPS.map((label) => (
                   <span
                     key={label}
