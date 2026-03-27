@@ -178,6 +178,7 @@ export default function MVPPage() {
   const [builderFlowStage, setBuilderFlowStage] = useState<BuilderFlowStage>('actions')
   const [builderFramingVisible, setBuilderFramingVisible] = useState(false)
   const [builderVerificationSent, setBuilderVerificationSent] = useState(false)
+  const [showBuilderDetectedActivity, setShowBuilderDetectedActivity] = useState(false)
   /** After first tour returns from Profile to For Recruiter, no more idle auto-advance. */
   const [recruiterIdleTourDone, setRecruiterIdleTourDone] = useState(false)
   const [profileImportAnalyzing, setProfileImportAnalyzing] = useState(false)
@@ -249,6 +250,7 @@ export default function MVPPage() {
     setBuilderSelectedDecision(null)
     setBuilderFlowStage('actions')
     setBuilderVerificationSent(false)
+    setShowBuilderDetectedActivity(false)
   }, [builderWorkflow])
 
   useEffect(() => {
@@ -306,6 +308,7 @@ export default function MVPPage() {
     setBuilderFlowStage('actions')
     setBuilderFramingVisible(false)
     setBuilderVerificationSent(false)
+    setShowBuilderDetectedActivity(false)
     if (id === 'decisions') {
       setRecruiterPhase('value')
     } else {
@@ -330,6 +333,13 @@ export default function MVPPage() {
 
   const selectBuilderDecision = (decision: string) => {
     setBuilderSelectedDecision(decision)
+  }
+
+  const confirmDetectedBuilderActivity = () => {
+    const detected = 'Fixed login bug'
+    setShowBuilderDetectedActivity(false)
+    setBuilderInput(detected)
+    setBuilderWorkflow(inferBuilderWorkflow(detected))
   }
 
   const showRecruiterFlow = selectedRole === 'decisions' && recruiterPhase !== null
@@ -420,8 +430,19 @@ export default function MVPPage() {
             <section className="mx-auto w-full max-w-2xl space-y-6 text-left transition-[opacity,transform] duration-500 ease-out">
               {!builderWorkflow ? (
                 <div className="rounded-2xl border border-gray-200 bg-gray-50/60 px-6 py-7 sm:px-8">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 4</p>
-                  <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">What are you working on?</h3>
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 4</p>
+                      <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">What are you working on?</h3>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowBuilderDetectedActivity((prev) => !prev)}
+                      className="mt-1 shrink-0 text-xs text-gray-400 underline-offset-4 transition-colors hover:text-gray-600 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded-sm"
+                    >
+                      Auto-detect from your tools →
+                    </button>
+                  </div>
                   <input
                     type="text"
                     value={builderInput}
@@ -436,6 +457,33 @@ export default function MVPPage() {
                     placeholder="e.g. login bug, building a feature, analyzing data"
                     className="mt-4 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   />
+
+                  {showBuilderDetectedActivity && (
+                    <div className="mt-4 rounded-xl border border-gray-200 bg-white px-4 py-4 text-left transition-[opacity,transform] duration-500 ease-out">
+                      <p className="text-sm font-semibold text-gray-900">Today we detected:</p>
+                      <ul className="mt-2 space-y-1 text-sm text-gray-600">
+                        <li>• Fixed login bug</li>
+                        <li>• Edited API logic</li>
+                        <li>• Commented in team discussion</li>
+                      </ul>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          onClick={confirmDetectedBuilderActivity}
+                          className="rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-sm font-semibold text-indigo-800 transition-colors hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                          Confirm
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setShowBuilderDetectedActivity(false)}
+                          className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                          Add context
+                        </button>
+                      </div>
+                    </div>
+                  )}
                   <p className="mt-5 text-sm text-gray-500">or select a common workflow</p>
                   <div className="mt-3 flex flex-wrap gap-2.5">
                     {BUILDER_WORKFLOWS.map((workflow) => (
