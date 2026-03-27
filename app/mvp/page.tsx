@@ -44,11 +44,20 @@ const RECRUITER_AUTO_ADVANCE: Partial<
 /** First tour: show Profile briefly (click or idle) then return to For Recruiter; then idle tour stops. */
 const PROFILE_AUTO_RETURN_MS = 2000
 
+/** Fake import flow on Candidate Profile before returning to For Recruiter. */
+const IMPORT_ANALYZE_MS = 1400
+
 function cx(...parts: Array<string | false | undefined>) {
   return parts.filter(Boolean).join(' ')
 }
 
-function CandidateProfilePanel() {
+function CandidateProfilePanel({
+  analyzing,
+  onImportClick,
+}: {
+  analyzing: boolean
+  onImportClick: () => void
+}) {
   const rows: [string, string][] = [
     ['Consistency', 'High'],
     ['Problem Solving', 'Strong'],
@@ -59,22 +68,53 @@ function CandidateProfilePanel() {
   ]
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-6 text-left shadow-sm sm:p-8">
-      <div className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Candidate Profile</div>
-      <div className="mt-2 text-xl font-semibold tracking-tight text-gray-900">Alex</div>
-      <div className="mt-6 space-y-3 border-t border-gray-100 pt-6">
-        <div className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-500">Signals</div>
-        {rows.map(([label, value]) => (
-          <div key={label} className="flex items-center justify-between gap-4 text-sm">
-            <span className="text-gray-600">{label}</span>
-            <span className="font-medium text-gray-900">{value}</span>
+    <div className="relative rounded-2xl border border-gray-200 bg-white p-6 text-left shadow-sm sm:p-8">
+      {analyzing && (
+        <div
+          className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-2xl bg-white/95 backdrop-blur-[2px]"
+          role="status"
+          aria-live="polite"
+        >
+          <div
+            className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-200 border-t-indigo-600 motion-reduce:animate-none motion-reduce:border-indigo-400"
+            aria-hidden
+          />
+          <p className="mt-3 text-sm font-medium text-gray-800">Analyzing...</p>
+        </div>
+      )}
+
+      <div className={cx(analyzing && 'pointer-events-none select-none opacity-[0.35]')}>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+          <div className="min-w-0">
+            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Candidate Profile</div>
+            <div className="mt-2 text-xl font-semibold tracking-tight text-gray-900">Alex</div>
           </div>
-        ))}
-      </div>
-      <div className="mt-6 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-3">
-        <div className="flex items-center justify-between text-sm">
-          <span className="text-gray-700">Confidence</span>
-          <span className="font-semibold text-gray-900">High</span>
+          <div className="shrink-0 text-left sm:max-w-[min(100%,14rem)] sm:text-right">
+            <p className="text-sm leading-snug text-gray-600">Want to try with your own candidates instead?</p>
+            <button
+              type="button"
+              onClick={onImportClick}
+              className="mt-2 text-sm font-semibold text-indigo-600 underline-offset-4 transition-colors hover:text-indigo-700 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded-sm"
+            >
+              Import data →
+            </button>
+          </div>
+        </div>
+
+        <div className="mt-6 space-y-3 border-t border-gray-100 pt-6">
+          <div className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-500">Signals</div>
+          {rows.map(([label, value]) => (
+            <div key={label} className="flex items-center justify-between gap-4 text-sm">
+              <span className="text-gray-600">{label}</span>
+              <span className="font-medium text-gray-900">{value}</span>
+            </div>
+          ))}
+        </div>
+        <div className="mt-6 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-3">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-gray-700">Confidence</span>
+            <span className="font-semibold text-gray-900">High</span>
+          </div>
         </div>
       </div>
     </div>
@@ -87,6 +127,7 @@ export default function MVPPage() {
   const [recruiterPhase, setRecruiterPhase] = useState<RecruiterPhase | null>(null)
   /** After first tour returns from Profile to For Recruiter, no more idle auto-advance. */
   const [recruiterIdleTourDone, setRecruiterIdleTourDone] = useState(false)
+  const [profileImportAnalyzing, setProfileImportAnalyzing] = useState(false)
 
   useEffect(() => {
     const timer = window.setTimeout(() => setShowRoleSelection(true), 900)
@@ -114,6 +155,7 @@ export default function MVPPage() {
   useEffect(() => {
     if (recruiterIdleTourDone) return
     if (selectedRole !== 'decisions' || recruiterPhase !== 'profile') return
+    if (profileImportAnalyzing) return
 
     let ms = PROFILE_AUTO_RETURN_MS
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -125,7 +167,29 @@ export default function MVPPage() {
       setRecruiterPhase('value')
     }, ms)
     return () => window.clearTimeout(timer)
-  }, [selectedRole, recruiterPhase, recruiterIdleTourDone])
+  }, [selectedRole, recruiterPhase, recruiterIdleTourDone, profileImportAnalyzing])
+
+  useEffect(() => {
+    if (recruiterPhase !== 'profile') {
+      setProfileImportAnalyzing(false)
+    }
+  }, [recruiterPhase])
+
+  useEffect(() => {
+    if (!profileImportAnalyzing) return
+
+    let ms = IMPORT_ANALYZE_MS
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      ms = Math.round(ms * 1.35)
+    }
+
+    const timer = window.setTimeout(() => {
+      setProfileImportAnalyzing(false)
+      setRecruiterIdleTourDone(true)
+      setRecruiterPhase('value')
+    }, ms)
+    return () => window.clearTimeout(timer)
+  }, [profileImportAnalyzing])
 
   const selectRole = (id: Role) => {
     setSelectedRole(id)
@@ -355,7 +419,10 @@ export default function MVPPage() {
                   Candidate Profile
                 </h2>
               </div>
-              <CandidateProfilePanel />
+              <CandidateProfilePanel
+                analyzing={profileImportAnalyzing}
+                onImportClick={() => setProfileImportAnalyzing(true)}
+              />
               <button
                 type="button"
                 onClick={() => setRecruiterPhase('comparison')}
