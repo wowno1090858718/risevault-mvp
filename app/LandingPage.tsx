@@ -403,55 +403,111 @@ function DecisionCardAnimated({ active = true }: { active?: boolean }) {
 
 type FlowStep = 1 | 2 | 3
 
+const CAPTURE_SIGNAL_PILLS = ['Problem solving ↑', 'Execution ↑', 'Decision quality ↑'] as const
+
 function CaptureFlowPanel() {
+  const reduced = usePrefersReducedMotion()
+  const [capturePhase, setCapturePhase] = useState<'work' | 'signal'>('work')
+  const [visibleSignalPills, setVisibleSignalPills] = useState(0)
+
+  useEffect(() => {
+    if (capturePhase !== 'signal') {
+      setVisibleSignalPills(0)
+      return
+    }
+    if (reduced) {
+      setVisibleSignalPills(3)
+      return
+    }
+    setVisibleSignalPills(0)
+    const t1 = window.setTimeout(() => setVisibleSignalPills(1), 380)
+    const t2 = window.setTimeout(() => setVisibleSignalPills(2), 780)
+    const t3 = window.setTimeout(() => setVisibleSignalPills(3), 1180)
+    return () => {
+      window.clearTimeout(t1)
+      window.clearTimeout(t2)
+      window.clearTimeout(t3)
+    }
+  }, [capturePhase, reduced])
+
   return (
     <div>
       <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
-        <label className="text-sm font-medium text-gray-700" htmlFor="flow-capture-q">
-          What did you work on?
-        </label>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {['Fixing a bug', 'Building a feature', 'Analyzing data'].map((item) => (
-            <button
-              key={item}
-              type="button"
-              className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 transition-colors hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-              {item}
-            </button>
-          ))}
-        </div>
-        <div className="mt-4 text-sm text-gray-400">↓</div>
-
-        <div className="mt-2 rounded-xl border border-gray-200 bg-gray-50/50 p-4">
-          <div className="text-sm font-medium text-gray-900">We reconstructed your work:</div>
-          <ul className="mt-3 space-y-1.5 text-sm text-gray-800">
-            <li>• Investigated timeout issue</li>
-            <li>• Updated retry logic</li>
-            <li>• Tested edge cases</li>
-          </ul>
-          <button
-            type="button"
-            className="mt-4 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        <div className="relative min-h-[280px] sm:min-h-[300px]">
+          <div
+            className={cx(
+              'transition-[opacity,transform] duration-500 ease-out',
+              capturePhase === 'work'
+                ? 'relative z-10 opacity-100 translate-y-0'
+                : 'pointer-events-none absolute inset-0 z-0 opacity-0 -translate-y-1'
+            )}
+            aria-hidden={capturePhase !== 'work'}
           >
-            ✔ Confirm
-          </button>
-        </div>
+            <label className="text-sm font-medium text-gray-700" htmlFor="flow-capture-q">
+              What did you work on?
+            </label>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {['Fixing a bug', 'Building a feature', 'Analyzing data'].map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 transition-colors hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+            <div className="mt-4 text-sm text-gray-400">↓</div>
 
-        <div className="mt-4 text-sm text-gray-400">↓</div>
+            <div className="mt-2 rounded-xl border border-gray-200 bg-gray-50/50 p-4">
+              <div className="text-sm font-medium text-gray-900">We reconstructed your work:</div>
+              <ul className="mt-3 space-y-1.5 text-sm text-gray-800">
+                <li>• Investigated timeout issue</li>
+                <li>• Updated retry logic</li>
+                <li>• Tested edge cases</li>
+              </ul>
+              <button
+                type="button"
+                onClick={() => setCapturePhase('signal')}
+                className="mt-4 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              >
+                ✔ Confirm
+              </button>
+            </div>
+          </div>
 
-        <div className="mt-2 rounded-xl border border-indigo-200 bg-indigo-50/60 p-4">
-          <div className="text-sm font-semibold text-gray-900">Signal update</div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            <span className="rounded-full border border-indigo-200 bg-white px-3 py-1 text-xs font-semibold text-indigo-800">
-              Problem solving ↑
-            </span>
-            <span className="rounded-full border border-indigo-200 bg-white px-3 py-1 text-xs font-semibold text-indigo-800">
-              Execution ↑
-            </span>
-            <span className="rounded-full border border-indigo-200 bg-white px-3 py-1 text-xs font-semibold text-indigo-800">
-              Decision quality ↑
-            </span>
+          <div
+            className={cx(
+              'transition-[opacity,transform] duration-500 ease-out',
+              capturePhase === 'signal'
+                ? 'relative z-10 opacity-100 translate-y-0'
+                : 'pointer-events-none absolute inset-0 z-0 opacity-0 translate-y-2'
+            )}
+            aria-hidden={capturePhase !== 'signal'}
+          >
+            <div className="rounded-xl border border-indigo-200 bg-gradient-to-b from-indigo-50/90 to-white p-4 shadow-sm">
+              <div
+                className={cx(
+                  'text-sm font-semibold text-gray-900 transition-opacity duration-500',
+                  capturePhase === 'signal' ? 'opacity-100' : 'opacity-0'
+                )}
+              >
+                Signal update
+              </div>
+              <div className="mt-3 flex flex-col gap-2.5">
+                {CAPTURE_SIGNAL_PILLS.map((label, i) => (
+                  <span
+                    key={label}
+                    className={cx(
+                      'inline-flex w-fit rounded-full border border-indigo-200 bg-white px-3 py-1 text-xs font-semibold text-indigo-800 transition-[opacity,transform] duration-500 ease-out',
+                      visibleSignalPills > i ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+                    )}
+                  >
+                    {label}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
