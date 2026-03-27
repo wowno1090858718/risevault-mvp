@@ -354,8 +354,6 @@ export default function MVPPage() {
     setBuilderWorkflow(inferBuilderWorkflow(detected))
   }
 
-  const flaggedManagerWork = managerVerdict === 'needs_context' || managerVerdict === 'not_accurate'
-
   const showRecruiterFlow = selectedRole === 'decisions' && recruiterPhase !== null
   const recruiterDeep =
     selectedRole === 'decisions' &&
@@ -629,46 +627,46 @@ export default function MVPPage() {
 
           {selectedRole === 'manager' && (
             <section className="mx-auto w-full max-w-2xl space-y-5 text-left transition-[opacity,transform] duration-500 ease-out">
-              <div className="rounded-2xl border border-gray-200 bg-gray-50/70 px-6 py-6 sm:px-8">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
-                <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">Daily confirmation</h3>
-                <div className="mt-4 space-y-4">
-                  {MANAGER_WORK_ITEMS.map((item) => (
-                    <div key={item} className="rounded-xl border border-gray-200 bg-white px-4 py-4">
-                      <p className="text-sm font-medium text-gray-900">{item}</p>
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {[
-                          { id: 'confirmed', label: '✔ Confirmed' },
-                          { id: 'needs_context', label: '○ Needs context' },
-                          { id: 'not_accurate', label: '○ Not accurate' },
-                        ].map((option) => (
-                          <button
-                            key={option.id}
-                            type="button"
-                            onClick={() => {
-                              setManagerVerdict(option.id as ManagerVerdict)
-                              setShowManagerFeedbackInput(false)
-                              setSelectedManagerFeedback(null)
-                              setManagerCustomFeedback('')
-                            }}
-                            className={cx(
-                              'rounded-full border px-3 py-1.5 text-sm transition-colors',
-                              'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
-                              managerVerdict === option.id
-                                ? 'border-indigo-200 bg-indigo-50 text-indigo-800'
-                                : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
-                            )}
-                          >
-                            {option.label}
-                          </button>
-                        ))}
+              {!managerVerdict ? (
+                <div className="rounded-2xl border border-gray-200 bg-gray-50/70 px-6 py-6 sm:px-8">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
+                  <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">Daily confirmation</h3>
+                  <div className="mt-4 space-y-4">
+                    {MANAGER_WORK_ITEMS.map((item) => (
+                      <div key={item} className="rounded-xl border border-gray-200 bg-white px-4 py-4">
+                        <p className="text-sm font-medium text-gray-900">{item}</p>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {[
+                            { id: 'confirmed', label: '✔ Confirmed' },
+                            { id: 'needs_context', label: '○ Needs context' },
+                            { id: 'not_accurate', label: '○ Not accurate' },
+                          ].map((option) => (
+                            <button
+                              key={option.id}
+                              type="button"
+                              onClick={() => {
+                                setManagerVerdict(option.id as ManagerVerdict)
+                                setShowManagerFeedbackInput(false)
+                                setSelectedManagerFeedback(null)
+                                setManagerCustomFeedback('')
+                              }}
+                              className={cx(
+                                'rounded-full border px-3 py-1.5 text-sm transition-colors',
+                                'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                                managerVerdict === option.id
+                                  ? 'border-indigo-200 bg-indigo-50 text-indigo-800'
+                                  : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                              )}
+                            >
+                              {option.label}
+                            </button>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-
-              {flaggedManagerWork && (
+              ) : (
                 <div className="rounded-2xl border border-gray-200 bg-white px-6 py-6 transition-[opacity,transform] duration-500 ease-out sm:px-8">
                   <p className="text-sm text-gray-600">This work may benefit from feedback</p>
                   {!showManagerFeedbackInput ? (
