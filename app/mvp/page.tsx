@@ -29,18 +29,65 @@ const ROLE_OPTIONS: Array<{ id: Role; label: string }> = [
   { id: 'manager', label: 'Support signals' },
 ]
 
+type RecruiterPhase = 'scan' | 'comparison' | 'profile'
+
 function cx(...parts: Array<string | false | undefined>) {
   return parts.filter(Boolean).join(' ')
+}
+
+function CandidateProfilePanel() {
+  const rows: [string, string][] = [
+    ['Consistency', 'High'],
+    ['Problem Solving', 'Strong'],
+    ['Verification', 'Verified by manager (15)'],
+    ['Feedback loops', '5'],
+    ['Signal strength', 'High'],
+    ['AI Use', 'Thoughtful'],
+  ]
+
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white p-6 text-left shadow-sm sm:p-8">
+      <div className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Candidate Profile</div>
+      <div className="mt-2 text-xl font-semibold tracking-tight text-gray-900">Alex</div>
+      <div className="mt-6 space-y-3 border-t border-gray-100 pt-6">
+        <div className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-500">Signals</div>
+        {rows.map(([label, value]) => (
+          <div key={label} className="flex items-center justify-between gap-4 text-sm">
+            <span className="text-gray-600">{label}</span>
+            <span className="font-medium text-gray-900">{value}</span>
+          </div>
+        ))}
+      </div>
+      <div className="mt-6 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-3">
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-gray-700">Confidence</span>
+          <span className="font-semibold text-gray-900">High</span>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default function MVPPage() {
   const [showRoleSelection, setShowRoleSelection] = useState(false)
   const [selectedRole, setSelectedRole] = useState<Role | null>(null)
+  const [recruiterPhase, setRecruiterPhase] = useState<RecruiterPhase | null>(null)
 
   useEffect(() => {
     const timer = window.setTimeout(() => setShowRoleSelection(true), 900)
     return () => window.clearTimeout(timer)
   }, [])
+
+  const selectRole = (id: Role) => {
+    setSelectedRole(id)
+    if (id === 'decisions') {
+      setRecruiterPhase('scan')
+    } else {
+      setRecruiterPhase(null)
+    }
+  }
+
+  const showRecruiterFlow = selectedRole === 'decisions' && recruiterPhase !== null
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
@@ -53,7 +100,12 @@ export default function MVPPage() {
         </div>
       </header>
 
-      <main className="mx-auto flex min-h-[calc(100vh-65px)] w-full max-w-3xl items-center px-6 py-16">
+      <main
+        className={cx(
+          'mx-auto w-full max-w-3xl px-6 py-16',
+          showRecruiterFlow ? 'py-10' : 'flex min-h-[calc(100vh-65px)] items-center py-16'
+        )}
+      >
         <div className="w-full space-y-12 text-center">
           <section className="space-y-3">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 1</p>
@@ -80,7 +132,7 @@ export default function MVPPage() {
                 <button
                   key={role.id}
                   type="button"
-                  onClick={() => setSelectedRole(role.id)}
+                  onClick={() => selectRole(role.id)}
                   className={cx(
                     'rounded-xl border px-4 py-4 text-sm font-medium transition-[border-color,background-color,color,transform] duration-200',
                     'hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
@@ -95,14 +147,10 @@ export default function MVPPage() {
             </div>
           </section>
 
-          <section
-            className={cx(
-              'mx-auto w-full max-w-2xl transition-[opacity,transform] duration-500 ease-out',
-              selectedRole ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'
-            )}
-          >
-            {selectedRole && (
-              <div className="rounded-2xl border border-gray-200 bg-gray-50/70 px-6 py-7 sm:px-8">
+          {/* Default Step 3: Builder / Manager */}
+          {selectedRole && selectedRole !== 'decisions' && (
+            <section className="mx-auto w-full max-w-2xl transition-[opacity,transform] duration-500 ease-out">
+              <div className="rounded-2xl border border-gray-200 bg-gray-50/70 px-6 py-7 text-left sm:px-8">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
                 <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">
                   {ROLE_CONTENT[selectedRole].heading}
@@ -110,8 +158,137 @@ export default function MVPPage() {
                 <p className="mt-3 text-base text-gray-800">{ROLE_CONTENT[selectedRole].body}</p>
                 <p className="mt-3 text-sm text-gray-500">{ROLE_CONTENT[selectedRole].sub}</p>
               </div>
-            )}
-          </section>
+            </section>
+          )}
+
+          {selectedRole === 'decisions' && recruiterPhase === 'scan' && (
+            <section className="mx-auto w-full max-w-2xl space-y-8 text-left transition-[opacity,transform] duration-500 ease-out">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Recruiter</p>
+                <h2 className="mt-2 text-xl font-semibold tracking-tight text-gray-900 sm:text-2xl">
+                  Scan hundreds of candidates in one view
+                </h2>
+              </div>
+
+              <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+                <div className="flex flex-wrap gap-2 text-sm">
+                  <span className="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-gray-800">backend</span>
+                  <span className="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-gray-800">verified</span>
+                  <span className="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-gray-800">
+                    high consistency
+                  </span>
+                </div>
+                <div className="mt-5 space-y-3">
+                  <div className="flex items-baseline justify-between rounded-xl border border-gray-100 px-4 py-3">
+                    <span className="text-sm text-gray-600">Candidates</span>
+                    <span className="text-2xl font-semibold tabular-nums text-gray-900">120</span>
+                  </div>
+                  <div className="flex items-baseline justify-between rounded-xl border border-gray-100 px-4 py-3">
+                    <span className="text-sm text-gray-600">Shortlisted</span>
+                    <span className="text-2xl font-semibold tabular-nums text-gray-900">12</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setRecruiterPhase('comparison')}
+                    className="flex w-full items-baseline justify-between rounded-xl border border-indigo-200 bg-indigo-50/60 px-4 py-3 text-left transition-colors hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  >
+                    <span className="text-sm font-medium text-gray-800">Recommended</span>
+                    <span className="text-2xl font-semibold tabular-nums text-indigo-900">3</span>
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedRole(null)
+                  setRecruiterPhase(null)
+                }}
+                className="text-sm text-gray-500 underline-offset-4 hover:text-gray-800 hover:underline"
+              >
+                Back to roles
+              </button>
+            </section>
+          )}
+
+          {selectedRole === 'decisions' && recruiterPhase === 'comparison' && (
+            <section className="mx-auto w-full max-w-2xl space-y-8 text-left transition-[opacity,transform] duration-500 ease-out">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Comparison</p>
+                <h2 className="mt-2 text-xl font-semibold tracking-tight text-gray-900 sm:text-2xl">
+                  Candidate comparison
+                </h2>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <button
+                  type="button"
+                  onClick={() => setRecruiterPhase('profile')}
+                  className="rounded-2xl border border-gray-200 bg-white p-5 text-left shadow-sm transition-[border-color,transform] hover:-translate-y-0.5 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                  <div className="text-sm font-semibold text-gray-900">Candidate A</div>
+                  <ul className="mt-3 space-y-2 text-sm text-gray-600">
+                    <li>— strong résumé</li>
+                    <li>— no verification</li>
+                  </ul>
+                  <p className="mt-4 text-xs text-gray-400">Click to view profile</p>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRecruiterPhase('profile')}
+                  className="rounded-2xl border border-indigo-200 bg-indigo-50/40 p-5 text-left shadow-sm transition-[border-color,transform] hover:-translate-y-0.5 hover:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                  <div className="text-sm font-semibold text-gray-900">Candidate B</div>
+                  <ul className="mt-3 space-y-2 text-sm text-gray-600">
+                    <li>— consistent work logs</li>
+                    <li>— verified contributions</li>
+                    <li>— increasing problem complexity</li>
+                  </ul>
+                  <p className="mt-4 text-xs text-indigo-600">Click to view profile</p>
+                </button>
+              </div>
+
+              <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-5">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <span className="text-sm font-semibold text-gray-900">Recommendation: B</span>
+                  <div className="flex gap-2 text-xs font-semibold">
+                    <span className="rounded-full border border-gray-200 bg-white px-3 py-1 text-gray-800">Risk: Low</span>
+                    <span className="rounded-full border border-gray-200 bg-white px-3 py-1 text-gray-800">
+                      Confidence: High
+                    </span>
+                  </div>
+                </div>
+                <p className="mt-3 text-sm text-gray-700">This is not more information. This is a decision.</p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setRecruiterPhase('scan')}
+                className="text-sm text-gray-500 underline-offset-4 hover:text-gray-800 hover:underline"
+              >
+                Back
+              </button>
+            </section>
+          )}
+
+          {selectedRole === 'decisions' && recruiterPhase === 'profile' && (
+            <section className="mx-auto w-full max-w-2xl space-y-6 text-left transition-[opacity,transform] duration-500 ease-out">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Profile</p>
+                <h2 className="mt-2 text-xl font-semibold tracking-tight text-gray-900 sm:text-2xl">
+                  Candidate Profile
+                </h2>
+              </div>
+              <CandidateProfilePanel />
+              <button
+                type="button"
+                onClick={() => setRecruiterPhase('comparison')}
+                className="text-sm text-gray-500 underline-offset-4 hover:text-gray-800 hover:underline"
+              >
+                Back to comparison
+              </button>
+            </section>
+          )}
         </div>
       </main>
     </div>
