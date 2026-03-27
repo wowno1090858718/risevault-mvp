@@ -35,10 +35,14 @@ type RecruiterPhase = 'value' | 'scan' | 'comparison' | 'profile'
 const RECRUITER_AUTO_ADVANCE: Partial<
   Record<RecruiterPhase, { next: RecruiterPhase; ms: number }>
 > = {
-  value: { next: 'scan', ms: 4500 },
-  scan: { next: 'comparison', ms: 5000 },
-  comparison: { next: 'profile', ms: 6000 },
+  /** Longer so hover / focus on the card is noticeable before the next step. */
+  value: { next: 'scan', ms: 6000 },
+  scan: { next: 'comparison', ms: 2000 },
+  comparison: { next: 'profile', ms: 2200 },
 }
+
+/** After idle tour reaches Profile, show it briefly then return to For Recruiter; then idle tour stops. */
+const PROFILE_AUTO_RETURN_MS = 2000
 
 function cx(...parts: Array<string | false | undefined>) {
   return parts.filter(Boolean).join(' ')
@@ -81,6 +85,10 @@ export default function MVPPage() {
   const [showRoleSelection, setShowRoleSelection] = useState(false)
   const [selectedRole, setSelectedRole] = useState<Role | null>(null)
   const [recruiterPhase, setRecruiterPhase] = useState<RecruiterPhase | null>(null)
+  /** After one full idle tour (through Profile and back to For Recruiter), no more idle auto-advance. */
+  const [recruiterIdleTourDone, setRecruiterIdleTourDone] = useState(false)
+  /** Profile was opened by the idle timer from Comparison (not by clicking a candidate). */
+  const [profileFromIdleTour, setProfileFromIdleTour] = useState(false)
 
   useEffect(() => {
     const timer = window.setTimeout(() => setShowRoleSelection(true), 900)
@@ -88,6 +96,13 @@ export default function MVPPage() {
   }, [])
 
   useEffect(() => {
+    if (recruiterPhase !== 'profile') {
+      setProfileFromIdleTour(false)
+    }
+  }, [recruiterPhase])
+
+  useEffect(() => {
+    if (recruiterIdleTourDone) return
     if (selectedRole !== 'decisions' || !recruiterPhase) return
     const cfg = RECRUITER_AUTO_ADVANCE[recruiterPhase]
     if (!cfg) return
@@ -97,9 +112,30 @@ export default function MVPPage() {
       ms *= 2
     }
 
-    const timer = window.setTimeout(() => setRecruiterPhase(cfg.next), ms)
+    const timer = window.setTimeout(() => {
+      if (cfg.next === 'profile') {
+        setProfileFromIdleTour(true)
+      }
+      setRecruiterPhase(cfg.next)
+    }, ms)
     return () => window.clearTimeout(timer)
-  }, [selectedRole, recruiterPhase])
+  }, [selectedRole, recruiterPhase, recruiterIdleTourDone])
+
+  useEffect(() => {
+    if (selectedRole !== 'decisions' || recruiterPhase !== 'profile' || !profileFromIdleTour) return
+
+    let ms = PROFILE_AUTO_RETURN_MS
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      ms *= 2
+    }
+
+    const timer = window.setTimeout(() => {
+      setProfileFromIdleTour(false)
+      setRecruiterIdleTourDone(true)
+      setRecruiterPhase('value')
+    }, ms)
+    return () => window.clearTimeout(timer)
+  }, [selectedRole, recruiterPhase, profileFromIdleTour])
 
   const selectRole = (id: Role) => {
     setSelectedRole(id)
