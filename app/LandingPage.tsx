@@ -525,18 +525,48 @@ function CaptureFlowPanel({ active }: { active: boolean }) {
   )
 }
 
+const LANDING_MANAGER_FEEDBACK_CHIPS = ['Strong ownership', 'Good problem solving', 'Clear thinking'] as const
+
 function ReasoningFlowPanel() {
   return (
     <div>
       <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
         <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">Manager confirmed</h3>
-        <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-4">
-          <p className="text-sm font-medium text-gray-900">Alex - Fixed login bug</p>
-          <div className="mt-3 flex flex-wrap gap-2 text-sm">
-            <span className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-indigo-800">✔ Confirmed</span>
-            <span className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-gray-700">○ Needs context</span>
-            <span className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-gray-700">○ Not accurate</span>
+
+        <div className="mt-4 grid gap-5 lg:grid-cols-12 lg:items-start lg:gap-6">
+          <div className="min-w-0 lg:col-span-7">
+            <div className="rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-4">
+              <p className="text-sm font-medium text-gray-900">Alex - Fixed login bug</p>
+              <div className="mt-3 flex flex-wrap gap-2 text-sm">
+                <span className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-indigo-800">✔ Confirmed</span>
+                <span className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-gray-700">○ Needs context</span>
+                <span className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-gray-700">○ Not accurate</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="min-w-0 lg:col-span-5">
+            <div className="rounded-xl border border-gray-200 bg-white px-4 py-4 shadow-sm lg:border-gray-100 lg:bg-gray-50/40">
+              <p className="text-sm leading-snug text-gray-600">This work may benefit from feedback</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {LANDING_MANAGER_FEEDBACK_CHIPS.map((label) => (
+                  <span
+                    key={label}
+                    className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-800"
+                  >
+                    {label}
+                  </span>
+                ))}
+              </div>
+              <input
+                type="text"
+                readOnly
+                tabIndex={-1}
+                placeholder="Add custom feedback (optional)"
+                className="mt-3 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400"
+              />
+            </div>
           </div>
         </div>
 
