@@ -270,7 +270,7 @@ function ModelAnimated() {
               'transition-all duration-700 ease-out delay-150'
             )}
           >
-            signal
+            week signal
           </span>
         </div>
 
