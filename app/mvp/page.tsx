@@ -166,31 +166,24 @@ export default function MVPPage() {
           )}
 
           {selectedRole === 'decisions' && recruiterPhase === 'value' && (
-            <section className="mx-auto w-full max-w-2xl space-y-6 transition-[opacity,transform] duration-500 ease-out">
-              <div className="rounded-2xl border border-gray-200 bg-gray-50/70 px-6 py-7 text-left sm:px-8">
+            <section className="mx-auto w-full max-w-2xl transition-[opacity,transform] duration-500 ease-out">
+              <button
+                type="button"
+                onClick={() => setRecruiterPhase('scan')}
+                className={cx(
+                  'w-full cursor-pointer rounded-2xl border border-gray-200 bg-gray-50/70 px-6 py-7 text-left transition-all duration-200',
+                  'hover:border-indigo-200 hover:bg-indigo-50/50 hover:shadow-sm',
+                  'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                  'active:scale-[0.995] sm:px-8'
+                )}
+                aria-label="Continue to recruiter pipeline"
+              >
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
                 <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">
                   {ROLE_CONTENT.decisions.heading}
                 </h3>
                 <p className="mt-3 text-base text-gray-800">{ROLE_CONTENT.decisions.body}</p>
                 <p className="mt-3 text-sm text-gray-500">{ROLE_CONTENT.decisions.sub}</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setRecruiterPhase('scan')}
-                className="rounded-lg bg-indigo-600 px-6 py-3 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              >
-                Continue
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedRole(null)
-                  setRecruiterPhase(null)
-                }}
-                className="block w-full text-sm text-gray-500 underline-offset-4 hover:text-gray-800 hover:underline"
-              >
-                Back to roles
               </button>
             </section>
           )}
