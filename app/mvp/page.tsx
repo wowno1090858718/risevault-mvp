@@ -490,7 +490,7 @@ export default function MVPPage() {
                   {builderFlowStage === 'framing' && (
                     <p
                       className={cx(
-                        'text-base font-semibold tracking-tight text-gray-700 transition-[opacity,transform] duration-500 ease-out',
+                        'text-xs font-medium uppercase tracking-[0.12em] text-gray-500 transition-[opacity,transform] duration-500 ease-out',
                         builderFramingVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1'
                       )}
                     >
@@ -500,7 +500,7 @@ export default function MVPPage() {
 
                   {(builderFlowStage === 'decision' || builderFlowStage === 'signal') && (
                     <>
-                      <p className="text-base font-semibold tracking-tight text-gray-700">
+                      <p className="text-xs font-medium uppercase tracking-[0.12em] text-gray-500">
                         signal comes from user interaction
                       </p>
                       <h4 className="mt-2 text-base font-semibold tracking-tight text-gray-900">
