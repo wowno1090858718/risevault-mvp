@@ -405,10 +405,20 @@ type FlowStep = 1 | 2 | 3
 
 const CAPTURE_SIGNAL_PILLS = ['Problem solving ↑', 'Execution ↑', 'Decision quality ↑'] as const
 
-function CaptureFlowPanel() {
+/** Auto-advance Work → Signal when this panel is visible (no click required). */
+const CAPTURE_AUTO_SIGNAL_MS = 2800
+
+function CaptureFlowPanel({ active }: { active: boolean }) {
   const reduced = usePrefersReducedMotion()
   const [capturePhase, setCapturePhase] = useState<'work' | 'signal'>('work')
   const [visibleSignalPills, setVisibleSignalPills] = useState(0)
+
+  useEffect(() => {
+    if (!active || capturePhase !== 'work') return
+    const ms = reduced ? 1400 : CAPTURE_AUTO_SIGNAL_MS
+    const t = window.setTimeout(() => setCapturePhase('signal'), ms)
+    return () => window.clearTimeout(t)
+  }, [active, capturePhase, reduced])
 
   useEffect(() => {
     if (capturePhase !== 'signal') {
@@ -492,7 +502,7 @@ function CaptureFlowPanel() {
                   capturePhase === 'signal' ? 'opacity-100' : 'opacity-0'
                 )}
               >
-                Signal update
+                Signal updated
               </div>
               <div className="mt-3 flex flex-col gap-2.5">
                 {CAPTURE_SIGNAL_PILLS.map((label, i) => (
@@ -637,7 +647,7 @@ function ProductFlowInteractive() {
           style={{ transitionDuration: `${fadeMs}ms` }}
           aria-hidden={activeStep !== 1}
         >
-          <CaptureFlowPanel />
+          <CaptureFlowPanel active={activeStep === 1} />
         </div>
         <div
           className={cx(
