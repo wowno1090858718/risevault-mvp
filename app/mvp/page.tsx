@@ -669,43 +669,33 @@ export default function MVPPage() {
               ) : (
                 <div className="rounded-2xl border border-gray-200 bg-white px-6 py-6 transition-[opacity,transform] duration-500 ease-out sm:px-8">
                   <p className="text-sm text-gray-600">This work may benefit from feedback</p>
-                  {!showManagerFeedbackInput ? (
-                    <button
-                      type="button"
-                      onClick={() => setShowManagerFeedbackInput(true)}
-                      className="mt-3 rounded-lg border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm font-semibold text-gray-800 transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >
-                      Add quick feedback
-                    </button>
-                  ) : (
-                    <div className="mt-3 space-y-3">
-                      <div className="flex flex-wrap gap-2">
-                        {MANAGER_FEEDBACK_OPTIONS.map((item) => (
-                          <button
-                            key={item}
-                            type="button"
-                            onClick={() => setSelectedManagerFeedback(item)}
-                            className={cx(
-                              'rounded-full border px-3 py-1.5 text-sm transition-colors',
-                              'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
-                              selectedManagerFeedback === item
-                                ? 'border-indigo-200 bg-indigo-50 text-indigo-800'
-                                : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
-                            )}
-                          >
-                            {item}
-                          </button>
-                        ))}
-                      </div>
-                      <input
-                        type="text"
-                        value={managerCustomFeedback}
-                        onChange={(e) => setManagerCustomFeedback(e.target.value)}
-                        placeholder="Add custom feedback (optional)"
-                        className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                      />
+                  <div className="mt-3 space-y-3">
+                    <div className="flex flex-wrap gap-2">
+                      {MANAGER_FEEDBACK_OPTIONS.map((item) => (
+                        <button
+                          key={item}
+                          type="button"
+                          onClick={() => setSelectedManagerFeedback(item)}
+                          className={cx(
+                            'rounded-full border px-3 py-1.5 text-sm transition-colors',
+                            'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                            selectedManagerFeedback === item
+                              ? 'border-indigo-200 bg-indigo-50 text-indigo-800'
+                              : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                          )}
+                        >
+                          {item}
+                        </button>
+                      ))}
                     </div>
-                  )}
+                    <input
+                      type="text"
+                      value={managerCustomFeedback}
+                      onChange={(e) => setManagerCustomFeedback(e.target.value)}
+                      placeholder="Add custom feedback (optional)"
+                      className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    />
+                  </div>
                 </div>
               )}
 
