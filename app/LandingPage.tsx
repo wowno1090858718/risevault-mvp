@@ -393,7 +393,7 @@ function DecisionCardAnimated({ active = true }: { active?: boolean }) {
         )}
       >
         <div className="flex items-center justify-between text-sm">
-          <div className="text-gray-700">Confidence</div>
+          <div className="text-gray-700">Hiring confidence</div>
           <div className="font-semibold text-gray-900">High</div>
         </div>
       </div>
@@ -464,7 +464,7 @@ function ReasoningFlowPanel() {
     <div>
       <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
-        <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">Daily confirmation</h3>
+        <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">Manager confirmed</h3>
         <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-4">
           <p className="text-sm font-medium text-gray-900">Alex - Fixed login bug</p>
           <div className="mt-3 flex flex-wrap gap-2 text-sm">
