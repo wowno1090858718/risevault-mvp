@@ -352,45 +352,43 @@ export default function MVPPage() {
 
           {selectedRole === 'builder' && showBuilderFlow && (
             <section className="mx-auto w-full max-w-2xl space-y-6 text-left transition-[opacity,transform] duration-500 ease-out">
-              <div className="rounded-2xl border border-gray-200 bg-gray-50/60 px-6 py-7 sm:px-8">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 4</p>
-                <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">What are you working on?</h3>
-                <input
-                  type="text"
-                  value={builderInput}
-                  onChange={(e) => setBuilderInput(e.target.value)}
-                  onBlur={() => handleBuilderConfirm(builderInput)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault()
-                      handleBuilderConfirm(builderInput)
-                    }
-                  }}
-                  placeholder="e.g. login bug, building a feature, analyzing data"
-                  className="mt-4 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                />
-                <p className="mt-5 text-sm text-gray-500">or select a common workflow</p>
-                <div className="mt-3 flex flex-wrap gap-2.5">
-                  {BUILDER_WORKFLOWS.map((workflow) => (
-                    <button
-                      key={workflow}
-                      type="button"
-                      onClick={() => handleBuilderChipSelect(workflow)}
-                      className={cx(
-                        'rounded-full border px-3 py-1.5 text-sm transition-colors',
-                        'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
-                        builderWorkflow === workflow
-                          ? 'border-indigo-200 bg-indigo-50 text-indigo-800'
-                          : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
-                      )}
-                    >
-                      {workflow}
-                    </button>
-                  ))}
+              {!builderWorkflow ? (
+                <div className="rounded-2xl border border-gray-200 bg-gray-50/60 px-6 py-7 sm:px-8">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 4</p>
+                  <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">What are you working on?</h3>
+                  <input
+                    type="text"
+                    value={builderInput}
+                    onChange={(e) => setBuilderInput(e.target.value)}
+                    onBlur={() => handleBuilderConfirm(builderInput)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault()
+                        handleBuilderConfirm(builderInput)
+                      }
+                    }}
+                    placeholder="e.g. login bug, building a feature, analyzing data"
+                    className="mt-4 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  />
+                  <p className="mt-5 text-sm text-gray-500">or select a common workflow</p>
+                  <div className="mt-3 flex flex-wrap gap-2.5">
+                    {BUILDER_WORKFLOWS.map((workflow) => (
+                      <button
+                        key={workflow}
+                        type="button"
+                        onClick={() => handleBuilderChipSelect(workflow)}
+                        className={cx(
+                          'rounded-full border px-3 py-1.5 text-sm transition-colors',
+                          'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+                          'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                        )}
+                      >
+                        {workflow}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-
-              {builderWorkflow && (
+              ) : (
                 <div className="rounded-2xl border border-gray-200 bg-white px-6 py-7 transition-[opacity,transform] duration-500 ease-out sm:px-8">
                   <p className="text-sm text-gray-600">
                     Based on similar workflows in <span className="font-semibold text-gray-900">{builderWorkflow}</span>,
