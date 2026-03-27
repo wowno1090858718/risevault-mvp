@@ -733,15 +733,16 @@ export default function MVPPage() {
 
               <div className="rounded-2xl border border-gray-200 bg-white px-6 py-6 sm:px-8">
                 <p className="text-xs font-medium tracking-[0.06em] text-gray-500">From recent verified work:</p>
+                <p className="mt-3 text-sm font-semibold text-gray-900">Recent team signals</p>
 
-                <div className="mt-5">
+                <div className="mt-4 ml-4">
                   <p className="text-sm font-semibold text-gray-900">Strengths</p>
-                  <p className="mt-1 text-sm text-gray-700">• Strong problem solving</p>
+                  <p className="mt-1 ml-3 text-sm text-gray-700">• Strong problem solving</p>
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-4 ml-4">
                   <p className="text-sm font-semibold text-gray-900">Gaps</p>
-                  <p className="mt-1 text-sm text-gray-700">• Execution consistency</p>
+                  <p className="mt-1 ml-3 text-sm text-gray-700">• Execution consistency</p>
                 </div>
 
                 <div className="mt-4">
