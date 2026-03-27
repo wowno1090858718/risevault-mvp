@@ -536,9 +536,9 @@ function ReasoningFlowPanel() {
 
         <div className="mt-4 flex flex-col gap-5 lg:flex-row lg:items-stretch lg:gap-6">
           <div className="min-w-0 flex-1 basis-0">
-            <div className="flex h-full w-full flex-col rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-4">
+            <div className="flex h-full w-full flex-col rounded-xl border border-gray-200 bg-gray-50/70 px-4 pt-4 pb-3">
               <p className="text-sm font-medium leading-5 text-gray-900">Alex - Fixed login bug</p>
-              <div className="mt-3 flex flex-wrap gap-2">
+              <div className="mt-2.5 flex flex-wrap gap-1.5">
                 <span className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-sm font-medium text-indigo-800">
                   ✔ Confirmed
                 </span>
@@ -549,8 +549,8 @@ function ReasoningFlowPanel() {
           </div>
 
           <div className="min-w-0 flex-1 basis-0">
-            <div className="flex h-full w-full min-h-0 flex-col rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-4">
-              <div className="flex flex-wrap gap-2">
+            <div className="flex h-full w-full min-h-0 flex-col rounded-xl border border-gray-200 bg-gray-50/70 px-4 pt-4 pb-3">
+              <div className="flex flex-wrap gap-1.5">
                 {LANDING_MANAGER_FEEDBACK_CHIPS.map((label) => (
                   <span
                     key={label}
@@ -565,7 +565,7 @@ function ReasoningFlowPanel() {
                 readOnly
                 tabIndex={-1}
                 placeholder="Note (optional)"
-                className="mt-3 box-border w-full min-w-0 max-w-full rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm leading-5 text-gray-900 placeholder:text-gray-400"
+                className="mt-2.5 box-border w-full min-w-0 max-w-full rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm leading-5 text-gray-900 placeholder:text-gray-400"
               />
             </div>
           </div>
