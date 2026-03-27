@@ -534,25 +534,27 @@ function ReasoningFlowPanel() {
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
         <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">Manager confirmed</h3>
 
-        <div className="mt-4 grid gap-5 lg:grid-cols-12 lg:items-start lg:gap-6">
-          <div className="min-w-0 lg:col-span-7">
-            <div className="rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-4">
-              <p className="text-sm font-medium text-gray-900">Alex - Fixed login bug</p>
-              <div className="mt-3 flex flex-wrap gap-2 text-sm">
-                <span className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-indigo-800">✔ Confirmed</span>
-                <span className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-gray-700">○ Needs context</span>
-                <span className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-gray-700">○ Not accurate</span>
+        <div className="mt-4 flex flex-col gap-5 lg:flex-row lg:items-stretch lg:gap-6">
+          <div className="min-w-0 flex-1 basis-0">
+            <div className="flex h-full w-full flex-col rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-4">
+              <p className="text-sm font-medium leading-5 text-gray-900">Alex - Fixed login bug</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <span className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-sm font-medium text-indigo-800">
+                  ✔ Confirmed
+                </span>
+                <span className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700">○ Needs context</span>
+                <span className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700">○ Not accurate</span>
               </div>
             </div>
           </div>
 
-          <div className="min-w-0 lg:col-span-5">
-            <div className="rounded-xl border border-gray-200 bg-white px-4 py-4 shadow-sm lg:border-gray-100 lg:bg-gray-50/40">
+          <div className="min-w-0 flex-1 basis-0">
+            <div className="flex h-full w-full min-h-0 flex-col rounded-xl border border-gray-200 bg-gray-50/70 px-4 py-4">
               <div className="flex flex-wrap gap-2">
                 {LANDING_MANAGER_FEEDBACK_CHIPS.map((label) => (
                   <span
                     key={label}
-                    className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-800"
+                    className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-gray-800"
                   >
                     {label}
                   </span>
@@ -562,8 +564,8 @@ function ReasoningFlowPanel() {
                 type="text"
                 readOnly
                 tabIndex={-1}
-                placeholder="Add custom feedback (optional)"
-                className="mt-3 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400"
+                placeholder="Note (optional)"
+                className="mt-3 box-border w-full min-w-0 max-w-full rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm leading-5 text-gray-900 placeholder:text-gray-400"
               />
             </div>
           </div>
