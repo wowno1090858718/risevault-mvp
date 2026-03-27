@@ -29,7 +29,7 @@ const ROLE_OPTIONS: Array<{ id: Role; label: string }> = [
   { id: 'manager', label: 'Support signals' },
 ]
 
-type RecruiterPhase = 'scan' | 'comparison' | 'profile'
+type RecruiterPhase = 'value' | 'scan' | 'comparison' | 'profile'
 
 function cx(...parts: Array<string | false | undefined>) {
   return parts.filter(Boolean).join(' ')
@@ -81,13 +81,17 @@ export default function MVPPage() {
   const selectRole = (id: Role) => {
     setSelectedRole(id)
     if (id === 'decisions') {
-      setRecruiterPhase('scan')
+      setRecruiterPhase('value')
     } else {
       setRecruiterPhase(null)
     }
   }
 
   const showRecruiterFlow = selectedRole === 'decisions' && recruiterPhase !== null
+  const recruiterDeep =
+    selectedRole === 'decisions' &&
+    recruiterPhase !== null &&
+    recruiterPhase !== 'value'
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
@@ -102,8 +106,8 @@ export default function MVPPage() {
 
       <main
         className={cx(
-          'mx-auto w-full max-w-3xl px-6 py-16',
-          showRecruiterFlow ? 'py-10' : 'flex min-h-[calc(100vh-65px)] items-center py-16'
+          'mx-auto w-full max-w-3xl px-6',
+          recruiterDeep ? 'py-10' : 'flex min-h-[calc(100vh-65px)] items-center py-16'
         )}
       >
         <div className="w-full space-y-12 text-center">
@@ -161,6 +165,36 @@ export default function MVPPage() {
             </section>
           )}
 
+          {selectedRole === 'decisions' && recruiterPhase === 'value' && (
+            <section className="mx-auto w-full max-w-2xl space-y-6 transition-[opacity,transform] duration-500 ease-out">
+              <div className="rounded-2xl border border-gray-200 bg-gray-50/70 px-6 py-7 text-left sm:px-8">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 3</p>
+                <h3 className="mt-3 text-xl font-semibold tracking-tight text-gray-900">
+                  {ROLE_CONTENT.decisions.heading}
+                </h3>
+                <p className="mt-3 text-base text-gray-800">{ROLE_CONTENT.decisions.body}</p>
+                <p className="mt-3 text-sm text-gray-500">{ROLE_CONTENT.decisions.sub}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setRecruiterPhase('scan')}
+                className="rounded-lg bg-indigo-600 px-6 py-3 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              >
+                Continue
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedRole(null)
+                  setRecruiterPhase(null)
+                }}
+                className="block w-full text-sm text-gray-500 underline-offset-4 hover:text-gray-800 hover:underline"
+              >
+                Back to roles
+              </button>
+            </section>
+          )}
+
           {selectedRole === 'decisions' && recruiterPhase === 'scan' && (
             <section className="mx-auto w-full max-w-2xl space-y-8 text-left transition-[opacity,transform] duration-500 ease-out">
               <div>
@@ -200,13 +234,10 @@ export default function MVPPage() {
 
               <button
                 type="button"
-                onClick={() => {
-                  setSelectedRole(null)
-                  setRecruiterPhase(null)
-                }}
+                onClick={() => setRecruiterPhase('value')}
                 className="text-sm text-gray-500 underline-offset-4 hover:text-gray-800 hover:underline"
               >
-                Back to roles
+                Back
               </button>
             </section>
           )}
