@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 
 function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(' ')
@@ -168,33 +168,6 @@ function PrimaryButton({
       href={href}
       className="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-white"
     >
-      {children}
-    </Link>
-  )
-}
-
-function SecondaryButton({
-  children,
-  href,
-  external,
-}: {
-  children: React.ReactNode
-  href: string
-  external?: boolean
-}) {
-  const className =
-    'inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-800 shadow-sm transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-white'
-
-  if (external) {
-    return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
-        {children}
-      </a>
-    )
-  }
-
-  return (
-    <Link href={href} className={className}>
       {children}
     </Link>
   )
@@ -919,8 +892,6 @@ function RecruiterFunnel() {
 }
 
 export default function LandingPage() {
-  const demoUrl = useMemo(() => 'https://vimeo.com/1141932788', [])
-
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <header className="sticky top-0 z-30 border-b border-gray-100 bg-white/80 backdrop-blur">
@@ -928,10 +899,7 @@ export default function LandingPage() {
           <Link href="/" className="text-sm font-semibold tracking-tight text-gray-900">
             RiseVault
           </Link>
-          <nav className="flex items-center gap-2 sm:gap-3">
-            <SecondaryButton href={demoUrl} external>
-              Watch Demo
-            </SecondaryButton>
+          <nav>
             <PrimaryButton href="/mvp">Try Demo</PrimaryButton>
           </nav>
         </div>
@@ -967,10 +935,7 @@ export default function LandingPage() {
               <p className="mt-12 text-base font-medium text-gray-900 sm:text-lg">That&apos;s what we&apos;re rebuilding.</p>
             </div>
           </Reveal>
-          <Reveal delayMs={160} className="mt-12 flex flex-wrap gap-3 sm:mt-14">
-            <SecondaryButton href={demoUrl} external>
-              Watch Demo
-            </SecondaryButton>
+          <Reveal delayMs={160} className="mt-12 sm:mt-14">
             <PrimaryButton href="/mvp">Try Demo</PrimaryButton>
           </Reveal>
         </section>
@@ -1129,11 +1094,8 @@ export default function LandingPage() {
               Stop guessing. Start deciding.
             </h2>
           </Reveal>
-          <Reveal delayMs={160} className="mt-10 flex flex-wrap gap-3">
+          <Reveal delayMs={160} className="mt-10">
             <PrimaryButton href="/mvp">Try Demo</PrimaryButton>
-            <SecondaryButton href={demoUrl} external>
-              Watch Demo
-            </SecondaryButton>
           </Reveal>
         </section>
       </main>
