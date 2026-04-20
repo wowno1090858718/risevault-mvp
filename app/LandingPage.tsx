@@ -117,24 +117,22 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
-const PROBLEM_ITEMS = [
-  { label: 'Interviews', detail: 'optimized for performance or AI-assisted in the moment' },
-  { label: 'Outputs', detail: 'easy to generate — hard to trust' },
+const PROBLEM_ROWS = [
+  { label: 'Interviews', detail: 'optimized for performance in the moment' },
+  { label: 'Resumes, portfolios, answers', detail: 'easy to generate, hard to trust' },
   { label: 'Emerging roles', detail: 'no clear evaluation standard' },
   { label: 'Recruiters', detail: 'rely on outdated signals' },
 ] as const
 
 function ProblemBreakingGrid() {
   return (
-    <div className="mt-10">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
-        {PROBLEM_ITEMS.map((item, i) => (
-          <Reveal key={item.label} delayMs={i * 90}>
-            <div className="flex h-full flex-col rounded-xl border border-gray-200 bg-white px-5 py-5 sm:px-6 sm:py-5">
-              <div className="text-[15px] font-semibold leading-snug tracking-tight text-gray-900 sm:text-base">
-                {item.label}
-              </div>
-              <div className="mt-3 text-sm leading-snug text-gray-600 sm:text-[15px]">
+    <div className="mt-10 max-w-2xl">
+      <div className="space-y-7 sm:space-y-8">
+        {PROBLEM_ROWS.map((item, i) => (
+          <Reveal key={item.label} delayMs={i * 70}>
+            <div>
+              <div className="text-[15px] font-semibold tracking-tight text-gray-900 sm:text-base">{item.label}</div>
+              <div className="mt-1.5 text-sm leading-snug text-gray-600 sm:text-[15px]">
                 <span className="select-none text-gray-400" aria-hidden>
                   →{' '}
                 </span>
@@ -144,27 +142,17 @@ function ProblemBreakingGrid() {
           </Reveal>
         ))}
       </div>
-      <Reveal delayMs={420} className="mt-10">
-        <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-5 py-4 text-sm font-medium leading-snug tracking-tight text-gray-900 sm:px-6 sm:text-base">
-          Signals no longer reflect real capability.
+      <Reveal delayMs={380} className="mt-12 border-t border-gray-200 pt-10 sm:mt-14 sm:pt-12">
+        <div className="space-y-3">
+          <p className="text-base font-semibold leading-snug text-gray-900 sm:text-lg">
+            Good outputs no longer mean real capability.
+          </p>
+          <p className="text-base font-semibold leading-snug text-gray-900 sm:text-lg">
+            Signals no longer reflect real capability.
+          </p>
         </div>
       </Reveal>
     </div>
-  )
-}
-
-function ProblemBridge() {
-  return (
-    <Reveal delayMs={140} className="mt-14 sm:mt-16">
-      <div className="mx-auto mb-6 max-w-xl space-y-2.5 px-1 text-center sm:px-0">
-        <p className="text-sm leading-relaxed text-gray-500 sm:text-[0.9375rem]">
-          Hiring has always relied on signals — not capability.
-        </p>
-        <p className="text-sm leading-relaxed text-gray-500 sm:text-[0.9375rem]">
-          Those signals used to work. Now they don&apos;t.
-        </p>
-      </div>
-    </Reveal>
   )
 }
 
@@ -233,80 +221,112 @@ function ModelAnimated() {
   }, [inView, reduced])
 
   const chipBase =
-    'inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium tracking-tight'
+    'inline-flex max-w-full items-center rounded-full border px-2.5 py-1 text-[11px] font-medium leading-snug tracking-tight sm:px-3 sm:text-xs'
+
+  const Arrow = ({ on }: { on: boolean }) => (
+    <span className={cx('shrink-0 text-gray-300 transition-opacity duration-700', on ? 'opacity-100' : 'opacity-0')}>→</span>
+  )
 
   return (
     <div ref={ref} className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
-      <div className="flex flex-col gap-6">
-        <div className="flex flex-wrap items-center gap-2 text-gray-700">
-          <span
-            className={cx(
-              chipBase,
-              step >= 1 ? 'border-gray-300 bg-gray-50 opacity-100' : 'border-gray-200 bg-white opacity-0 translate-y-1',
-              'transition-all duration-700 ease-out'
-            )}
-          >
-            capability
-          </span>
-          <span className={cx('text-gray-300 transition-opacity duration-700', step >= 1 ? 'opacity-100' : 'opacity-0')}>
-            →
-          </span>
-          <span
-            className={cx(
-              chipBase,
-              step >= 1 ? 'border-gray-300 bg-gray-50 opacity-100' : 'border-gray-200 bg-white opacity-0 translate-y-1',
-              'transition-all duration-700 ease-out delay-75'
-            )}
-          >
-            output
-          </span>
-          <span className={cx('text-gray-300 transition-opacity duration-700', step >= 1 ? 'opacity-100' : 'opacity-0')}>
-            →
-          </span>
-          <span
-            className={cx(
-              chipBase,
-              step >= 1 ? 'border-gray-300 bg-gray-50 opacity-100' : 'border-gray-200 bg-white opacity-0 translate-y-1',
-              'transition-all duration-700 ease-out delay-150'
-            )}
-          >
-            week signal
-          </span>
-        </div>
-
+      <div className="flex flex-col gap-10 sm:gap-12">
         <div
           className={cx(
-            'rounded-xl border border-gray-200 bg-white p-4 transition-[opacity,transform] duration-700 ease-out',
-            step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+            'transition-[opacity,transform] duration-700 ease-out',
+            step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
           )}
         >
-          <div className="flex flex-wrap items-center gap-2">
-            <span className={cx(chipBase, 'border-gray-300 bg-gray-50 text-gray-700')}>output is cheap</span>
-            <span className="text-gray-300">→</span>
-            <span className={cx(chipBase, 'border-gray-300 bg-gray-50 text-gray-700')}>signals break</span>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">Today:</p>
+          <p className="mt-3 text-sm font-medium text-gray-900 sm:text-base">
+            People are judged by what they produce
+          </p>
+          <div className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-2 text-gray-700">
+            <span
+              className={cx(
+                chipBase,
+                step >= 1 ? 'border-gray-300 bg-gray-50' : 'border-gray-200 bg-white opacity-0',
+                'transition-all duration-700 ease-out'
+              )}
+            >
+              capability
+            </span>
+            <Arrow on={step >= 1} />
+            <span
+              className={cx(
+                chipBase,
+                step >= 1 ? 'border-gray-300 bg-gray-50' : 'border-gray-200 bg-white opacity-0',
+                'transition-all duration-700 ease-out delay-75'
+              )}
+            >
+              outputs (resumes, answers, projects)
+            </span>
+            <Arrow on={step >= 1} />
+            <span
+              className={cx(
+                chipBase,
+                step >= 1 ? 'border-gray-300 bg-gray-50' : 'border-gray-200 bg-white opacity-0',
+                'transition-all duration-700 ease-out delay-150'
+              )}
+            >
+              hiring signal
+            </span>
           </div>
         </div>
 
         <div
           className={cx(
-            'rounded-xl border p-4 transition-[opacity,transform,border-color,background-color] duration-700 ease-out',
-            step >= 3
-              ? 'opacity-100 translate-y-0 border-indigo-200 bg-indigo-50'
-              : 'opacity-0 translate-y-2 border-gray-200 bg-white'
+            'space-y-4 rounded-xl border border-gray-200 bg-gray-50/80 p-5 transition-[opacity,transform] duration-700 ease-out sm:p-6',
+            step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
           )}
         >
-          <div className="flex flex-wrap items-center gap-2">
-            <span className={cx(chipBase, step >= 3 ? 'border-indigo-200 bg-white text-gray-900' : 'border-gray-300 bg-gray-50 text-gray-700')}>
-              capability
-            </span>
-            <span className={cx(step >= 3 ? 'text-indigo-300' : 'text-gray-300')}>→</span>
-            <span className={cx(chipBase, step >= 3 ? 'border-indigo-200 bg-white text-gray-900' : 'border-gray-300 bg-gray-50 text-gray-700')}>
-              process
-            </span>
-            <span className={cx(step >= 3 ? 'text-indigo-300' : 'text-gray-300')}>→</span>
-            <span className={cx(chipBase, step >= 3 ? 'border-indigo-200 bg-white text-gray-900' : 'border-gray-300 bg-gray-50 text-gray-700')}>
-              trusted signals
-            </span>
+          <p className="text-sm font-medium text-gray-900 sm:text-[15px]">But outputs are now cheap</p>
+          <div className="mt-1 flex flex-wrap items-center gap-2">
+            <span className="text-gray-300">→</span>
+            <span className={cx(chipBase, 'border-gray-300 bg-white text-gray-800')}>signals break</span>
+          </div>
+        </div>
+
+        <div
+          className={cx(
+            'transition-[opacity,transform,border-color,background-color] duration-700 ease-out',
+            step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+          )}
+        >
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">What actually matters:</p>
+          <div
+            className={cx(
+              'mt-5 rounded-xl border p-5 transition-[border-color,background-color] duration-700 ease-out sm:p-6',
+              step >= 3 ? 'border-indigo-200 bg-indigo-50' : 'border-gray-200 bg-white'
+            )}
+          >
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-2">
+              <span
+                className={cx(
+                  chipBase,
+                  step >= 3 ? 'border-indigo-200 bg-white text-gray-900' : 'border-gray-300 bg-gray-50 text-gray-700'
+                )}
+              >
+                capability
+              </span>
+              <span className={cx(step >= 3 ? 'text-indigo-400' : 'text-gray-300')}>→</span>
+              <span
+                className={cx(
+                  chipBase,
+                  step >= 3 ? 'border-indigo-200 bg-white text-gray-900' : 'border-gray-300 bg-gray-50 text-gray-700'
+                )}
+              >
+                process (how work gets done)
+              </span>
+              <span className={cx(step >= 3 ? 'text-indigo-400' : 'text-gray-300')}>→</span>
+              <span
+                className={cx(
+                  chipBase,
+                  step >= 3 ? 'border-indigo-200 bg-white text-gray-900' : 'border-gray-300 bg-gray-50 text-gray-700'
+                )}
+              >
+                trusted signal
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -949,7 +969,6 @@ export default function LandingPage() {
             <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Hiring is breaking</h2>
           </Reveal>
           <ProblemBreakingGrid />
-          <ProblemBridge />
         </section>
 
         {/* 4. MODEL (ANIMATED) */}
