@@ -117,7 +117,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
-const PROBLEM_ROWS = [
+const PROBLEM_ITEMS = [
   { label: 'Interviews', detail: 'optimized for performance in the moment' },
   { label: 'Resumes, portfolios, answers', detail: 'easy to generate, hard to trust' },
   { label: 'Emerging roles', detail: 'no clear evaluation standard' },
@@ -126,13 +126,15 @@ const PROBLEM_ROWS = [
 
 function ProblemBreakingGrid() {
   return (
-    <div className="mt-10 max-w-2xl">
-      <div className="space-y-7 sm:space-y-8">
-        {PROBLEM_ROWS.map((item, i) => (
-          <Reveal key={item.label} delayMs={i * 70}>
-            <div>
-              <div className="text-[15px] font-semibold tracking-tight text-gray-900 sm:text-base">{item.label}</div>
-              <div className="mt-1.5 text-sm leading-snug text-gray-600 sm:text-[15px]">
+    <div className="mt-10">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+        {PROBLEM_ITEMS.map((item, i) => (
+          <Reveal key={item.label} delayMs={i * 90}>
+            <div className="flex h-full flex-col rounded-xl border border-gray-200 bg-white px-5 py-5 sm:px-6 sm:py-5">
+              <div className="text-[15px] font-semibold leading-snug tracking-tight text-gray-900 sm:text-base">
+                {item.label}
+              </div>
+              <div className="mt-3 text-sm leading-snug text-gray-600 sm:text-[15px]">
                 <span className="select-none text-gray-400" aria-hidden>
                   →{' '}
                 </span>
@@ -142,14 +144,12 @@ function ProblemBreakingGrid() {
           </Reveal>
         ))}
       </div>
-      <Reveal delayMs={380} className="mt-12 border-t border-gray-200 pt-10 sm:mt-14 sm:pt-12">
-        <div className="space-y-3">
-          <p className="text-base font-semibold leading-snug text-gray-900 sm:text-lg">
-            Good outputs no longer mean real capability.
-          </p>
-          <p className="text-base font-semibold leading-snug text-gray-900 sm:text-lg">
-            Signals no longer reflect real capability.
-          </p>
+      <Reveal delayMs={420} className="mt-10">
+        <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-5 py-4 text-sm font-medium leading-snug tracking-tight text-gray-900 sm:px-6 sm:text-base">
+          <div className="space-y-2 sm:space-y-1.5">
+            <p>Good outputs no longer mean real capability.</p>
+            <p>Signals no longer reflect real capability.</p>
+          </div>
         </div>
       </Reveal>
     </div>
@@ -909,30 +909,38 @@ export default function LandingPage() {
         {/* 2. HERO */}
         <section className="pb-16 sm:pb-24">
           <Reveal>
-            <div className="max-w-2xl">
-              <h1 className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+            <div className="max-w-xl lg:max-w-2xl">
+              {/* 1 — Main headline */}
+              <h1 className="text-4xl font-semibold leading-[1.08] tracking-[-0.02em] text-gray-900 sm:text-5xl sm:leading-[1.06] lg:text-[3.25rem] lg:leading-[1.05]">
                 Outputs are now cheap.
               </h1>
 
-              <div className="mt-10 space-y-2 text-xl font-medium tracking-tight text-gray-800 sm:text-2xl">
-                <div>Resumes.</div>
-                <div>Portfolios.</div>
-                <div>Answers.</div>
+              {/* 2 — Concrete examples (subordinate, compact) */}
+              <div className="mt-5 space-y-0.5 text-[0.9375rem] font-normal leading-snug tracking-tight text-gray-500 sm:mt-6 sm:text-sm">
+                <p>Resumes.</p>
+                <p>Portfolios.</p>
+                <p>Answers.</p>
               </div>
 
-              <p className="mt-12 text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
+              {/* 3 — Core contrast (strong, step below headline) */}
+              <p className="mt-10 text-[1.625rem] font-semibold leading-tight tracking-[-0.015em] text-gray-900 sm:mt-12 sm:text-3xl lg:text-[2rem]">
                 Capability isn&apos;t.
               </p>
 
-              <p className="mt-10 text-lg leading-relaxed text-gray-700 sm:text-xl">
-                But hiring still selects for what&apos;s visible.
-              </p>
-
-              <p className="mt-10 text-3xl font-semibold tracking-tight text-gray-900 sm:mt-12 sm:text-4xl">
-                Not what&apos;s real.
-              </p>
-
-              <p className="mt-12 text-base font-medium text-gray-900 sm:text-lg">That&apos;s what we&apos;re rebuilding.</p>
+              {/* 4 — Tension + resolution */}
+              <div className="mt-10 space-y-8 sm:mt-12 sm:space-y-10">
+                <div className="space-y-3 sm:space-y-3.5">
+                  <p className="text-base font-normal leading-relaxed text-gray-600 sm:text-[1.0625rem] sm:leading-relaxed">
+                    But hiring still selects for what&apos;s visible.
+                  </p>
+                  <p className="text-2xl font-semibold leading-snug tracking-[-0.02em] text-gray-900 sm:text-[1.75rem] sm:leading-tight lg:text-3xl">
+                    Not what&apos;s real.
+                  </p>
+                </div>
+                <p className="text-[0.9375rem] font-medium leading-relaxed text-gray-700 sm:text-base">
+                  That&apos;s what we&apos;re rebuilding.
+                </p>
+              </div>
             </div>
           </Reveal>
           <Reveal delayMs={160} className="mt-12 sm:mt-14">
