@@ -941,20 +941,33 @@ export default function LandingPage() {
         {/* 2. HERO */}
         <section className="pb-16 sm:pb-24">
           <Reveal>
-            <h1 className="max-w-4xl text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
-              In the AI era, output is cheap. Capability isn’t.
-            </h1>
-          </Reveal>
-          <Reveal delayMs={120} className="mt-6">
-            <div className="max-w-3xl text-lg text-gray-600 sm:text-xl">
-              <div>Hiring is no longer selecting for real capability —</div>
-              <div>it is selecting for those who appear capable</div>
+            <div className="max-w-2xl">
+              <h1 className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+                Outputs are now cheap.
+              </h1>
+
+              <div className="mt-10 space-y-2 text-xl font-medium tracking-tight text-gray-800 sm:text-2xl">
+                <div>Resumes.</div>
+                <div>Portfolios.</div>
+                <div>Answers.</div>
+              </div>
+
+              <p className="mt-12 text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
+                Capability isn&apos;t.
+              </p>
+
+              <p className="mt-10 text-lg leading-relaxed text-gray-700 sm:text-xl">
+                But hiring still selects for what&apos;s visible.
+              </p>
+
+              <p className="mt-10 text-3xl font-semibold tracking-tight text-gray-900 sm:mt-12 sm:text-4xl">
+                Not what&apos;s real.
+              </p>
+
+              <p className="mt-12 text-base font-medium text-gray-900 sm:text-lg">That&apos;s what we&apos;re rebuilding.</p>
             </div>
           </Reveal>
-          <Reveal delayMs={220} className="mt-6">
-            <div className="text-base font-medium text-gray-800">We’re rebuilding how capability is evaluated.</div>
-          </Reveal>
-          <Reveal delayMs={320} className="mt-10 flex flex-wrap gap-3">
+          <Reveal delayMs={160} className="mt-12 flex flex-wrap gap-3 sm:mt-14">
             <SecondaryButton href={demoUrl} external>
               Watch Demo
             </SecondaryButton>
