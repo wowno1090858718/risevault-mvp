@@ -734,15 +734,18 @@ export default function LandingPage() {
 
       <main className="mx-auto max-w-6xl px-6 pb-24 pt-14 sm:px-8 sm:pb-32 sm:pt-20">
         {/* 2. HERO */}
-        <section className="pb-16 sm:pb-24">
+        <section className="pb-20 sm:pb-28">
           <Reveal>
-            <div className="max-w-lg sm:max-w-xl">
-              <h1 className="text-4xl font-bold leading-[1.06] tracking-[-0.03em] text-gray-900 sm:text-5xl sm:leading-[1.05] lg:text-6xl lg:leading-[1.03]">
-                Hiring can&apos;t see real capability
+            <div className="max-w-md sm:max-w-lg">
+              <h1 className="text-4xl font-bold leading-[1.08] tracking-[-0.035em] text-gray-900 sm:text-5xl sm:leading-[1.05] lg:text-[3.35rem] lg:leading-[1.02]">
+                <span className="block">Hiring can&apos;t see real capability</span>
+                <span className="mt-3 block text-[1.05rem] font-semibold leading-snug tracking-[-0.02em] text-indigo-700 sm:mt-4 sm:text-2xl sm:leading-tight lg:text-[1.75rem]">
+                  — we make it visible
+                </span>
               </h1>
 
-              <div className="mt-10 space-y-10 text-base leading-relaxed text-gray-600 sm:mt-12 sm:space-y-12 sm:text-[1.0625rem]">
-                <p>You&apos;ve done real work.</p>
+              <div className="mt-12 space-y-9 text-[0.9375rem] leading-[1.65] text-gray-600 sm:mt-14 sm:space-y-10 sm:text-base sm:leading-[1.7]">
+                <p className="text-base font-medium text-gray-800 sm:text-[1.0625rem]">You&apos;ve done real work.</p>
 
                 <p>
                   But on your resume,
@@ -750,32 +753,37 @@ export default function LandingPage() {
                   it looks like everyone else.
                 </p>
 
-                <div className="space-y-0.5 text-gray-700">
-                  <p>Resumes.</p>
-                  <p>Portfolios.</p>
-                  <p>Interview answers.</p>
+                <div className="border-t border-gray-100 pt-9 sm:pt-10">
+                  <div className="space-y-1 text-[0.9375rem] font-medium text-gray-800 sm:text-base">
+                    <p>Resumes.</p>
+                    <p>Portfolios.</p>
+                    <p>Interview answers.</p>
+                  </div>
+                  <div className="mt-6 space-y-1 text-gray-600">
+                    <p>Easy to produce.</p>
+                    <p>Hard to trust.</p>
+                  </div>
                 </div>
 
-                <div className="space-y-0.5">
-                  <p>Easy to produce.</p>
-                  <p>Hard to trust.</p>
+                <div className="border-t border-gray-100 pt-9 sm:pt-10">
+                  <p>
+                    But hiring still selects
+                    <br />
+                    what&apos;s visible.
+                  </p>
+
+                  <p className="mt-8 text-xl font-semibold leading-snug tracking-[-0.025em] text-gray-900 sm:mt-9 sm:text-2xl">
+                    Not what&apos;s real.
+                  </p>
+
+                  <p className="mt-8 text-sm font-medium text-gray-700 sm:mt-9 sm:text-[0.9375rem]">
+                    That&apos;s what we&apos;re rebuilding.
+                  </p>
                 </div>
-
-                <p>
-                  But hiring still selects
-                  <br />
-                  what&apos;s visible.
-                </p>
-
-                <p className="text-xl font-semibold leading-snug tracking-tight text-gray-900 sm:text-2xl">
-                  Not what&apos;s real.
-                </p>
-
-                <p className="font-medium text-gray-800">That&apos;s what we&apos;re rebuilding.</p>
               </div>
             </div>
           </Reveal>
-          <Reveal delayMs={160} className="mt-12 sm:mt-14">
+          <Reveal delayMs={160} className="mt-14 sm:mt-16">
             <PrimaryButton href="/mvp">Try Demo</PrimaryButton>
           </Reveal>
         </section>
