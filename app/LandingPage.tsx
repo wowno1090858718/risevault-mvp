@@ -736,37 +736,42 @@ export default function LandingPage() {
         {/* 2. HERO */}
         <section className="pb-16 sm:pb-24">
           <Reveal>
-            <div className="max-w-xl lg:max-w-2xl">
-              {/* 1 — Main headline */}
-              <h1 className="text-4xl font-semibold leading-[1.08] tracking-[-0.02em] text-gray-900 sm:text-5xl sm:leading-[1.06] lg:text-[3.25rem] lg:leading-[1.05]">
-                Outputs are now cheap.
+            <div className="max-w-lg sm:max-w-xl">
+              <h1 className="text-4xl font-bold leading-[1.06] tracking-[-0.03em] text-gray-900 sm:text-5xl sm:leading-[1.05] lg:text-6xl lg:leading-[1.03]">
+                Hiring can&apos;t see real capability
               </h1>
 
-              {/* 2 — Concrete examples (subordinate, compact) */}
-              <div className="mt-5 space-y-0.5 text-[0.9375rem] font-normal leading-snug tracking-tight text-gray-500 sm:mt-6 sm:text-sm">
-                <p>Resumes.</p>
-                <p>Portfolios.</p>
-                <p>Answers.</p>
-              </div>
+              <div className="mt-10 space-y-10 text-base leading-relaxed text-gray-600 sm:mt-12 sm:space-y-12 sm:text-[1.0625rem]">
+                <p>You&apos;ve done real work.</p>
 
-              {/* 3 — Core contrast (strong, step below headline) */}
-              <p className="mt-10 text-[1.625rem] font-semibold leading-tight tracking-[-0.015em] text-gray-900 sm:mt-12 sm:text-3xl lg:text-[2rem]">
-                Capability isn&apos;t.
-              </p>
-
-              {/* 4 — Tension + resolution */}
-              <div className="mt-10 space-y-8 sm:mt-12 sm:space-y-10">
-                <div className="space-y-3 sm:space-y-3.5">
-                  <p className="text-base font-normal leading-relaxed text-gray-600 sm:text-[1.0625rem] sm:leading-relaxed">
-                    But hiring still selects for what&apos;s visible.
-                  </p>
-                  <p className="text-2xl font-semibold leading-snug tracking-[-0.02em] text-gray-900 sm:text-[1.75rem] sm:leading-tight lg:text-3xl">
-                    Not what&apos;s real.
-                  </p>
-                </div>
-                <p className="text-[0.9375rem] font-medium leading-relaxed text-gray-700 sm:text-base">
-                  That&apos;s what we&apos;re rebuilding.
+                <p>
+                  But on your resume,
+                  <br />
+                  it looks like everyone else.
                 </p>
+
+                <div className="space-y-0.5 text-gray-700">
+                  <p>Resumes.</p>
+                  <p>Portfolios.</p>
+                  <p>Interview answers.</p>
+                </div>
+
+                <div className="space-y-0.5">
+                  <p>Easy to produce.</p>
+                  <p>Hard to trust.</p>
+                </div>
+
+                <p>
+                  But hiring still selects
+                  <br />
+                  what&apos;s visible.
+                </p>
+
+                <p className="text-xl font-semibold leading-snug tracking-tight text-gray-900 sm:text-2xl">
+                  Not what&apos;s real.
+                </p>
+
+                <p className="font-medium text-gray-800">That&apos;s what we&apos;re rebuilding.</p>
               </div>
             </div>
           </Reveal>
