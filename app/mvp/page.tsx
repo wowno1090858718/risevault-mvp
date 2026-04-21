@@ -369,7 +369,7 @@ export default function MVPPage() {
           <Link href="/" className="text-sm font-semibold tracking-tight text-gray-900">
             RiseVault
           </Link>
-          <span className="text-xs uppercase tracking-[0.16em] text-gray-400">MVP</span>
+          <span className="text-xs font-medium tracking-wide text-gray-400">Prototype</span>
         </div>
       </header>
 
@@ -383,7 +383,7 @@ export default function MVPPage() {
           <section className="space-y-3">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Step 1</p>
             <h1 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
-              We are entering a signal economy
+              What You Can Do with Signals
             </h1>
           </section>
 
