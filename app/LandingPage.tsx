@@ -117,45 +117,6 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
-const PROBLEM_ITEMS = [
-  { label: 'Interviews', detail: 'optimized for performance in the moment' },
-  { label: 'Resumes, portfolios, answers', detail: 'easy to generate, hard to trust' },
-  { label: 'Emerging roles', detail: 'no clear evaluation standard' },
-  { label: 'Recruiters', detail: 'rely on outdated signals' },
-] as const
-
-function ProblemBreakingGrid() {
-  return (
-    <div className="mt-10">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
-        {PROBLEM_ITEMS.map((item, i) => (
-          <Reveal key={item.label} delayMs={i * 90}>
-            <div className="flex h-full flex-col rounded-xl border border-gray-200 bg-white px-5 py-5 sm:px-6 sm:py-5">
-              <div className="text-[15px] font-semibold leading-snug tracking-tight text-gray-900 sm:text-base">
-                {item.label}
-              </div>
-              <div className="mt-3 text-sm leading-snug text-gray-600 sm:text-[15px]">
-                <span className="select-none text-gray-400" aria-hidden>
-                  →{' '}
-                </span>
-                {item.detail}
-              </div>
-            </div>
-          </Reveal>
-        ))}
-      </div>
-      <Reveal delayMs={420} className="mt-10">
-        <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-5 py-4 text-sm font-medium leading-snug tracking-tight text-gray-900 sm:px-6 sm:text-base">
-          <div className="space-y-2 sm:space-y-1.5">
-            <p>Good outputs no longer mean real capability.</p>
-            <p>Signals no longer reflect real capability.</p>
-          </div>
-        </div>
-      </Reveal>
-    </div>
-  )
-}
-
 function PrimaryButton({
   children,
   href,
@@ -170,140 +131,6 @@ function PrimaryButton({
     >
       {children}
     </Link>
-  )
-}
-
-function ModelAnimated() {
-  const reduced = usePrefersReducedMotion()
-  const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.3 })
-  const [step, setStep] = useState(0)
-
-  useEffect(() => {
-    if (!inView) return
-    if (reduced) {
-      setStep(3)
-      return
-    }
-    setStep(1)
-    const t1 = window.setTimeout(() => setStep(2), 900)
-    const t2 = window.setTimeout(() => setStep(3), 1850)
-    return () => {
-      window.clearTimeout(t1)
-      window.clearTimeout(t2)
-    }
-  }, [inView, reduced])
-
-  const chipBase =
-    'inline-flex max-w-full items-center rounded-full border px-2.5 py-1 text-[11px] font-medium leading-snug tracking-tight sm:px-3 sm:text-xs'
-
-  const Arrow = ({ on }: { on: boolean }) => (
-    <span className={cx('shrink-0 text-gray-300 transition-opacity duration-700', on ? 'opacity-100' : 'opacity-0')}>→</span>
-  )
-
-  return (
-    <div ref={ref} className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
-      <div className="flex flex-col gap-10 sm:gap-12">
-        <div
-          className={cx(
-            'transition-[opacity,transform] duration-700 ease-out',
-            step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-          )}
-        >
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">Today:</p>
-          <p className="mt-3 text-sm font-medium text-gray-900 sm:text-base">
-            People are judged by what they produce
-          </p>
-          <div className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-2 text-gray-700">
-            <span
-              className={cx(
-                chipBase,
-                step >= 1 ? 'border-gray-300 bg-gray-50' : 'border-gray-200 bg-white opacity-0',
-                'transition-all duration-700 ease-out'
-              )}
-            >
-              capability
-            </span>
-            <Arrow on={step >= 1} />
-            <span
-              className={cx(
-                chipBase,
-                step >= 1 ? 'border-gray-300 bg-gray-50' : 'border-gray-200 bg-white opacity-0',
-                'transition-all duration-700 ease-out delay-75'
-              )}
-            >
-              outputs (resumes, answers, projects)
-            </span>
-            <Arrow on={step >= 1} />
-            <span
-              className={cx(
-                chipBase,
-                step >= 1 ? 'border-gray-300 bg-gray-50' : 'border-gray-200 bg-white opacity-0',
-                'transition-all duration-700 ease-out delay-150'
-              )}
-            >
-              hiring signal
-            </span>
-          </div>
-        </div>
-
-        <div
-          className={cx(
-            'space-y-4 rounded-xl border border-gray-200 bg-gray-50/80 p-5 transition-[opacity,transform] duration-700 ease-out sm:p-6',
-            step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-          )}
-        >
-          <p className="text-sm font-medium text-gray-900 sm:text-[15px]">But outputs are now cheap</p>
-          <div className="mt-1 flex flex-wrap items-center gap-2">
-            <span className="text-gray-300">→</span>
-            <span className={cx(chipBase, 'border-gray-300 bg-white text-gray-800')}>signals break</span>
-          </div>
-        </div>
-
-        <div
-          className={cx(
-            'transition-[opacity,transform,border-color,background-color] duration-700 ease-out',
-            step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-          )}
-        >
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">What actually matters:</p>
-          <div
-            className={cx(
-              'mt-5 rounded-xl border p-5 transition-[border-color,background-color] duration-700 ease-out sm:p-6',
-              step >= 3 ? 'border-indigo-200 bg-indigo-50' : 'border-gray-200 bg-white'
-            )}
-          >
-            <div className="flex flex-wrap items-center gap-x-2 gap-y-2">
-              <span
-                className={cx(
-                  chipBase,
-                  step >= 3 ? 'border-indigo-200 bg-white text-gray-900' : 'border-gray-300 bg-gray-50 text-gray-700'
-                )}
-              >
-                capability
-              </span>
-              <span className={cx(step >= 3 ? 'text-indigo-400' : 'text-gray-300')}>→</span>
-              <span
-                className={cx(
-                  chipBase,
-                  step >= 3 ? 'border-indigo-200 bg-white text-gray-900' : 'border-gray-300 bg-gray-50 text-gray-700'
-                )}
-              >
-                process (how work gets done)
-              </span>
-              <span className={cx(step >= 3 ? 'text-indigo-400' : 'text-gray-300')}>→</span>
-              <span
-                className={cx(
-                  chipBase,
-                  step >= 3 ? 'border-indigo-200 bg-white text-gray-900' : 'border-gray-300 bg-gray-50 text-gray-700'
-                )}
-              >
-                trusted signal
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   )
 }
 
@@ -948,59 +775,195 @@ export default function LandingPage() {
           </Reveal>
         </section>
 
-        {/* 3. HIRING IS BREAKING + BRIDGE */}
-        <section className="pt-16 sm:pt-24 pb-8 sm:pb-10">
+        {/* Pre–Flow: audience → value → reach → engagement → scale → resources → activities → partners → cost */}
+        <section className="border-t border-gray-100 pt-16 sm:pt-20">
           <Reveal>
-            <SectionLabel>3 — Problem</SectionLabel>
-            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Hiring is breaking</h2>
+            <SectionLabel>Who this is for</SectionLabel>
+            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Who this is for</h2>
           </Reveal>
-          <ProblemBreakingGrid />
+          <Reveal delayMs={100} className="mt-8">
+            <div className="grid gap-4 sm:grid-cols-3 sm:gap-5">
+              {[
+                { title: 'Candidates', body: 'Trying to show real capability beyond resumes' },
+                { title: 'Recruiters', body: 'Making fast decisions under uncertainty' },
+                { title: 'Managers', body: 'Validating and developing real work' },
+              ].map((item) => (
+                <div
+                  key={item.title}
+                  className="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 sm:p-6"
+                >
+                  <div className="text-sm font-semibold text-gray-900">{item.title}</div>
+                  <p className="mt-3 text-sm leading-relaxed text-gray-600">{item.body}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
         </section>
 
-        {/* 4. MODEL (ANIMATED) */}
-        <section className="mt-4 pb-16 pt-6 sm:pb-24">
-          <Reveal>
-            <SectionLabel>4 — Model</SectionLabel>
-            <h2 className="mt-2 text-2xl font-medium tracking-tight text-indigo-700 sm:text-3xl">
-              A new signal path
-            </h2>
-          </Reveal>
-          <Reveal delayMs={120} className="mt-8 sm:mt-10">
-            <ModelAnimated />
-          </Reveal>
-        </section>
-
-        {/* 5. WHAT WE’RE BUILDING */}
         <section className="py-16 sm:py-24">
           <Reveal>
-            <SectionLabel>5 — Build</SectionLabel>
-            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">What we’re building</h2>
+            <SectionLabel>What this changes</SectionLabel>
+            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">What this changes</h2>
           </Reveal>
-          <Reveal delayMs={120} className="mt-8">
-            <div className="grid gap-8 lg:grid-cols-12">
-              <div className="lg:col-span-7">
-                <div className="space-y-3 text-sm text-gray-700 sm:text-base">
-                  <div className="font-medium text-gray-900">We are building a new signal layer for hiring.</div>
-                  <div className="text-gray-600">Hiring has always evaluated outputs.</div>
-                  <div className="text-gray-600">We evaluate process.</div>
-                </div>
-                <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-xl border border-gray-200 bg-white p-4 text-sm text-gray-800">decisions</div>
-                  <div className="rounded-xl border border-gray-200 bg-white p-4 text-sm text-gray-800">problem solving</div>
-                  <div className="rounded-xl border border-gray-200 bg-white p-4 text-sm text-gray-800">iteration</div>
-                  <div className="rounded-xl border border-gray-200 bg-white p-4 text-sm text-gray-800">AI usage</div>
-                </div>
-              </div>
-              <div className="lg:col-span-5">
-                <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-6">
-                  <div className="text-sm font-semibold text-gray-900">Signals become</div>
-                  <div className="mt-4 space-y-2 text-sm text-gray-700">
-                    <div>— continuous</div>
-                    <div>— verifiable</div>
-                    <div>— decision-ready</div>
+          <Reveal delayMs={100} className="mt-8">
+            <div className="rounded-2xl border border-indigo-200 bg-gradient-to-b from-indigo-50/90 to-white p-6 shadow-sm sm:p-8">
+              <div className="grid gap-6 sm:gap-8">
+                {[
+                  {
+                    title: 'For candidates',
+                    body: 'Work becomes signal — so real capability is visible',
+                  },
+                  {
+                    title: 'For recruiters',
+                    body: 'Signal becomes decision — faster, lower-risk hiring',
+                  },
+                  {
+                    title: 'For managers',
+                    body: 'Feedback becomes signal — shaping capability over time',
+                  },
+                ].map((item) => (
+                  <div key={item.title} className="border-b border-indigo-100 pb-6 last:border-b-0 last:pb-0 sm:pb-8 sm:last:pb-0">
+                    <div className="text-sm font-semibold text-indigo-900 sm:text-base">{item.title}</div>
+                    <p className="mt-2 text-base font-medium leading-relaxed text-gray-900 sm:text-lg">{item.body}</p>
                   </div>
-                </div>
+                ))}
               </div>
+            </div>
+          </Reveal>
+        </section>
+
+        <section className="py-16 sm:py-24">
+          <Reveal>
+            <SectionLabel>How it reaches users</SectionLabel>
+            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">How it reaches users</h2>
+          </Reveal>
+          <Reveal delayMs={100} className="mt-8">
+            <div className="max-w-3xl space-y-4 text-sm leading-relaxed text-gray-700 sm:text-base">
+              <p>Direct usage by candidates capturing daily work</p>
+              <p>Shared signal profiles in hiring and evaluation flows</p>
+              <p>Integrated into existing workflows, projects, tools, and feedback loops</p>
+            </div>
+          </Reveal>
+        </section>
+
+        <section className="py-16 sm:py-24">
+          <Reveal>
+            <SectionLabel>How users engage</SectionLabel>
+            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">How users engage</h2>
+          </Reveal>
+          <Reveal delayMs={100} className="mt-8">
+            <div className="grid gap-3 sm:grid-cols-3 sm:gap-4">
+              {[
+                'Continuous capture of work',
+                'Lightweight confirmation and feedback',
+                'Signals build into a track record over time',
+              ].map((line, i) => (
+                <div
+                  key={line}
+                  className="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 sm:p-6"
+                >
+                  <div className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-400">
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+                  <p className="mt-3 text-sm font-medium leading-relaxed text-gray-900 sm:text-[15px]">{line}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </section>
+
+        <section className="py-16 sm:py-24">
+          <Reveal>
+            <SectionLabel>How it could scale</SectionLabel>
+            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">How it could scale</h2>
+          </Reveal>
+          <Reveal delayMs={100} className="mt-8">
+            <div className="max-w-3xl space-y-3 text-sm text-gray-600 sm:text-base">
+              <p>Candidate tools for building verified profiles</p>
+              <p>Hiring tools for evaluation and shortlist decisions</p>
+              <p>Team and enterprise usage for development and performance visibility</p>
+            </div>
+          </Reveal>
+        </section>
+
+        <section className="py-16 sm:py-24">
+          <Reveal>
+            <SectionLabel>What this system relies on</SectionLabel>
+            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">What this system relies on</h2>
+          </Reveal>
+          <Reveal delayMs={100} className="mt-8">
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                'Structured work data',
+                'Signal generation models',
+                'Verification and feedback loops',
+                'Activity and decision history',
+              ].map((label) => (
+                <div
+                  key={label}
+                  className="rounded-xl border border-gray-200 bg-gray-50/80 px-4 py-4 text-sm font-medium leading-snug text-gray-800"
+                >
+                  {label}
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </section>
+
+        <section className="py-16 sm:py-24">
+          <Reveal>
+            <SectionLabel>What we do</SectionLabel>
+            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">What we do</h2>
+          </Reveal>
+          <Reveal delayMs={100} className="mt-8">
+            <div className="grid gap-3 sm:grid-cols-2">
+              {[
+                'Capture real work activity',
+                'Transform process into signals',
+                'Enable validation and feedback',
+                'Support decision-making in hiring',
+              ].map((label) => (
+                <div
+                  key={label}
+                  className="rounded-xl border border-gray-200 bg-white px-5 py-4 text-sm font-semibold leading-snug text-gray-900 sm:text-[15px]"
+                >
+                  {label}
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </section>
+
+        <section className="py-16 sm:py-24">
+          <Reveal>
+            <SectionLabel>Who supports the system</SectionLabel>
+            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Who supports the system</h2>
+          </Reveal>
+          <Reveal delayMs={100} className="mt-8">
+            <div className="flex flex-wrap gap-3">
+              {['Educational institutions', 'Teams and managers', 'Workflow and collaboration tools'].map((label) => (
+                <div
+                  key={label}
+                  className="rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-800"
+                >
+                  {label}
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </section>
+
+        <section className="py-16 sm:py-24">
+          <Reveal>
+            <SectionLabel>What it takes to run</SectionLabel>
+            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">What it takes to run</h2>
+          </Reveal>
+          <Reveal delayMs={100} className="mt-8">
+            <div className="max-w-2xl space-y-2.5 text-sm text-gray-600 sm:text-base">
+              <p>Product development</p>
+              <p>Infrastructure and processing</p>
+              <p>User acquisition and engagement</p>
+              <p>Signal validation and refinement</p>
             </div>
           </Reveal>
         </section>
